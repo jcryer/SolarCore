@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace SolarForms.Components
 
         public MainWindow() : base(720, // initial width
         720, // initial height
-        GraphicsMode.Default, "dreamstatecoding",  // initial title
+        GraphicsMode.Default, "SolarCore",  // initial title
         GameWindowFlags.Default,
         DisplayDevice.Default,
         4, // OpenGL major version
@@ -41,7 +42,7 @@ namespace SolarForms.Components
         protected override void OnLoad(EventArgs e)
         {
             CursorVisible = true;
-            _program = CompileShaders();
+            _program = CreateProgram();
             GL.GenVertexArrays(1, out _vertexArray);
             GL.BindVertexArray(_vertexArray);
             Closed += OnClosed;
@@ -77,7 +78,7 @@ namespace SolarForms.Components
         {
             _time += e.Time;
 
-            Title = $"(Vsync: {VSync}) FPS: {1f / e.Time:0}";
+            Title = $"SolarCore (Vsync: {VSync}) FPS: {1f / e.Time:0}";
 
             GL.ClearColor(Color4.Black);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -101,27 +102,38 @@ namespace SolarForms.Components
             SwapBuffers();
         }
 
-        private int CompileShaders()
+        private int CompileShader(ShaderType type, string path)
         {
-            var vertexShader = GL.CreateShader(ShaderType.VertexShader);
-            GL.ShaderSource(vertexShader, File.ReadAllText(@"Components\Shaders\vertexShader.c"));
-            GL.CompileShader(vertexShader);
+            var shader = GL.CreateShader(type);
+            var src = File.ReadAllText(path);
+            GL.ShaderSource(shader, src);
+            GL.CompileShader(shader);
+            var info = GL.GetShaderInfoLog(shader);
+            if (!string.IsNullOrWhiteSpace(info))
+                Debug.WriteLine($"GL.CompileShader [{type}] had info log: {info}");
+            return shader;
+        }
 
-            var fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
-            GL.ShaderSource(fragmentShader, File.ReadAllText(@"Components\Shaders\fragmentShader.c"));
-            GL.CompileShader(fragmentShader);
-
+        private int CreateProgram()
+        {
             var program = GL.CreateProgram();
-            GL.AttachShader(program, vertexShader);
-            GL.AttachShader(program, fragmentShader);
-            GL.LinkProgram(program);
+            var shaders = new List<int>();
+            shaders.Add(CompileShader(ShaderType.VertexShader, @"Components\Shaders\vertexShader.c"));
+            shaders.Add(CompileShader(ShaderType.FragmentShader, @"Components\Shaders\fragmentShader.c"));
 
-            GL.DetachShader(program, vertexShader);
-            GL.DetachShader(program, fragmentShader);
-            GL.DeleteShader(vertexShader);
-            GL.DeleteShader(fragmentShader);
+            foreach (var shader in shaders)
+                GL.AttachShader(program, shader);
+            GL.LinkProgram(program);
+            var info = GL.GetProgramInfoLog(program);
+            if (!string.IsNullOrWhiteSpace(info))
+                Debug.WriteLine($"GL.LinkProgram had info log: {info}");
+
+            foreach (var shader in shaders)
+            {
+                GL.DetachShader(program, shader);
+                GL.DeleteShader(shader);
+            }
             return program;
         }
     }
-
 }
