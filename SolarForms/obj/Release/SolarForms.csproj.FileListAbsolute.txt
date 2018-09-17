@@ -1,0 +1,13 @@
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\bin\Release\Components\Shaders\fragmentShader.c
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\bin\Release\Components\Shaders\vertexShader.c
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\bin\Release\SolarForms.exe.config
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\bin\Release\SolarForms.exe
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\bin\Release\SolarForms.pdb
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\bin\Release\OpenTK.dll
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\bin\Release\OpenTK.pdb
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\bin\Release\OpenTK.xml
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\obj\Release\SolarForms.Properties.Resources.resources
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\obj\Release\SolarForms.csproj.GenerateResource.Cache
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\obj\Release\SolarForms.csproj.CoreCompileInputs.cache
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\obj\Release\SolarForms.exe
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\obj\Release\SolarForms.pdb

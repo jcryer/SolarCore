@@ -1,0 +1,14 @@
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\obj\Debug\SolarForms.csprojResolveAssemblyReference.cache
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\obj\Debug\SolarForms.Properties.Resources.resources
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\obj\Debug\SolarForms.csproj.GenerateResource.Cache
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\obj\Debug\SolarForms.csproj.CoreCompileInputs.cache
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\bin\Debug\SolarForms.exe.config
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\bin\Debug\SolarForms.exe
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\bin\Debug\SolarForms.pdb
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\bin\Debug\OpenTK.dll
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\bin\Debug\OpenTK.pdb
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\bin\Debug\OpenTK.xml
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\obj\Debug\SolarForms.exe
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\obj\Debug\SolarForms.pdb
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\bin\Debug\Components\Shaders\fragmentShader.c
+C:\Users\jcryer\Desktop\CS Coursework\SolarForms\SolarForms\bin\Debug\Components\Shaders\vertexShader.c
