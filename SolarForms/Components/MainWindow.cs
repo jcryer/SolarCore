@@ -4,15 +4,8 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace SolarForms.Components
 {
@@ -21,6 +14,8 @@ namespace SolarForms.Components
         private int _program;
         private int _vertexArray;
         private double _time;
+        private List<RenderObject> _renderObjects = new List<RenderObject>();
+        private Matrix4 _modelView;
 
         public MainWindow() : base(720, // initial width
         720, // initial height
@@ -36,22 +31,35 @@ namespace SolarForms.Components
 
         protected override void OnResize(EventArgs e)
         {
-            GL.Viewport(0, 0, Width, Height);
+          //  GL.Viewport(0, 0, Width, Height);
         }
 
         protected override void OnLoad(EventArgs e)
         {
+            Vertex[] vertices = ObjectFactory.CreateSolidCube(0.2f, Color4.HotPink);
+            _renderObjects.Add(new RenderObject(vertices));
+
             CursorVisible = true;
+
             _program = CreateProgram();
-            GL.GenVertexArrays(1, out _vertexArray);
-            GL.BindVertexArray(_vertexArray);
+            GL.PolygonMode(MaterialFace.Back, PolygonMode.Line);
+            GL.PatchParameter(PatchParameterInt.PatchVertices, 3);
+            GL.Enable(EnableCap.DepthTest);
             Closed += OnClosed;
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
+            _time += e.Time;
+            var k = (float)_time * 0.05f;
+            var r1 = Matrix4.CreateRotationX(k * 13.0f);
+            var r2 = Matrix4.CreateRotationY(k * 13.0f);
+            var r3 = Matrix4.CreateRotationZ(k * 3.0f);
+            _modelView = r1 * r2 * r3;
+
             HandleKeyboard();
         }
+
         private void HandleKeyboard()
         {
             var keyState = Keyboard.GetState();
@@ -69,36 +77,27 @@ namespace SolarForms.Components
 
         public override void Exit()
         {
-            GL.DeleteVertexArrays(1, ref _vertexArray);
+            Debug.WriteLine("Exit called");
+            foreach (var obj in _renderObjects)
+                obj.Dispose();
             GL.DeleteProgram(_program);
             base.Exit();
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            _time += e.Time;
-
-            Title = $"SolarCore (Vsync: {VSync}) FPS: {1f / e.Time:0}";
-
+            Title = $"(Vsync: {VSync}) FPS: {1f / e.Time:0}";
             GL.ClearColor(Color4.Black);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             GL.UseProgram(_program);
-
-            GL.VertexAttrib1(0, _time);
-
-            Vector4 position;
-            position.X = (float)Math.Sin(_time) * 0.5f;
-            position.Y = (float)Math.Cos(_time) * 0.5f;
-            position.Z = 0.0f;
-            position.W = 1.0f;
-            GL.VertexAttrib4(1, position);
-
-            
-            GL.DrawArrays(PrimitiveType.Points, 0, 1);
-            GL.PointSize(10);
-            
-
+            GL.UniformMatrix4(20,              // match the layout location in the shader
+                              false,           // transpose
+                              ref _modelView); // our matrix
+            foreach (var renderObject in _renderObjects)
+            {
+                renderObject.Render();
+            }
             SwapBuffers();
         }
 

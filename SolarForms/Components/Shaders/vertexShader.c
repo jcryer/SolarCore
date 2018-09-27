@@ -1,11 +1,14 @@
-﻿#version 440 core
+﻿#version 450 core
 
-layout(location = 0) in float time;
-layout(location = 1) in vec4 position;
-out vec4 frag_color;
+layout (location = 0) in vec4 position;
+layout(location = 1) in vec4 color;
+
+out vec4 vs_color;
+
+layout (location = 20) uniform  mat4 modelView;
 
 void main(void)
 {
-	gl_Position = position;
-	frag_color = vec4(sin(time) * 0.5 + 0.5, cos(time) * 0.5 + 0.5, 0.0, 0.0);
+ gl_Position = modelView * position;
+ vs_color = color;
 }
