@@ -16,6 +16,7 @@ namespace SolarForms.Components
         private double _time;
         private List<RenderObject> _renderObjects = new List<RenderObject>();
         private Matrix4 _modelView;
+        private Matrix4 _projectionMatrix;
 
         public MainWindow() : base(720, // initial width
         720, // initial height
@@ -31,18 +32,25 @@ namespace SolarForms.Components
 
         protected override void OnResize(EventArgs e)
         {
-          //  GL.Viewport(0, 0, Width, Height);
+           GL.Viewport(0, 0, Width, Height);
+           CreateProjection();
+
         }
 
         protected override void OnLoad(EventArgs e)
         {
-            Vertex[] vertices = ObjectFactory.CreateSolidCube(0.2f, Color4.HotPink);
-            _renderObjects.Add(new RenderObject(vertices));
+            VSync = VSyncMode.Off;
+            CreateProjection();
+            _renderObjects.Add(new RenderObject(new Sphere().CreateSphere(3, Color4.White)));
+            _renderObjects.Add(new RenderObject(ObjectFactory.CreateSolidCube(0.2f, Color4.BlueViolet)));
+            _renderObjects.Add(new RenderObject(ObjectFactory.CreateSolidCube(0.5f, Color4.Red)));
+            _renderObjects.Add(new RenderObject(ObjectFactory.CreateSolidCube(1f, Color4.LimeGreen)));
+            _renderObjects.Add(new RenderObject(ObjectFactory.CreateSolidCube(1.5f, Color4.DarkSlateBlue)));
 
             CursorVisible = true;
 
             _program = CreateProgram();
-            GL.PolygonMode(MaterialFace.Back, PolygonMode.Line);
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
             GL.PatchParameter(PatchParameterInt.PatchVertices, 3);
             GL.Enable(EnableCap.DepthTest);
             Closed += OnClosed;
@@ -51,12 +59,6 @@ namespace SolarForms.Components
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             _time += e.Time;
-            var k = (float)_time * 0.05f;
-            var r1 = Matrix4.CreateRotationX(k * 13.0f);
-            var r2 = Matrix4.CreateRotationY(k * 13.0f);
-            var r3 = Matrix4.CreateRotationZ(k * 3.0f);
-            _modelView = r1 * r2 * r3;
-
             HandleKeyboard();
         }
 
@@ -68,6 +70,17 @@ namespace SolarForms.Components
             {
                 Exit();
             }
+        }
+
+        private void CreateProjection()
+        {
+
+            var aspectRatio = (float)Width / Height;
+            _projectionMatrix = Matrix4.CreatePerspectiveFieldOfView(
+                60 * ((float)Math.PI / 180f), // field of view angle, in radians
+                aspectRatio,                // current window aspect ratio
+                0.1f,                       // near plane
+                4000f);                     // far plane
         }
 
         private void OnClosed(object sender, EventArgs eventArgs)
@@ -86,18 +99,34 @@ namespace SolarForms.Components
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
+            _time += e.Time;
             Title = $"(Vsync: {VSync}) FPS: {1f / e.Time:0}";
             GL.ClearColor(Color4.Black);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             GL.UseProgram(_program);
-            GL.UniformMatrix4(20,              // match the layout location in the shader
-                              false,           // transpose
-                              ref _modelView); // our matrix
+            GL.UniformMatrix4(20, false, ref _projectionMatrix);
+            float c = 0f;
             foreach (var renderObject in _renderObjects)
             {
-                renderObject.Render();
+                renderObject.Bind();
+                for (int i = 0; i < 1; i++)
+                {
+                    var k = i +(float)(_time * (0.05f + (0.1 * c)));
+                    /*   var t2 = Matrix4.CreateTranslation(
+                           (float)(Math.Sin(k * 5f) * (c + 0.5f)),
+                           (float)(Math.Cos(k * 5f) * (c + 0.5f)),
+                           -2.7f);*/
+                    var t2 = Matrix4.CreateTranslation(0, 0, -3);
+                    var r1 = Matrix4.CreateRotationZ(-0.5f);
+                    var r2 = Matrix4.CreateRotationY(0.2f * (float)_time);
+                    var modelView = r2 * t2 * r1;
+                    GL.UniformMatrix4(21, false, ref modelView);
+                    renderObject.Render();
+                }
+                c += 0.3f;
             }
+            GL.PointSize(10);
             SwapBuffers();
         }
 

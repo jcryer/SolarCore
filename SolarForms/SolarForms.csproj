@@ -48,12 +48,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Camera.cs" />
+    <Compile Include="Components\IcoSphereFactory.cs" />
     <Compile Include="Components\MainWindow.cs" />
     <Compile Include="Components\MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Components\ObjectFactory.cs" />
     <Compile Include="Components\RenderObject.cs" />
+    <Compile Include="Components\TexturedVertex.cs" />
     <Compile Include="Components\Vertex.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

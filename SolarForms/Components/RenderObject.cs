@@ -55,12 +55,14 @@ namespace SolarForms.Components
             GL.VertexArrayVertexBuffer(_vertexArray, 0, _buffer, IntPtr.Zero, Vertex.Size);
             _initialized = true;
         }
-        public void Render()
+        public void Bind()
         {
             GL.BindVertexArray(_vertexArray);
+        }
+        public void Render()
+        {
             GL.DrawArrays(PrimitiveType.Triangles, 0, _verticeCount);
         }
-
 
         public void Dispose()
         {
