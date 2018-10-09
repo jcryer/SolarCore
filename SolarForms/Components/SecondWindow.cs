@@ -11,7 +11,7 @@ using System.Timers;
 
 namespace SolarForms.Components
 {
-    public partial class MainWindow : GameWindow
+    class SecondWindow
     {
         private int _program;
         private int _vertexArray;
@@ -19,37 +19,37 @@ namespace SolarForms.Components
         private Matrix4 _modelView;
         private Matrix4 _projectionMatrix;
         private List<SolarObject> _solarObjects = new List<SolarObject>();
-        private List<LineObject> _lineObjects = new List<LineObject>();
 
         private int mouseX;
         private int mouseY;
         private float mouseScroll;
         private bool isMouseDown;
         private bool isMouseRightDown;
-
-        private static float timePeriod = 0.001f;
-      //  Timer t = new Timer(timePeriod);
+        private GameWindow game;
+        private static float timePeriod = 16;
+        Timer t = new Timer(timePeriod);
 
         private Vector3 _cameraAngle = new Vector3(0, 0, 0);
 
         private Vector3 _cameraPosition = new Vector3(0, 0, 0);
 
-        public MainWindow() : base(720, // initial width
-        720, // initial height
-        GraphicsMode.Default, "SolarCore",  // initial title
-        GameWindowFlags.Default,
-        DisplayDevice.Default,
-        4, // OpenGL major version
-        0, // OpenGL minor version
-        GraphicsContextFlags.ForwardCompatible)
+        public SecondWindow()
         {
-            Title += ": OpenGL Version: " + GL.GetString(StringName.Version);
+            using (game = new GameWindow())
+            {
+                game.RenderFrame += (sender, e) => OnRenderFrame(e);
+                game.Resize += (sender, e) => OnResize(e);
+                game.Load += (sender, e) => OnLoad(e);
+                game.Closed += OnClosed;
+                game.RenderFrame += (sender, e) => OnRenderFrame(e);
+                game.UpdateFrame += (sender, e) => OnUpdateFrame(e);
+            }
         }
 
-        protected override void OnResize(EventArgs e)
+        protected void OnResize(EventArgs e)
         {
 
-         //   GL.Viewport(0, 0, Width, Height);
+            //   GL.Viewport(0, 0, Width, Height);
             GL.Ortho(-0.99, 1, -0.99, 1, -1, 1);
 
             //    CreateProjection();
@@ -57,36 +57,41 @@ namespace SolarForms.Components
             GL.LoadIdentity();
         }
 
-        protected override void OnLoad(EventArgs e)
+        protected void OnLoad(EventArgs e)
         {
-            
-            VSync = VSyncMode.Off;
+            Stopwatch sw;
+
+            for (int index = 0; index < 10; index++)
+            {
+                sw = Stopwatch.StartNew();
+                UpdatePositions();
+                Console.WriteLine("aaa" + sw.ElapsedMilliseconds);
+                sw.Stop();
+
+            }
             CreateProjection();
-            _solarObjects.Add(new SolarObject(1000000000, 10, 0, 0, new Vector3(0, -0.2f, 1), new Vector3(0.8f, 0, 0)));
-        //    _solarObjects.Add(new SolarObject(1, 1, 0, 0, new Vector3(0, 0, 1), new Vector3(1.2f, 0f, 0)));
-        //    _solarObjects.Add(new SolarObject(1, 1, 0, 0, new Vector3(-0.4f, 0, 1), new Vector3(0, 0, 0.5f)));
-            _solarObjects.Add(new SolarObject(1000000000, 10, 0, 0, new Vector3(0, 0.2f, 1), new Vector3(-0.8f, 0, 0)));
-       //     _solarObjects.Add(new SolarObject(100, 1, 0, 0, new Vector3(0, -0.5f, 1), new Vector3(0.9f, 0, 0)));
-       //     _solarObjects.Add(new SolarObject(100, 5, 0, 0, new Vector3(0, 0.8f, 1), new Vector3(0, 0, 0)));
+            _solarObjects.Add(new SolarObject(1000000000, 5, 0, 0, new Vector3(0, -0.2f, 1), new Vector3(0.8f, 0, 0)));
+            //    _solarObjects.Add(new SolarObject(1, 1, 0, 0, new Vector3(0.4f, 0, 1), new Vector3(0, 0, -0.5f)));
+            //    _solarObjects.Add(new SolarObject(1, 1, 0, 0, new Vector3(-0.4f, 0, 1), new Vector3(0, 0, 0.5f)));
+            _solarObjects.Add(new SolarObject(1000000000, 5, 0, 0, new Vector3(0, 0.2f, 1), new Vector3(-0.8f, 0, 0)));
+            _solarObjects.Add(new SolarObject(100, 1, 0, 0, new Vector3(0, -0.5f, 1), new Vector3(0.9f, 0, 0)));
+            //     _solarObjects.Add(new SolarObject(100, 5, 0, 0, new Vector3(0, 0.8f, 1), new Vector3(0, 0, 0)));
 
             //   _solarObjects.Add(new SolarObject(1, 1, 0, 0, new Vector3(0, -0.5f, 1), new Vector3(0.9f, 0, 0)));
 
-            CursorVisible = true;
-            //t.Elapsed += new ElapsedEventHandler(UpdatePositions);
-            // t.AutoReset = true;
-            // t.Start();
+            game.CursorVisible = true;
+
             
 
             _program = CreateProgram();
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
             GL.PatchParameter(PatchParameterInt.PatchVertices, 3);
             GL.Enable(EnableCap.DepthTest);
-            Closed += OnClosed;
-            
+
         }
-        protected override void OnUpdateFrame(FrameEventArgs e)
+
+        protected void OnUpdateFrame(FrameEventArgs e)
         {
-            UpdatePositions();
             _time += e.Time;
             HandleKeyboard();
         }
@@ -103,7 +108,7 @@ namespace SolarForms.Components
 
             if (mouseState.IsButtonDown(MouseButton.Right))
             {
-              //  _projectionMatrix = Matrix4.LookAt(new Vector3(-0.5f, -0.2f, -1), _solarObjects.First().Position, Vector3.UnitY);
+                //  _projectionMatrix = Matrix4.LookAt(new Vector3(-0.5f, -0.2f, -1), _solarObjects.First().Position, Vector3.UnitY);
 
                 if (isMouseRightDown == true)
                 {
@@ -149,13 +154,14 @@ namespace SolarForms.Components
             }
             if (keyState.IsKeyDown(Key.Left))
             {
-                timePeriod = 0.01f;
-          //      t.Interval = timePeriod;
+                timePeriod -= 1;
+                if (timePeriod <= 0) timePeriod = 1;
+                t.Interval = timePeriod;
             }
             if (keyState.IsKeyDown(Key.Right))
             {
-                timePeriod = -0.01f;
-            //    t.Interval = timePeriod;
+                timePeriod += 1;
+                t.Interval = timePeriod;
 
             }
             if (keyState.IsKeyDown(Key.S))
@@ -195,7 +201,7 @@ namespace SolarForms.Components
 
         private void CreateProjection()
         {
-            var aspectRatio = (float)Width / Height;
+            var aspectRatio = (float)game.Width / game.Height;
             _projectionMatrix = Matrix4.CreatePerspectiveFieldOfView(
                 60 * ((float)Math.PI / 180f), // field of view angle, in radians
                 aspectRatio,                // current window aspect ratio
@@ -211,27 +217,26 @@ namespace SolarForms.Components
             Exit();
         }
 
-        public override void Exit()
+        public void Exit()
         {
             Debug.WriteLine("Exit called");
             foreach (var obj in _solarObjects)
                 obj.Object.Dispose();
             GL.DeleteProgram(_program);
-            base.Exit();
+            game.Exit();
         }
-        int i = 0;
+
         private void UpdatePositions()
         {
-            i++;
             List<List<Vector3>> actualStuff = new List<List<Vector3>>();
-            foreach (var obj in _solarObjects.Where(x => x.Mass > 1))
+            foreach (var obj in _solarObjects)
             {
                 List<List<Vector3>> stuff = new List<List<Vector3>>();
-                foreach (var obj2 in _solarObjects.Where(x => x.Mass > 1))
+                foreach (var obj2 in _solarObjects)
                 {
                     if (obj != obj2)
                     {
-                        stuff.Add(obj.RecalculateValues(obj2, timePeriod));
+                        stuff.Add(obj.RecalculateValues(obj2, 0.01f));
 
                     }
 
@@ -252,10 +257,7 @@ namespace SolarForms.Components
                 poss = poss / stuff.Count;
 
                 actualStuff.Add(new List<Vector3>() { vels, poss });
-
-                
             }
-
 
 
             for (int i = 0; i < actualStuff.Count; i++)
@@ -263,30 +265,7 @@ namespace SolarForms.Components
                 _solarObjects[i].Velocity = actualStuff[i][0];
                 _solarObjects[i].Position = actualStuff[i][1];
 
-
             }
-            if (i % 5 == 0)
-            {
-                for (int i = 0; i < actualStuff.Count; i++)
-                {
-                    _lineObjects.Add(new LineObject(new SolarObject(0, 1, 1, 1, new Vector3(actualStuff[i][1].X, actualStuff[i][1].Y, actualStuff[i][1].Z), new Vector3(0, 0, 0)), DateTime.Now.AddSeconds(2)));
-
-                }
-            }
-            var lo2 = new List<LineObject>();
-            foreach (var lo in _lineObjects)
-            {
-                if (lo.Delete())
-                {
-                    lo2.Add(lo);
-                }
-            }
-
-            foreach (var x in lo2)
-            {
-                _lineObjects.Remove(x);
-            }
-            Console.WriteLine(_lineObjects.Count);
             /*var list1 = _solarObjects[0].RecalculateValues(_solarObjects[3], 0.01f);
             var list2 = _solarObjects[3].RecalculateValues(_solarObjects[0], 0.01f);
 
@@ -301,17 +280,17 @@ namespace SolarForms.Components
 
         }
 
-        protected override void OnRenderFrame(FrameEventArgs e)
+        protected void OnRenderFrame(FrameEventArgs e)
         {
             //  _cameraAngle.X += 0.01f;
             //  _cameraAngle.Y += 0.001f;
             //  _cameraAngle.Z -= 0.01f;
 
-            
+
             _projectionMatrix = Matrix4.LookAt(new Vector3(0, 0, 0), Vector3.UnitZ, Vector3.UnitY) * Matrix4.CreatePerspectiveFieldOfView(60 * ((float)Math.PI / 180f), 1, .01f, 4000.0f);
 
             _time += e.Time;
-            Title = $"(Vsync: {VSync}) FPS: {1f / e.Time:0}";
+            game.Title = $"(Vsync: {game.VSync}) FPS: {1f / e.Time:0}";
             GL.ClearColor(Color4.Black);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
@@ -320,34 +299,27 @@ namespace SolarForms.Components
             foreach (var solarObject in _solarObjects)
             {
                 solarObject.Object.Bind();
-                var t1 = Matrix4.CreateTranslation(_cameraPosition);
+                for (int i = 0; i < 1; i++)
+                {
+                    //   var k = i +(float)(_time * (0.05f + (0.1 * c)));
+                    /*   var t2 = Matrix4.CreateTranslation(
+                           (float)(Math.Sin(k * 5f) * (c + 0.5f)),
+                           (float)(Math.Cos(k * 5f) * (c + 0.5f)),
+                           -2.7f);*/
+                    var t1 = Matrix4.CreateTranslation(_cameraPosition);
 
-                var t2 = Matrix4.CreateTranslation(solarObject.Position);
-                var r1 = Matrix4.CreateRotationZ(solarObject.Obliquity);
-                var r2 = Matrix4.CreateRotationY(0.2f * (float)_time);
-                var lll = Matrix4.CreateScale(0.01f * solarObject.Radius);
-                var modelView = lll * r2 * t2 * r1 * t1;// * aaaah;
-                GL.UniformMatrix4(21, false, ref modelView);
-                solarObject.Object.Render();
-                
+                    var t2 = Matrix4.CreateTranslation(solarObject.Position);
+                    var r1 = Matrix4.CreateRotationZ(solarObject.Obliquity);
+                    var r2 = Matrix4.CreateRotationY(0.2f * (float)_time);
+                    var lll = Matrix4.CreateScale(0.01f * solarObject.Radius);
+                    var modelView = lll * r2 * t2 * r1 * t1;// * aaaah;
+                    GL.UniformMatrix4(21, false, ref modelView);
+                    solarObject.Object.Render();
+                }
             }
 
-            foreach (var solarObject in _lineObjects.Select(x => x.Obj))
-            {
-                solarObject.Object.Bind();
-                var t1 = Matrix4.CreateTranslation(_cameraPosition);
-
-                var t2 = Matrix4.CreateTranslation(solarObject.Position);
-                var r1 = Matrix4.CreateRotationZ(solarObject.Obliquity);
-                var r2 = Matrix4.CreateRotationY(0.2f * (float)_time);
-                var lll = Matrix4.CreateScale(0.01f * solarObject.Radius);
-                var modelView = lll * r2 * t2 * r1 * t1;// * aaaah;
-                GL.UniformMatrix4(21, false, ref modelView);
-                solarObject.Object.Render();
-
-            }
             GL.PointSize(10);
-            SwapBuffers();
+            game.SwapBuffers();
         }
 
         private int CompileShader(ShaderType type, string path)
@@ -383,5 +355,6 @@ namespace SolarForms.Components
             }
             return program;
         }
+  
     }
 }

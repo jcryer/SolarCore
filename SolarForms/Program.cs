@@ -12,7 +12,7 @@ namespace SolarForms
         [STAThread]
         static void Main()
         {
-            new MainWindow().Run(60);
+            new MainWindow().Run(200, 50);
         }
     }
 }
