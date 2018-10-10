@@ -22,7 +22,8 @@ namespace SolarForms.Components
         public Vector3 Velocity;
         public RenderObject Object;
 
-        public SolarObject(int mass, int radius, int obliquity, int orbitalSpeed, Vector3 position, Vector3 velocity)
+
+        public SolarObject(int mass, int radius, int obliquity, int orbitalSpeed, Vector3 position, Vector3 velocity, Color4 colour)
         {
             Mass = mass;
             Radius = radius;
@@ -30,7 +31,7 @@ namespace SolarForms.Components
             OrbitalSpeed = orbitalSpeed;
             Position = position;
             Velocity = velocity;
-            Object = new RenderObject(new Sphere().CreateSphere(3, Color4.White));
+            Object = new RenderObject(new Sphere().CreateSphere(3, colour));
         }
 
         public double GetDistance(SolarObject obj)
@@ -74,18 +75,26 @@ namespace SolarForms.Components
             return new Vector3(Position.X + (velVector.X * timePeriod), Position.Y + (velVector.Y * timePeriod), Position.Z + (velVector.Z * timePeriod));
         }
 
-        public List<Vector3> RecalculateValues(SolarObject obj, float timePeriod)
+        public List<Vector3> RecalculateValues(SolarObject _solarObjects, float timePeriod)
         {
             float acc = (float)CalculateAcceleration(obj);
             var aaa = GetPositionDifference(obj);
             var accVector = GetAccelerationVector(GetUnitVector(aaa), acc);
-            var velVector = GetVelocityVector(accVector, timePeriod);
+            foreach (var obj2 in _solarObjects.Where(x => x.Mass > 0))
+            {
+                if (obj != obj2)
+                {
+                    stuff.Add(obj.RecalculateValues(obj2, timePeriod));
+
+                }
+
+            }
             var posVector = GetPositionVector(velVector, timePeriod);
          /*   Console.WriteLine($"Acc: {accVector.X} {accVector.Y} {accVector.Z}");
 
             Console.WriteLine($"Pos: {posVector.X} {posVector.Y} {posVector.Z}");
             Console.WriteLine(acc);*/
-            return new List<Vector3>() { velVector, posVector };
+            return new List<Vector3>() { accVector, posVector };
         }
     }
 }

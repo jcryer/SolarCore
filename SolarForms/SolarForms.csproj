@@ -60,7 +60,6 @@
     </Compile>
     <Compile Include="Components\ObjectFactory.cs" />
     <Compile Include="Components\RenderObject.cs" />
-    <Compile Include="Components\SecondWindow.cs" />
     <Compile Include="Components\SolarObject.cs" />
     <Compile Include="Components\TexturedVertex.cs" />
     <Compile Include="Components\Vertex.cs" />
