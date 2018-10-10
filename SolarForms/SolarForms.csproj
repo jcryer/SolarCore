@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Camera.cs" />
+    <Compile Include="Components\GravityMethods.cs" />
     <Compile Include="Components\IcoSphereFactory.cs" />
     <Compile Include="Components\MainWindow.cs" />
     <Compile Include="Components\MainWindow.Designer.cs">

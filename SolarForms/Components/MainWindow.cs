@@ -20,7 +20,7 @@ namespace SolarForms.Components
         private Matrix4 _projectionMatrix;
         private List<SolarObject> _solarObjects = new List<SolarObject>();
         private List<LineObject> _lineObjects = new List<LineObject>();
-
+        public ICamera _camera;
         private int mouseX;
         private int mouseY;
         private float mouseScroll;
@@ -59,15 +59,22 @@ namespace SolarForms.Components
 
         protected override void OnLoad(EventArgs e)
         {
-            
             VSync = VSyncMode.Off;
             CreateProjection();
-            _solarObjects.Add(new SolarObject(1000000000, 10, 0, 0, new Vector3(0, -0.2f, 1), new Vector3(0.75f, 0, 0), Color4.DeepSkyBlue));
-        //    _solarObjects.Add(new SolarObject(1, 1, 0, 0, new Vector3(0, 0, 1), new Vector3(1.2f, 0f, 0)));
-           _solarObjects.Add(new SolarObject(1, 1, 0, 0, new Vector3(-0.4f, 0, 1), new Vector3(0, 0, 0.5f), Color4.MediumPurple));
-            _solarObjects.Add(new SolarObject(1000000000, 10, 0, 0, new Vector3(0, 0.2f, 1), new Vector3(-0.75f, 0, 0), Color4.Maroon));
-            _solarObjects.Add(new SolarObject(1, 1, 0, 0, new Vector3(0, -1f, 1), new Vector3(0.9f, 0, 0), Color4.Navy));
-            _solarObjects.Add(new SolarObject(1, 1, 0, 0, new Vector3(0, 1f, 1), new Vector3(0.9f, 0, 0), Color4.Navy));
+            _solarObjects.Add(new SolarObject(1000000000, 10, 0, 0, new Vector3(0, -0.5f, 1), new Vector3(0.25f, 0, -0.4f), Color4.DeepSkyBlue));
+            //    _solarObjects.Add(new SolarObject(1, 1, 0, 0, new Vector3(0, 0, 1), new Vector3(1.2f, 0f, 0)));
+            _solarObjects.Add(new SolarObject(1000000000, 10, 0, 0, new Vector3(0, 0.5f, 1), new Vector3(-0.25f, 0, 0.4f), Color4.DeepSkyBlue));
+            _camera = new ThirdPersonCamera(_solarObjects.Last(), new Vector3(1, 1, 1));
+
+            _solarObjects.Add(new SolarObject(1, 1, 0, 0, new Vector3(0.4f, 0, 1), new Vector3(0, 0, -1f), Color4.MediumPurple));
+            //  _solarObjects.Add(new SolarObject(1, 1, 0, 0, new Vector3(-0.4f, 0, 1), new Vector3(0, 0, -1f), Color4.MediumPurple));
+            //  _solarObjects.Add(new SolarObject(1, 1, 0, 0, new Vector3(0, 0.4f, 1), new Vector3(0, 0, 1f), Color4.MediumPurple));
+            //        _solarObjects.Add(new SolarObject(1, 1, 0, 0, new Vector3(0.4f, 0, 1), new Vector3(0, 0, 1f), Color4.MediumPurple));
+
+
+            //        _solarObjects.Add(new SolarObject(1000000000, 10, 0, 0, new Vector3(0, 0.2f, 1), new Vector3(-0.75f, 0, 0), Color4.Maroon));
+            //       _solarObjects.Add(new SolarObject(1, 1, 0, 0, new Vector3(0, -1f, 1), new Vector3(0.9f, 0, 0), Color4.Navy));
+            //       _solarObjects.Add(new SolarObject(1, 1, 0, 0, new Vector3(0, 1f, 1), new Vector3(0.9f, 0, 0), Color4.Navy));
 
             //     _solarObjects.Add(new SolarObject(100, 5, 0, 0, new Vector3(0, 0.8f, 1), new Vector3(0, 0, 0)));
 
@@ -91,6 +98,8 @@ namespace SolarForms.Components
             UpdatePositions();
             _time += e.Time;
             HandleKeyboard();
+            _camera.Update(_time, e.Time);
+
         }
 
         private void HandleKeyboard()
@@ -151,12 +160,12 @@ namespace SolarForms.Components
             }
             if (keyState.IsKeyDown(Key.Left))
             {
-                timePeriod = 0.01f;
+                timePeriod += 0.001f;
           //      t.Interval = timePeriod;
             }
             if (keyState.IsKeyDown(Key.Right))
             {
-                timePeriod = -0.01f;
+                timePeriod -= 0.001f;
             //    t.Interval = timePeriod;
 
             }
@@ -225,101 +234,45 @@ namespace SolarForms.Components
 
         private void UpdatePositions()
         {
-            i++;
-            int f = 0;
-            double x = 10E100;
-            Console.WriteLine(x);
-
-            List<List<Vector3>> actualStuff = new List<List<Vector3>>();
-            foreach (var obj in _solarObjects.Where(x => x.Mass > 0))
+            List<TestObject> test = new List<TestObject>();
+            foreach (var obj in _solarObjects)
             {
-                f++;
-                List<List<Vector3>> stuff = new List<List<Vector3>>();
-                foreach (var obj2 in _solarObjects.Where(x => x.Mass > 0))
-                {
-                    if (obj != obj2)
-                    {
-                        stuff.Add(obj.RecalculateValues(obj2, timePeriod));
-
-                    }
-
-                }
-
-                var vels = new Vector3();
-                var poss = new Vector3();
-
-
-                foreach (var velocities in stuff)
-                {
-                    vels += velocities.First();
-                    poss += velocities.Last();
-
-                }
-
-                Console.WriteLine($"Vels: {vels.X} {vels.Y} {vels.Z}");
-                vels = vels / 4;
-                poss = poss / 4;
-
-                actualStuff.Add(new List<Vector3>() { vels, poss });
-                //    x.Add(new Vertex(new Vector4(poss.X, poss.Y, poss.Z, 1), Color4.Red));
-                if (i % 5 == 0)
-                {
-                    _lineObjects.Add(new LineObject(new SolarObject(0, 1, 0, 0, poss, new Vector3(0, 0, 0), Color4.MintCream), DateTime.Now.AddSeconds(20)));
-                }
-                
+                test.Add(GravityMethods.RecalculateValues(obj, _solarObjects, timePeriod));
             }
 
-            for (int i = 0; i < actualStuff.Count; i++)
+            foreach (var x in test)
             {
-                _solarObjects[i].Velocity = actualStuff[i][0];
-                _solarObjects[i].Position = actualStuff[i][1];
-
-
+                var currentObject = _solarObjects.First(y => x.Object == y);
+                currentObject.Velocity = x.Velocity;
+                currentObject.Position = x.Position;
             }
-            var lo2 = new List<LineObject>();
-            foreach (var lo in _lineObjects)
-            {
-                if (lo.Delete())
-                {
-                    lo2.Add(lo);
-                }
-            }
-
-            foreach (var x in lo2)
-            {
-                _lineObjects.Remove(x);
-            }
-            Console.WriteLine(_lineObjects.Count);
-            /*var list1 = _solarObjects[0].RecalculateValues(_solarObjects[3], 0.01f);
-            var list2 = _solarObjects[3].RecalculateValues(_solarObjects[0], 0.01f);
-
-            _solarObjects.First().Velocity = list1[0];
-
-            _solarObjects.First().Position = list1[1];
-
-            _solarObjects.Last().Velocity = list2[0];
-
-            _solarObjects.Last().Position = list2[1];
-            */
-
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
+
             //  _cameraAngle.X += 0.01f;
             //  _cameraAngle.Y += 0.001f;
             //  _cameraAngle.Z -= 0.01f;
 
-            
-            _projectionMatrix = Matrix4.LookAt(new Vector3(0, 0, 0), Vector3.UnitZ, Vector3.UnitY) * Matrix4.CreatePerspectiveFieldOfView(60 * ((float)Math.PI / 180f), 1, .01f, 4000.0f);
+
+         //   _projectionMatrix = _camera.LookAtMatrix;
 
             _time += e.Time;
             Title = $"(Vsync: {VSync}) FPS: {1f / e.Time:0}";
             GL.ClearColor(Color4.Black);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            GL.UseProgram(_program);
-            GL.UniformMatrix4(20, false, ref _projectionMatrix);
+            
+
+            foreach (var obj in _solarObjects)
+            {
+                GL.UseProgram(_program);
+                GL.UniformMatrix4(20, false, ref _projectionMatrix);
+
+                obj.Render(_camera);
+            }
+            /*
             foreach (var solarObject in _solarObjects)
             {
                 solarObject.Object.Bind();
@@ -329,7 +282,7 @@ namespace SolarForms.Components
                 var r1 = Matrix4.CreateRotationZ(solarObject.Obliquity);
                 var r2 = Matrix4.CreateRotationY(0.2f * (float)_time);
                 var lll = Matrix4.CreateScale(0.01f * solarObject.Radius);
-                var modelView = lll * r2 * t2 * r1 * t1;// * aaaah;
+                var modelView = lll * r2 * t2 * t1 * r1;// * aaaah;
                 GL.UniformMatrix4(21, false, ref modelView);
                 solarObject.Object.Render();
                 
@@ -346,16 +299,7 @@ namespace SolarForms.Components
                 GL.UniformMatrix4(21, false, ref modelView);
                 solarObject.Object.Render();
 
-            }
-
-            var r = new RenderObject(x.ToArray());
-            r.Bind();
-            var t11 = Matrix4.CreateTranslation(_cameraPosition);
-
-            var modelView2 = t11;// * aaaah;
-            GL.UniformMatrix4(21, false, ref modelView2);
-            r.Render();
-
+            }*/
 
             GL.PointSize(10);
             SwapBuffers();

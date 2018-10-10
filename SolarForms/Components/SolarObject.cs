@@ -1,5 +1,6 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SolarForms.Components
 {
-    class SolarObject
+    public class SolarObject
     {
         private const double GRAV = 6.67408e-11;
       //  private const double GRAV = 1;
@@ -34,67 +35,17 @@ namespace SolarForms.Components
             Object = new RenderObject(new Sphere().CreateSphere(3, colour));
         }
 
-        public double GetDistance(SolarObject obj)
+        public void Render (ICamera camera)
         {
-            var x = obj.Position.X - Position.X;
-            var y = obj.Position.Y - Position.Y;
-            var z = obj.Position.Z - Position.Z;
+            Object.Bind();
+            var t2 = Matrix4.CreateTranslation(Position);
+            var r1 = Matrix4.CreateRotationZ(Obliquity);
 
-            return Math.Sqrt(x * x + y * y + z * z);
+            var s = Matrix4.CreateScale(0.01f * Radius);
+            var _modelView = r1 * s * t2 * camera.LookAtMatrix;
+            GL.UniformMatrix4(21, false, ref _modelView);
+            Object.Render();
         }
-
-        public double CalculateAcceleration(SolarObject obj)
-        {
-           return (GRAV * obj.Mass * 10) / (Math.Pow(GetDistance(obj), 2));
-        }
-
-        public Vector3 GetPositionDifference (SolarObject obj)
-        {
-
-            return new Vector3(obj.Position.X - Position.X, obj.Position.Y - Position.Y, obj.Position.Z - Position.Z);
-        }
-
-        public Vector3 GetUnitVector(Vector3 diff)
-        {
-            float multiply = (float)Math.Sqrt(diff.X * diff.X + diff.Y * diff.Y + diff.Z * diff.Z);
-            return new Vector3(diff.X / multiply, diff.Y / multiply, diff.Z / multiply);
-        }
-
-        public Vector3 GetAccelerationVector(Vector3 unitVector, float acc)
-        {
-            return new Vector3(unitVector.X * acc, unitVector.Y * acc, unitVector.Z * acc);
-        }
-
-        public Vector3 GetVelocityVector(Vector3 accVector, float timePeriod)
-        {
-            return new Vector3(Velocity.X + (accVector.X * timePeriod), Velocity.Y + (accVector.Y * timePeriod), Velocity.Z + (accVector.Z * timePeriod));
-        }
-
-        public Vector3 GetPositionVector(Vector3 velVector, float timePeriod)
-        {
-            return new Vector3(Position.X + (velVector.X * timePeriod), Position.Y + (velVector.Y * timePeriod), Position.Z + (velVector.Z * timePeriod));
-        }
-
-        public List<Vector3> RecalculateValues(SolarObject _solarObjects, float timePeriod)
-        {
-            float acc = (float)CalculateAcceleration(obj);
-            var aaa = GetPositionDifference(obj);
-            var accVector = GetAccelerationVector(GetUnitVector(aaa), acc);
-            foreach (var obj2 in _solarObjects.Where(x => x.Mass > 0))
-            {
-                if (obj != obj2)
-                {
-                    stuff.Add(obj.RecalculateValues(obj2, timePeriod));
-
-                }
-
-            }
-            var posVector = GetPositionVector(velVector, timePeriod);
-         /*   Console.WriteLine($"Acc: {accVector.X} {accVector.Y} {accVector.Z}");
-
-            Console.WriteLine($"Pos: {posVector.X} {posVector.Y} {posVector.Z}");
-            Console.WriteLine(acc);*/
-            return new List<Vector3>() { accVector, posVector };
-        }
+        
     }
 }
