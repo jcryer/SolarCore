@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SolarForms.Components
 {
@@ -12,6 +10,15 @@ namespace SolarForms.Components
         private const double GRAV = 6.67408e-11;
 
         public static double GetDistance(SolarObject obj1, SolarObject obj2)
+        {
+            var x = obj1.Position.X - obj2.Position.X;
+            var y = obj1.Position.Y - obj2.Position.Y;
+            var z = obj1.Position.Z - obj2.Position.Z;
+
+            return Math.Sqrt(x * x + y * y + z * z);
+        }
+
+        public static double GetDistance(LineObject obj1, LineObject obj2)
         {
             var x = obj1.Position.X - obj2.Position.X;
             var y = obj1.Position.Y - obj2.Position.Y;
@@ -52,7 +59,7 @@ namespace SolarForms.Components
             return new Vector3(obj.Position.X + (velVector.X * timePeriod), obj.Position.Y + (velVector.Y * timePeriod), obj.Position.Z + (velVector.Z * timePeriod));
         }
 
-        public static TestObject RecalculateValues(SolarObject main, List<SolarObject> all, float timePeriod)
+        public static AggregateObject RecalculateValues(SolarObject main, List<SolarObject> all, float timePeriod)
         {
             all = all.Where(x => x != main).ToList();
             Vector3 totalAcceleration = new Vector3(0, 0, 0);
@@ -68,18 +75,18 @@ namespace SolarForms.Components
             var velVector = GetVelocityVector(main, totalAcceleration, timePeriod);
 
             var posVector = GetPositionVector(main, velVector, timePeriod);
-            return new TestObject(main, velVector, posVector);
+            return new AggregateObject(main, velVector, posVector);
         }
 
     }
 
-    public class TestObject
+    public class AggregateObject
     {
         public SolarObject Object;
         public Vector3 Velocity;
         public Vector3 Position;
 
-        public TestObject(SolarObject obj, Vector3 velocity, Vector3 position)
+        public AggregateObject(SolarObject obj, Vector3 velocity, Vector3 position)
         {
             Object = obj;
             Velocity = velocity;

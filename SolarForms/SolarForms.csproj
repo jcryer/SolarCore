@@ -52,7 +52,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\Camera.cs" />
     <Compile Include="Components\GravityMethods.cs" />
     <Compile Include="Components\IcoSphereFactory.cs" />
     <Compile Include="Components\MainWindow.cs" />
@@ -61,10 +60,11 @@
     </Compile>
     <Compile Include="Components\ObjectFactory.cs" />
     <Compile Include="Components\RenderObject.cs" />
+    <Compile Include="Components\Simulation.cs" />
     <Compile Include="Components\SolarObject.cs" />
     <Compile Include="Components\TexturedVertex.cs" />
     <Compile Include="Components\Vertex.cs" />
-    <Compile Include="LineObject.cs" />
+    <Compile Include="Components\LineObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
