@@ -32,10 +32,10 @@ namespace SolarForms.Components
             return (GRAV * by.Mass * 10) / (Math.Pow(GetDistance(of, by), 2));
         }
 
-        public static Vector3 GetPositionDifference(SolarObject obj1, SolarObject obj2)
+        public static Vector3 GetPositionDifference(Vector3 vec1, Vector3 vec2)
         {
 
-            return new Vector3(obj1.Position.X - obj2.Position.X, obj1.Position.Y - obj2.Position.Y, obj1.Position.Z - obj2.Position.Z);
+            return new Vector3(vec1.X - vec2.X, vec1.Y - vec2.Y, vec1.Z - vec2.Z);
         }
 
         public static Vector3 GetUnitVector(Vector3 diff)
@@ -66,7 +66,7 @@ namespace SolarForms.Components
             foreach (var obj in all)
             {
                 var acc = CalculateAcceleration(main, obj);
-                var posDiffVector = GetPositionDifference(obj, main);
+                var posDiffVector = GetPositionDifference(obj.Position, main.Position);
                 var posDiffUnitVector = GetUnitVector(posDiffVector);
                 var accVector = GetAccelerationVector(posDiffUnitVector, (float)acc);
                 totalAcceleration += accVector;
