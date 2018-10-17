@@ -9,10 +9,11 @@ namespace SolarForms
 {
     static class Program
     {
+        public static ControlClass Controller = new ControlClass();
         [STAThread]
         static void Main()
         {
-            new MainWindow().Run(60, 60);
+            new MainWindow().Run(60);
         }
     }
 }

@@ -7,11 +7,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Timers;
+using System.Threading;
 
 namespace SolarForms.Components
 {
-    public partial class MainWindow : GameWindow
+    public class MainWindow : GameWindow
     {
         private int _program;
         private double _time;
@@ -27,7 +27,6 @@ namespace SolarForms.Components
         private int simPosition = 0;
 
         private int pauseSavedTimePeriod = 0;
-        private int timePeriod = 0;
 
         private double a = 0;
         private double b = 0;
@@ -48,17 +47,26 @@ namespace SolarForms.Components
 
         protected override void OnResize(EventArgs e)
         {
-
-         //   GL.Viewport(0, 0, Width, Height);
-            GL.Ortho(-0.99, 1, -0.99, 1, -1, 1);
-
-            //    CreateProjection();
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
+            GL.Viewport(0, 0, Width, Height);
+
+            CreateProjection();
+
+        }
+
+        private void ThreadStarting()
+        {
+            ControlForm f = new ControlForm();
+            f.ShowDialog();
         }
 
         protected override void OnLoad(EventArgs e)
         {
+            Thread test = new Thread(new ThreadStart(ThreadStarting));
+            test.Start();
+
+            
             oldMouseState = Mouse.GetState();
             oldKeyState = Keyboard.GetState();
             VSync = VSyncMode.Off;
@@ -111,18 +119,23 @@ namespace SolarForms.Components
         {
             var mouseState = Mouse.GetState();
             var keyState = Keyboard.GetState();
+            Console.WriteLine(Mouse.GetCursorState().X + " - " + Mouse.GetCursorState().X);
+            Console.WriteLine(Location.X + " - " + Location.Y);
 
-            if (oldMouseState.Scroll.Y != mouseState.Scroll.Y)
+            if (Focused)
             {
-                radius -= 0.05f * (mouseState.Scroll.Y - oldMouseState.Scroll.Y);
-            }
-            
-            if (mouseState.IsButtonDown(MouseButton.Left))
-            {
-                if (oldMouseState.IsButtonDown(MouseButton.Left) == true)
+                if (oldMouseState.Scroll.Y != mouseState.Scroll.Y)
                 {
-                    a += 0.01f * (mouseState.X - oldMouseState.X);
-                    b += 0.01f * (oldMouseState.Y - mouseState.Y);
+                    radius -= 0.05f * (mouseState.Scroll.Y - oldMouseState.Scroll.Y);
+                }
+
+                if (mouseState.IsButtonDown(MouseButton.Left))
+                {
+                    if (oldMouseState.IsButtonDown(MouseButton.Left) == true)
+                    {
+                        a += 0.01f * (mouseState.X - oldMouseState.X);
+                        b += 0.01f * (oldMouseState.Y - mouseState.Y);
+                    }
                 }
             }
 
@@ -132,11 +145,11 @@ namespace SolarForms.Components
             }
             if (keyState.IsKeyDown(Key.Left))
             {
-                timePeriod += 1;
+                Program.Controller.TimePeriod += 1;
             }
             if (keyState.IsKeyDown(Key.Right))
             {
-                timePeriod -= 1;
+                Program.Controller.TimePeriod -= 1;
             }
             if (keyState.IsKeyDown(Key.S))
             {
@@ -159,7 +172,7 @@ namespace SolarForms.Components
                 LineObjects.ForEach(x => x.Object.Dispose());
                 LineObjects.Clear();
                 simPosition = 0;
-                timePeriod = 1;
+                Program.Controller.TimePeriod = 1;
             }
             if (keyState.IsKeyDown(Key.Comma))
             {
@@ -184,14 +197,14 @@ namespace SolarForms.Components
             {
                 if (!oldKeyState.IsKeyDown(Key.Space))
                 {
-                    if (timePeriod != 0)
+                    if (Program.Controller.TimePeriod != 0)
                     {
-                        pauseSavedTimePeriod = timePeriod;
-                        timePeriod = 0;
+                        pauseSavedTimePeriod = Program.Controller.TimePeriod;
+                        Program.Controller.TimePeriod = 0;
                     }
                     else
                     {
-                        timePeriod = pauseSavedTimePeriod;
+                        Program.Controller.TimePeriod = pauseSavedTimePeriod;
                     }
                 }
             }
@@ -260,7 +273,7 @@ namespace SolarForms.Components
         protected void OnRenderFrame(object sender, FrameEventArgs e)
         {
             var matrixStuff = Matrix4.LookAt(_cameraPosition, SimObject.Objects[objToFollow].Object.Position, Vector3.UnitY);
-            simPosition+= timePeriod;
+            simPosition += Program.Controller.TimePeriod;
             
             _time += e.Time;
             Title = $"(Vsync: {VSync}) FPS: {1f / e.Time:0}";
