@@ -35,11 +35,13 @@
             // 
             // trackBar1
             // 
+            this.trackBar1.LargeChange = 10;
             this.trackBar1.Location = new System.Drawing.Point(12, 25);
-            this.trackBar1.Maximum = 50;
-            this.trackBar1.Minimum = -50;
+            this.trackBar1.Maximum = 20;
+            this.trackBar1.Minimum = -20;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(178, 45);
+            this.trackBar1.SmallChange = 2;
             this.trackBar1.TabIndex = 0;
             this.trackBar1.Value = 1;
             this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
@@ -62,6 +64,7 @@
             this.Controls.Add(this.trackBar1);
             this.Name = "ControlForm";
             this.Text = "ControlForm";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ControlForm_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -70,7 +73,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TrackBar trackBar1;
+        public System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.Label SpeedControlLabel;
     }
 }

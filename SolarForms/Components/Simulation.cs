@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SolarForms.Components
 {
-    class Simulation
+    public class Simulation
     {
         public List<SimulationObject> Objects;
         public Simulation()
@@ -16,7 +16,7 @@ namespace SolarForms.Components
         }
     }
 
-    class SimulationObject
+    public class SimulationObject
     {
         public SolarObject Object;
         public List<Vector3> Positions;
