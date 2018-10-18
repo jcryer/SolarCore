@@ -26,13 +26,12 @@ namespace SolarForms.Components
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
-           Controller.TimePeriod = trackBar1.Value;
+           Controller.TimePeriod = SpeedControl.Value;
         }
 
         private void ControlForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.K)
-                trackBar1.Value += 1;
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -41,12 +40,36 @@ namespace SolarForms.Components
             {
                 Window = new MainWindow(this, Controller);
                 Window.Run(60);
-                //Window.
             }
         }
-        public void Test (int val)
+
+        public void ChangeSpeed (int val)
         {
-            trackBar1.Value += val;
+            int newValue = SpeedControl.Value + val;
+
+            if (SpeedControl.Minimum <= newValue && SpeedControl.Maximum >= newValue)
+                SpeedControl.Value += val;
+        }
+
+        private void ControlForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Window != null)
+                Window.Exit();
+        }
+
+        private void PlayButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PauseButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -139,14 +139,11 @@ namespace SolarForms.Components
             }
             if (keyState.IsKeyDown(Key.Left))
             {
-                ControlForm.Test(-1);
-                //Controller.TimePeriod -= 1;
+                ControlForm.ChangeSpeed(-1);
             }
             if (keyState.IsKeyDown(Key.Right))
             {
-                ControlForm.Test(1);
-
-               // Controller.TimePeriod += 1;
+                ControlForm.ChangeSpeed(1);
             }
             if (keyState.IsKeyDown(Key.S))
             {
@@ -237,6 +234,7 @@ namespace SolarForms.Components
 
         public override void Exit()
         {
+            ControlForm.Close();
             Debug.WriteLine("Exit called");
             foreach (var obj in SimObject.Objects.Select(x => x.Object))
                 obj.Object.Dispose();
