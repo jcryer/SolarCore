@@ -14,18 +14,19 @@ namespace SolarForms.Components
 {
     public partial class ControlForm : Form
     {
-
+        public MainWindow Window;
         public ControlClass Controller;
-        public ControlForm(MainWindow window)
+
+        public ControlForm()
         {
-            Controller = window.Controller;
+            Controller = new ControlClass();
             InitializeComponent();
             KeyPreview = true;
         }
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
-            Controller.TimePeriod = trackBar1.Value;
+           Controller.TimePeriod = trackBar1.Value;
         }
 
         private void ControlForm_KeyDown(object sender, KeyEventArgs e)
@@ -34,6 +35,18 @@ namespace SolarForms.Components
                 trackBar1.Value += 1;
         }
 
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (Window == null)
+            {
+                Window = new MainWindow(this, Controller);
+                Window.Run(60);
+                //Window.
+            }
+        }
+        public void Test (int val)
+        {
+            trackBar1.Value += val;
+        }
     }
 }

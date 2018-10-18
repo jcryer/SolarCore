@@ -13,7 +13,8 @@ namespace SolarForms
         [STAThread]
         static void Main()
         {
-            new MainWindow().Run(60);
+            new ControlForm().ShowDialog();
+           // new MainWindow().Run(60);
         }
     }
 }

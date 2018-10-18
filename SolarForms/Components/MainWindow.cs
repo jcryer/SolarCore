@@ -28,7 +28,7 @@ namespace SolarForms.Components
         private double b = 0;
 
 
-        public MainWindow() : base(1000, // initial width
+        public MainWindow(ControlForm x, ControlClass controller) : base(1000, // initial width
         1000, // initial height
         GraphicsMode.Default, "SolarCore",  // initial title
         GameWindowFlags.Default,
@@ -37,6 +37,8 @@ namespace SolarForms.Components
         0, // OpenGL minor version
         GraphicsContextFlags.ForwardCompatible)
         {
+            ControlForm = x;
+            Controller = controller;
             Title += ": OpenGL Version: " + GL.GetString(StringName.Version);
         }
 
@@ -50,16 +52,16 @@ namespace SolarForms.Components
 
         }
 
-        private void ThreadStarting()
-        {
-            ControlForm = new ControlForm(this);
-            ControlForm.ShowDialog();
-        }
+      //  private void ThreadStarting()
+      //  {
+     //       ControlForm = new ControlForm(this);
+     //       ControlForm.ShowDialog();
+     //   }
 
         protected override void OnLoad(EventArgs e)
         {
-            Thread t = new Thread(new ThreadStart(ThreadStarting));
-            t.Start();
+           // Thread t = new Thread(new ThreadStart(ThreadStarting));
+           // t.Start();
             Controller.OldMouseState = Mouse.GetState();
             Controller.OldKeyState = Keyboard.GetState();
             VSync = VSyncMode.Off;
@@ -137,12 +139,14 @@ namespace SolarForms.Components
             }
             if (keyState.IsKeyDown(Key.Left))
             {
-                //ControlForm.test -= 1;
-                Controller.TimePeriod -= 1;
+                ControlForm.Test(-1);
+                //Controller.TimePeriod -= 1;
             }
             if (keyState.IsKeyDown(Key.Right))
             {
-                Controller.TimePeriod += 1;
+                ControlForm.Test(1);
+
+               // Controller.TimePeriod += 1;
             }
             if (keyState.IsKeyDown(Key.S))
             {
