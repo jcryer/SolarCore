@@ -17,6 +17,9 @@ namespace SolarForms.Components
         public MouseState OldMouseState = Mouse.GetState();
         public KeyboardState OldKeyState = Keyboard.GetState();
         public Camera Camera = new Camera();
+
+        public Simulation SimObject = new Simulation();
+
     }
 
     public class Camera
@@ -24,6 +27,7 @@ namespace SolarForms.Components
         public float Radius = 1;
         public int Focus = 0;
         public Vector3 Position = new Vector3(0, 0, -1);
-
+        public double XVal;
+        public double YVal;
     }
 }

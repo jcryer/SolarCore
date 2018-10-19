@@ -27,10 +27,4 @@ namespace SolarForms.Components
             Positions = new List<Vector3>();
         }
     }
-
-    class SaveObject
-    {
-        public List<SolarObject> Objects;
-        public int InitialTime;
-    }
 }

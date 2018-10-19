@@ -16,13 +16,13 @@ namespace SolarForms.Components
     {
         public MainWindow Window;
         public ControlClass Controller;
-
         public ControlForm()
         {
             Controller = new ControlClass();
             InitializeComponent();
             KeyPreview = true;
         }
+        
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
@@ -38,19 +38,10 @@ namespace SolarForms.Components
         {
             if (Window == null)
             {
-                Window = new MainWindow(this, Controller);
+                Window = new MainWindow(Controller);
                 Window.Run(60);
             }
         }
-
-        public void ChangeSpeed (int val)
-        {
-            int newValue = SpeedControl.Value + val;
-
-            if (SpeedControl.Minimum <= newValue && SpeedControl.Maximum >= newValue)
-                SpeedControl.Value += val;
-        }
-
         private void ControlForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (Window != null)
@@ -59,16 +50,17 @@ namespace SolarForms.Components
 
         private void PlayButton_Click(object sender, EventArgs e)
         {
-
+            Controller.Paused = false;
         }
 
         private void PauseButton_Click(object sender, EventArgs e)
         {
-
+            Controller.Paused = true;
         }
 
         private void ResetButton_Click(object sender, EventArgs e)
         {
+            Window.ResetSim();
 
         }
     }

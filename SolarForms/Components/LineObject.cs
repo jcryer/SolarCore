@@ -14,13 +14,13 @@ namespace SolarForms.Components
         public double Radius;
         public Vector3 Position;
         public RenderObject Object;
-        public DateTime DeleteBy;
+        public int DeleteBy;
 
-        public LineObject(Vector3 position, Color4 colour, DateTime deleteBy, double radius = 1)
+        public LineObject(Vector3 position, Color4 colour, double radius = 1)
         {
             Position = position;
             Object = new RenderObject(new Sphere().CreateSphere(2, colour));
-            DeleteBy = deleteBy;
+            DeleteBy = 600;
             Radius = radius;
         }
 

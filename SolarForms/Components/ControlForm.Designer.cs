@@ -75,7 +75,7 @@
             this.PauseButton.BackColor = System.Drawing.SystemColors.ControlLight;
             this.PauseButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PauseButton.BackgroundImage")));
             this.PauseButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PauseButton.Location = new System.Drawing.Point(82, 108);
+            this.PauseButton.Location = new System.Drawing.Point(81, 459);
             this.PauseButton.Name = "PauseButton";
             this.PauseButton.Size = new System.Drawing.Size(33, 36);
             this.PauseButton.TabIndex = 3;
@@ -86,7 +86,7 @@
             // 
             this.PlayButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PlayButton.BackgroundImage")));
             this.PlayButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PlayButton.Location = new System.Drawing.Point(33, 108);
+            this.PlayButton.Location = new System.Drawing.Point(32, 459);
             this.PlayButton.Name = "PlayButton";
             this.PlayButton.Size = new System.Drawing.Size(33, 36);
             this.PlayButton.TabIndex = 4;
@@ -98,7 +98,7 @@
             this.ResetButton.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ResetButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ResetButton.BackgroundImage")));
             this.ResetButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ResetButton.Location = new System.Drawing.Point(133, 108);
+            this.ResetButton.Location = new System.Drawing.Point(132, 459);
             this.ResetButton.Name = "ResetButton";
             this.ResetButton.Size = new System.Drawing.Size(33, 36);
             this.ResetButton.TabIndex = 5;
