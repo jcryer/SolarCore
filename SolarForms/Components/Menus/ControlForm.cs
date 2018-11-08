@@ -25,6 +25,7 @@ namespace SolarForms.Components.Menus
             KeyPreview = true;
             Thread t = new Thread(() => UpdateFields());
             t.Start();
+            
         }
         
         private void UpdateFields()
@@ -35,11 +36,13 @@ namespace SolarForms.Components.Menus
                 {
                     MethodInvoker mi = delegate ()
                     {
-                        SpeedControl.Value = Controller.TimePeriod;
+                        if (SpeedControl.Value != Controller.TimePeriod)
+                            SpeedControl.Value = Controller.TimePeriod;
                     };
                     Invoke(mi);
                 }
                 catch {}
+                Thread.Sleep(200);
             }
         }
         private void trackBar1_ValueChanged(object sender, EventArgs e)
@@ -56,23 +59,6 @@ namespace SolarForms.Components.Menus
             if (Window != null)
                 Window.Exit();
         }
-
-        private void PlayButton_Click(object sender, EventArgs e)
-        {
-            Controller.Paused = false;
-        }
-
-        private void PauseButton_Click(object sender, EventArgs e)
-        {
-            Controller.Paused = true;
-        }
-
-        private void ResetButton_Click(object sender, EventArgs e)
-        {
-            Window.ResetSim();
-            Controller.TimePeriod = SpeedControl.Value;
-        }
-        
 
         private void ControlForm_Load(object sender, EventArgs e)
         {
@@ -93,9 +79,44 @@ namespace SolarForms.Components.Menus
 
         }
 
-        private void metroTrackBar1_ValueChanged(object sender, EventArgs e)
+        private void SpeedControl_ValueChanged(object sender, EventArgs e)
         {
             Controller.TimePeriod = SpeedControl.Value;
+
+        }
+
+        private void PlayButton_Click(object sender, EventArgs e)
+        {
+            Controller.Paused = false;
+        }
+
+        private void PauseButton_Click(object sender, EventArgs e)
+        {
+            Controller.Paused = true;
+        }
+
+        private void RestartButton_Click(object sender, EventArgs e)
+        {
+            Window.ResetSim();
+            Controller.TimePeriod = SpeedControl.Value;
+        }
+
+        private void metroButton2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ControlForm_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Maximized)
+            {
+                WindowState = FormWindowState.Normal;
+                Size = new Size(Size.Width, Screen.PrimaryScreen.WorkingArea.Height);
+
+                Window.Height = Screen.PrimaryScreen.WorkingArea.Height;
+                Window.Width = Screen.PrimaryScreen.WorkingArea.Width - Size.Width;
+                Window.Location = new Point(Size.Width-10, 0);
+            }
         }
     }
 }

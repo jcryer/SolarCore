@@ -28,7 +28,6 @@ namespace SolarForms.Components
         GraphicsContextFlags.ForwardCompatible)
         {
             Controller = controller;
-            Title += ": OpenGL Version: " + GL.GetString(StringName.Version);
         }
 
         protected override void OnResize(EventArgs e)
@@ -38,10 +37,11 @@ namespace SolarForms.Components
             GL.Viewport(0, 0, Width, Height);
 
             CreateProjection();
-
         }
+
         protected override void OnLoad(EventArgs e)
         {
+            
             Controller.OldMouseState = Mouse.GetState();
             Controller.OldKeyState = Keyboard.GetState();
             VSync = VSyncMode.Off;
@@ -79,9 +79,7 @@ namespace SolarForms.Components
                 obj.Object.Dispose();
                 LineObjects.Remove(obj);
             }
-
             HandleKeyboard();
-
         }
         
         private void HandleKeyboard()
@@ -104,79 +102,81 @@ namespace SolarForms.Components
                         Controller.Camera.YVal += 0.01f * (Controller.OldMouseState.Y - mouseState.Y);
                     }
                 }
-            }
 
-            if (keyState.IsKeyDown(Key.Escape))
-            {
-                Exit();
-            }
-            if (keyState.IsKeyDown(Key.Left))
-            {
-                Controller.TimePeriod = Controller.TimePeriod >= 20 ? 20 : Controller.TimePeriod+1; 
-            }
-            if (keyState.IsKeyDown(Key.Right))
-            {
-                Controller.TimePeriod = Controller.TimePeriod <= -20 ? 20 : Controller.TimePeriod - 1;
-            }
-            if (keyState.IsKeyDown(Key.S))
-            {
-                Controller.Camera.XVal += 0.01;
-            }
-            if (keyState.IsKeyDown(Key.W))
-            {
-                Controller.Camera.XVal -= 0.01;
-            }
-            if (keyState.IsKeyDown(Key.A))
-            {
-                Controller.Camera.YVal += 0.01;
-            }
-            if (keyState.IsKeyDown(Key.D))
-            {
-                Controller.Camera.YVal -= 0.01;
-            }
-            if (keyState.IsKeyDown(Key.R))
-            {
-                ResetSim();
-            }
-            if (keyState.IsKeyDown(Key.Comma))
-            {
-                if (!Controller.OldKeyState.IsKeyDown(Key.Comma))
+
+                if (keyState.IsKeyDown(Key.Escape))
                 {
-                    Controller.Camera.Focus -= 1;
-                    if (Controller.Camera.Focus < 0)
-                        Controller.Camera.Focus = 0;
+                    Exit();
                 }
-            }
-
-            if (keyState.IsKeyDown(Key.Period))
-            {
-                if (!Controller.OldKeyState.IsKeyDown(Key.Period))
+                if (keyState.IsKeyDown(Key.Left))
                 {
-                    Controller.Camera.Focus += 1;
-                    if (Controller.Camera.Focus >= Controller.SimObject.Objects.Count)
+                    Controller.TimePeriod = Controller.TimePeriod >= 20 ? 20 : Controller.TimePeriod - 1;
+                }
+                if (keyState.IsKeyDown(Key.Right))
+                {
+                    Controller.TimePeriod = Controller.TimePeriod <= -20 ? 20 : Controller.TimePeriod + 1;
+                }
+                if (keyState.IsKeyDown(Key.S))
+                {
+                    Controller.Camera.XVal += 0.01;
+                }
+                if (keyState.IsKeyDown(Key.W))
+                {
+                    Controller.Camera.XVal -= 0.01;
+                }
+                if (keyState.IsKeyDown(Key.A))
+                {
+                    Controller.Camera.YVal += 0.01;
+                }
+                if (keyState.IsKeyDown(Key.D))
+                {
+                    Controller.Camera.YVal -= 0.01;
+                }
+                if (keyState.IsKeyDown(Key.R))
+                {
+                    ResetSim();
+                }
+                if (keyState.IsKeyDown(Key.Comma))
+                {
+                    if (!Controller.OldKeyState.IsKeyDown(Key.Comma))
+                    {
                         Controller.Camera.Focus -= 1;
+                        if (Controller.Camera.Focus < 0)
+                            Controller.Camera.Focus = 0;
+                    }
                 }
-            }
-            if (keyState.IsKeyDown(Key.Space))
-            {
-                if (!Controller.OldKeyState.IsKeyDown(Key.Space))
+
+                if (keyState.IsKeyDown(Key.Period))
                 {
-                    Controller.Paused = !Controller.Paused;
+                    if (!Controller.OldKeyState.IsKeyDown(Key.Period))
+                    {
+                        Controller.Camera.Focus += 1;
+                        if (Controller.Camera.Focus >= Controller.SimObject.Objects.Count)
+                            Controller.Camera.Focus -= 1;
+                    }
                 }
+
+                if (keyState.IsKeyDown(Key.Space))
+                {
+                    if (!Controller.OldKeyState.IsKeyDown(Key.Space))
+                    {
+                        Controller.Paused = !Controller.Paused;
+                    }
+                }
+
+                if (Controller.Camera.YVal > 0.49) Controller.Camera.YVal = 0.49999;
+                if (Controller.Camera.YVal < -0.49) Controller.Camera.YVal = -0.49999;
+
+                var pi180 = (Math.PI);
+
+                var initialPosition = Controller.SimObject.Objects[Controller.Camera.Focus].Object.Position;
+                Controller.Camera.Position.X = initialPosition.X + Controller.Camera.Radius * (float)(Math.Sin(Controller.Camera.XVal * pi180) * Math.Cos(Controller.Camera.YVal * pi180));
+                Controller.Camera.Position.Y = initialPosition.Y + Controller.Camera.Radius * (float)(Math.Sin(Controller.Camera.YVal * pi180));
+                Controller.Camera.Position.Z = initialPosition.Z + Controller.Camera.Radius * -(float)(Math.Cos(Controller.Camera.XVal * pi180) * Math.Cos(Controller.Camera.YVal * pi180));
+
+                Controller.OldKeyState = keyState;
+                Controller.OldMouseState = mouseState;
             }
-
-            if (Controller.Camera.YVal > 0.49) Controller.Camera.YVal = 0.49999;
-            if (Controller.Camera.YVal < -0.49) Controller.Camera.YVal = -0.49999;
-
-            var pi180 = (Math.PI);
-            
-            var initialPosition = Controller.SimObject.Objects[Controller.Camera.Focus].Object.Position;
-            Controller.Camera.Position.X = initialPosition.X + Controller.Camera.Radius * (float)(Math.Sin(Controller.Camera.XVal * pi180) * Math.Cos(Controller.Camera.YVal * pi180));
-            Controller.Camera.Position.Y = initialPosition.Y + Controller.Camera.Radius * (float)(Math.Sin(Controller.Camera.YVal * pi180));
-            Controller.Camera.Position.Z = initialPosition.Z + Controller.Camera.Radius * -(float)(Math.Cos(Controller.Camera.XVal * pi180) * Math.Cos(Controller.Camera.YVal * pi180));
-
-            Controller.OldKeyState = keyState;
-            Controller.OldMouseState = mouseState;
         }
 
         public void ResetSim()
@@ -274,11 +274,13 @@ namespace SolarForms.Components
 
             for (int i = 0; i < LineObjects.Count; i++)
             {
-                LineObjects[i].DeleteBy -= Math.Abs(Controller.TimePeriod);
+                if (!Controller.Paused)
+                {
+                    LineObjects[i].DeleteBy -= Math.Abs(Controller.TimePeriod);
+                }
                 GL.UseProgram(_program);
                 GL.UniformMatrix4(20, false, ref _projectionMatrix);
                 LineObjects[i].Render(matrixStuff);
-                
             }
             
             GL.PointSize(10);
