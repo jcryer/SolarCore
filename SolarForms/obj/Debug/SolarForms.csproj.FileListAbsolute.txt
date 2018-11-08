@@ -74,4 +74,10 @@ C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarF
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\OpenTK.GLControl.dll
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\OpenTK.GLControl.pdb
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\OpenTK.GLControl.xml
-C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.ControlForm.resources
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.PresetMenu.resources
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\MetroFramework.Design.dll
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\MetroFramework.dll
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\MetroFramework.Fonts.dll
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.ControlForm.resources
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.MainMenu.resources
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.SimMenu.resources

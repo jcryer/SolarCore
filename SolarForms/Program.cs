@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SolarForms.Components;
+using SolarForms.Components.Menus;
 
 namespace SolarForms
 {
@@ -13,7 +14,10 @@ namespace SolarForms
         [STAThread]
         static void Main()
         {
-            new ControlForm().ShowDialog();
+            new Components.Menus.MainMenu().Show();
+            //new PresetMenu().Show();
+            Application.Run();
+            //new ControlForm().ShowDialog();
            // new MainWindow().Run(60);
         }
     }

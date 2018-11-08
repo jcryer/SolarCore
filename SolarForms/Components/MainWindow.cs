@@ -18,8 +18,6 @@ namespace SolarForms.Components
         private Matrix4 _projectionMatrix;
         private List<LineObject> LineObjects = new List<LineObject>();
 
-      //  private double a = 0;
-
         public MainWindow(ControlClass controller) : base(1000, // initial width
         1000, // initial height
         GraphicsMode.Default, "SolarCore",  // initial title
@@ -42,32 +40,18 @@ namespace SolarForms.Components
             CreateProjection();
 
         }
-
-      //  private void ThreadStarting()
-      //  {
-     //       ControlForm = new ControlForm(this);
-     //       ControlForm.ShowDialog();
-     //   }
-
         protected override void OnLoad(EventArgs e)
         {
-           // Thread t = new Thread(new ThreadStart(ThreadStarting));
-           // t.Start();
             Controller.OldMouseState = Mouse.GetState();
             Controller.OldKeyState = Keyboard.GetState();
             VSync = VSyncMode.Off;
             CreateProjection();
-         //   test.Objects.Add(new SimulationObject(new SolarObject(10000000000, 20, 0, 0, new Vector3(0, 0, 0), new Vector3(0.1f, 0, 0), Color4.Yellow)));
 
             Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(1000000000, 10, 0, 0, new Vector3(0, 0, 0), new Vector3(0, 0, 0), Color4.DeepSkyBlue)));
-            //    _solarObjects.Add(new SolarObject(1, 1, 0, 0, new Vector3(0, 0, 1), new Vector3(1.2f, 0f, 0)));
             Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(10, 2, 0, 0, new Vector3(0, 0.2f, 0), new Vector3(0, 0, 1.8f), Color4.LightGoldenrodYellow)));
             Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(10, 4, 0, 0, new Vector3(0, 0.4f, 0), new Vector3(0.9f, 0, 0.9f), Color4.MediumPurple)));
             Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(10, 5, 0, 0, new Vector3(0, 0.6f, 0), new Vector3(1f, 0, 0), Color4.Red)));
-
-            //   _solarObjects.Add(new SolarObject(1000, 1, 0, 0, new Vector3(0.4f, 0, 1), new Vector3(0, 0, 1f), Color4.MediumPurple));
-            //         SimObject.Objects.Add(new SimulationObject(new SolarObject(1000000000, 3, 0, 0, new Vector3(0.4f, 0, 0), new Vector3(-0.25f, 0, 0.4f), Color4.MediumPurple)));
-
+            
             RunSimulation(1);
 
             CursorVisible = true;

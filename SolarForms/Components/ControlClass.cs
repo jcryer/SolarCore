@@ -1,10 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SolarForms.Components.Menus;
+using System.Threading;
 
 namespace SolarForms.Components
 {
@@ -12,7 +9,7 @@ namespace SolarForms.Components
     {
         public int Frame = 0;
         public int TimePeriod = 1;
-        
+        public bool Focused = false;
         public bool Paused = false;
         public MouseState OldMouseState = Mouse.GetState();
         public KeyboardState OldKeyState = Keyboard.GetState();
