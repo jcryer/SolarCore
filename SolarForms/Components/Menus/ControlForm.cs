@@ -25,7 +25,6 @@ namespace SolarForms.Components.Menus
             KeyPreview = true;
             Thread t = new Thread(() => UpdateFields());
             t.Start();
-            
         }
         
         private void UpdateFields()
@@ -67,6 +66,8 @@ namespace SolarForms.Components.Menus
         }
         private void metroButton1_Click(object sender, EventArgs e)
         {
+            ObjectList.Items.Add("test haha");
+
             if (Window == null)
             {
                 Window = new MainWindow(Controller);
@@ -111,11 +112,41 @@ namespace SolarForms.Components.Menus
             if (WindowState == FormWindowState.Maximized)
             {
                 WindowState = FormWindowState.Normal;
-                Size = new Size(Size.Width, Screen.PrimaryScreen.WorkingArea.Height);
+                Size = new Size(Size.Width, Screen.AllScreens[1].WorkingArea.Height);
 
-                Window.Height = Screen.PrimaryScreen.WorkingArea.Height;
-                Window.Width = Screen.PrimaryScreen.WorkingArea.Width - Size.Width;
+                Window.Height = Screen.AllScreens[1].WorkingArea.Height;
+                Window.Width = Screen.AllScreens[1].WorkingArea.Width - Size.Width;
                 Window.Location = new Point(Size.Width-10, 0);
+            }
+        }
+
+        private void AddButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RemoveButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void EditButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ObjectList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ObjectList.SelectedItems.Count == 0)
+            {
+                RemoveButton.Enabled = false;
+                EditButton.Enabled = false;
+            }
+            else
+            {
+                RemoveButton.Enabled = true;
+                EditButton.Enabled = true;
+
             }
         }
     }

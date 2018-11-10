@@ -28,9 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlForm));
             this.SpeedControl = new MetroFramework.Controls.MetroTrackBar();
             this.SpeedControlLabel = new System.Windows.Forms.Label();
@@ -38,8 +35,11 @@
             this.PlayButton = new MetroFramework.Controls.MetroButton();
             this.PauseButton = new MetroFramework.Controls.MetroButton();
             this.RestartButton = new MetroFramework.Controls.MetroButton();
-            this.metroGrid1 = new MetroFramework.Controls.MetroGrid();
-            ((System.ComponentModel.ISupportInitialize)(this.metroGrid1)).BeginInit();
+            this.ObjectList = new MetroFramework.Controls.MetroListView();
+            this.ColumnOne = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.AddButton = new MetroFramework.Controls.MetroButton();
+            this.RemoveButton = new MetroFramework.Controls.MetroButton();
+            this.EditButton = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
             // 
             // SpeedControl
@@ -47,8 +47,8 @@
             this.SpeedControl.BackColor = System.Drawing.Color.Transparent;
             this.SpeedControl.LargeChange = 2;
             this.SpeedControl.Location = new System.Drawing.Point(12, 131);
-            this.SpeedControl.Maximum = 20;
-            this.SpeedControl.Minimum = -20;
+            this.SpeedControl.Maximum = 500;
+            this.SpeedControl.Minimum = -500;
             this.SpeedControl.Name = "SpeedControl";
             this.SpeedControl.Size = new System.Drawing.Size(172, 23);
             this.SpeedControl.TabIndex = 7;
@@ -60,7 +60,7 @@
             // 
             this.SpeedControlLabel.AutoSize = true;
             this.SpeedControlLabel.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SpeedControlLabel.Location = new System.Drawing.Point(15, 109);
+            this.SpeedControlLabel.Location = new System.Drawing.Point(8, 109);
             this.SpeedControlLabel.Name = "SpeedControlLabel";
             this.SpeedControlLabel.Size = new System.Drawing.Size(99, 19);
             this.SpeedControlLabel.TabIndex = 1;
@@ -78,6 +78,8 @@
             // 
             // PlayButton
             // 
+            this.PlayButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.PlayButton.Location = new System.Drawing.Point(12, 395);
             this.PlayButton.Name = "PlayButton";
             this.PlayButton.Size = new System.Drawing.Size(172, 25);
@@ -88,6 +90,8 @@
             // 
             // PauseButton
             // 
+            this.PauseButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.PauseButton.Location = new System.Drawing.Point(12, 426);
             this.PauseButton.Name = "PauseButton";
             this.PauseButton.Size = new System.Drawing.Size(172, 25);
@@ -98,6 +102,8 @@
             // 
             // RestartButton
             // 
+            this.RestartButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.RestartButton.Location = new System.Drawing.Point(12, 457);
             this.RestartButton.Name = "RestartButton";
             this.RestartButton.Size = new System.Drawing.Size(172, 25);
@@ -106,55 +112,78 @@
             this.RestartButton.UseSelectable = true;
             this.RestartButton.Click += new System.EventHandler(this.RestartButton_Click);
             // 
-            // metroGrid1
+            // ObjectList
             // 
-            this.metroGrid1.AllowUserToResizeRows = false;
-            this.metroGrid1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.metroGrid1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.metroGrid1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.metroGrid1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.metroGrid1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.metroGrid1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.metroGrid1.DefaultCellStyle = dataGridViewCellStyle2;
-            this.metroGrid1.EnableHeadersVisualStyles = false;
-            this.metroGrid1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.metroGrid1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.metroGrid1.Location = new System.Drawing.Point(12, 161);
-            this.metroGrid1.Name = "metroGrid1";
-            this.metroGrid1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.metroGrid1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.metroGrid1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.metroGrid1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.metroGrid1.Size = new System.Drawing.Size(172, 228);
-            this.metroGrid1.TabIndex = 12;
+            this.ObjectList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ObjectList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ColumnOne});
+            this.ObjectList.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.ObjectList.FullRowSelect = true;
+            this.ObjectList.Location = new System.Drawing.Point(12, 162);
+            this.ObjectList.MultiSelect = false;
+            this.ObjectList.Name = "ObjectList";
+            this.ObjectList.OwnerDraw = true;
+            this.ObjectList.Size = new System.Drawing.Size(172, 184);
+            this.ObjectList.TabIndex = 12;
+            this.ObjectList.UseCompatibleStateImageBehavior = false;
+            this.ObjectList.UseSelectable = true;
+            this.ObjectList.View = System.Windows.Forms.View.List;
+            this.ObjectList.SelectedIndexChanged += new System.EventHandler(this.ObjectList_SelectedIndexChanged);
+            // 
+            // ColumnOne
+            // 
+            this.ColumnOne.Text = "Objects";
+            this.ColumnOne.Width = 147;
+            // 
+            // AddButton
+            // 
+            this.AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.AddButton.Location = new System.Drawing.Point(12, 352);
+            this.AddButton.Name = "AddButton";
+            this.AddButton.Size = new System.Drawing.Size(50, 25);
+            this.AddButton.TabIndex = 13;
+            this.AddButton.Text = "Add";
+            this.AddButton.UseSelectable = true;
+            this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
+            // 
+            // RemoveButton
+            // 
+            this.RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RemoveButton.Enabled = false;
+            this.RemoveButton.Location = new System.Drawing.Point(73, 352);
+            this.RemoveButton.Name = "RemoveButton";
+            this.RemoveButton.Size = new System.Drawing.Size(50, 25);
+            this.RemoveButton.TabIndex = 14;
+            this.RemoveButton.Text = "Remove";
+            this.RemoveButton.UseSelectable = true;
+            this.RemoveButton.Click += new System.EventHandler(this.RemoveButton_Click);
+            // 
+            // EditButton
+            // 
+            this.EditButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.EditButton.Enabled = false;
+            this.EditButton.Location = new System.Drawing.Point(134, 352);
+            this.EditButton.Name = "EditButton";
+            this.EditButton.Size = new System.Drawing.Size(50, 25);
+            this.EditButton.TabIndex = 15;
+            this.EditButton.Text = "Edit";
+            this.EditButton.UseSelectable = true;
+            this.EditButton.Click += new System.EventHandler(this.EditButton_Click);
             // 
             // ControlForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(200, 500);
-            this.Controls.Add(this.metroGrid1);
+            this.Controls.Add(this.EditButton);
+            this.Controls.Add(this.RemoveButton);
+            this.Controls.Add(this.AddButton);
+            this.Controls.Add(this.ObjectList);
             this.Controls.Add(this.RestartButton);
             this.Controls.Add(this.PauseButton);
             this.Controls.Add(this.PlayButton);
@@ -169,7 +198,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ControlForm_FormClosing);
             this.Load += new System.EventHandler(this.ControlForm_Load);
             this.Resize += new System.EventHandler(this.ControlForm_Resize);
-            ((System.ComponentModel.ISupportInitialize)(this.metroGrid1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -182,6 +210,10 @@
         private MetroFramework.Controls.MetroButton PlayButton;
         private MetroFramework.Controls.MetroButton PauseButton;
         private MetroFramework.Controls.MetroButton RestartButton;
-        private MetroFramework.Controls.MetroGrid metroGrid1;
+        private MetroFramework.Controls.MetroListView ObjectList;
+        private System.Windows.Forms.ColumnHeader ColumnOne;
+        private MetroFramework.Controls.MetroButton AddButton;
+        private MetroFramework.Controls.MetroButton RemoveButton;
+        private MetroFramework.Controls.MetroButton EditButton;
     }
 }

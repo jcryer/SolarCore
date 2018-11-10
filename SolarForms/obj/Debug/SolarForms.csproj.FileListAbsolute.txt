@@ -81,3 +81,4 @@ C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\MetroF
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.ControlForm.resources
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.MainMenu.resources
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.SimMenu.resources
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.ObjectForm.resources

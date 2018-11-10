@@ -251,7 +251,9 @@ namespace SolarForms.Components
                 if (secondsElapsed == 0)
                     secondsElapsed = (DateTime.Now - endTime).TotalSeconds;
                 Console.WriteLine("Reached end of simulation: " + secondsElapsed);
-                Controller.Frame = Controller.SimObject.Objects.First().Positions.Count - 1;
+              //  Controller.Frame = Controller.SimObject.Objects.First().Positions.Count - 1;
+                Controller.Frame = 0;
+
             }
             if (Controller.Frame < 0)
             {
