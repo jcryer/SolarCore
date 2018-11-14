@@ -8,6 +8,7 @@ namespace SolarForms.Components
     static class GravityMethods
     {
         private const double GRAV = 6.67408e-11;
+     //   private const double GRAV = 0;
 
         public static double GetDistance(SolarObject obj1, SolarObject obj2)
         {
@@ -29,7 +30,8 @@ namespace SolarForms.Components
 
         public static double CalculateAcceleration(SolarObject of, SolarObject by)
         {
-            return (GRAV * by.Mass * 10) / (Math.Pow(GetDistance(of, by), 2));
+            var distance = GetDistance(of, by);
+            return (GRAV * by.Mass) / (Math.Pow(distance, 2));
         }
 
         public static Vector3 GetPositionDifference(Vector3 vec1, Vector3 vec2)
@@ -54,6 +56,8 @@ namespace SolarForms.Components
             return new Vector3(obj.Velocity.X + (accVector.X * timePeriod), obj.Velocity.Y + (accVector.Y * timePeriod), obj.Velocity.Z + (accVector.Z * timePeriod));
         }
 
+
+        -
         public static Vector3 GetPositionVector(SolarObject obj, Vector3 velVector, float timePeriod)
         {
             return new Vector3(obj.Position.X + (velVector.X * timePeriod), obj.Position.Y + (velVector.Y * timePeriod), obj.Position.Z + (velVector.Z * timePeriod));
@@ -71,13 +75,11 @@ namespace SolarForms.Components
                 var accVector = GetAccelerationVector(posDiffUnitVector, (float)acc);
                 totalAcceleration += accVector;
             }
-          
             var velVector = GetVelocityVector(main, totalAcceleration, timePeriod);
 
             var posVector = GetPositionVector(main, velVector, timePeriod);
             return new AggregateObject(main, velVector, posVector);
         }
-
     }
 
     public class AggregateObject

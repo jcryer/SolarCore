@@ -11,9 +11,23 @@ namespace SolarForms
 {
     static class Program
     {
+        static List<ReturnObject> testing = new List<ReturnObject>();
+
         [STAThread]
         static void Main()
         {
+/*
+            testing.Add(new Telnet().Run(10));
+            Console.WriteLine("done!");
+
+            testing.Add(new Telnet().Run(299));
+            Console.WriteLine("done!");
+
+            testing.Add(new Telnet().Run(399));
+            Console.WriteLine("done!");
+
+            testing.Add(new Telnet().Run(499));
+            Console.WriteLine("done!");*/
             new Components.Menus.MainMenu().Show();
             //new PresetMenu().Show();
             Application.Run();

@@ -82,6 +82,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="TentacleSoftware.Telnet, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TentacleSoftware.Telnet.1.0.3.0\lib\net45\TentacleSoftware.Telnet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\ControlClass.cs" />
@@ -116,6 +119,7 @@
     <Compile Include="Components\RenderObject.cs" />
     <Compile Include="Components\Simulation.cs" />
     <Compile Include="Components\SolarObject.cs" />
+    <Compile Include="Components\Telnet.cs" />
     <Compile Include="Components\TexturedVertex.cs" />
     <Compile Include="Components\Vertex.cs" />
     <Compile Include="Components\LineObject.cs" />

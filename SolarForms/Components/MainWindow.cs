@@ -46,13 +46,16 @@ namespace SolarForms.Components
             Controller.OldKeyState = Keyboard.GetState();
             VSync = VSyncMode.Off;
             CreateProjection();
+            //  Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(1988500E24, 10, 0, 0, new Vector3(0, 0, 0), new Vector3(0, 0, 0), Color4.DeepSkyBlue)));
+            //  Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(5.97219E24, 1, 0, 0, new Vector3(6.719542947708291E-1f, 7.276047734995248E-1f, -3.699173895642074E-5f), new Vector3(-1.292614872359536E-2f, 1.161006760988238E-2f, -6.183144640412163E-8f), Color4.LightGoldenrodYellow)));
+     //       Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(10000000000, 5, 0, 0, new Vector3(0, 0, 0), new Vector3(0, 0, 0), Color4.Red)));
+    //        Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(10, 2, 0, 0, new Vector3(0, 0.4f, 0), new Vector3(0.9f, 0, 0.9f), Color4.MediumPurple)));
 
-            Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(1000000000, 10, 0, 0, new Vector3(0, 0, 0), new Vector3(0, 0, 0), Color4.DeepSkyBlue)));
-            Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(10, 2, 0, 0, new Vector3(0, 0.2f, 0), new Vector3(0, 0, 1.8f), Color4.LightGoldenrodYellow)));
-            Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(10, 4, 0, 0, new Vector3(0, 0.4f, 0), new Vector3(0.9f, 0, 0.9f), Color4.MediumPurple)));
-            Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(10, 5, 0, 0, new Vector3(0, 0.6f, 0), new Vector3(1f, 0, 0), Color4.Red)));
-            
-            RunSimulation(1);
+       //      Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(10, 2, 0, 0, new Vector3(0, 0.6f, 0), new Vector3(1f, 0, 0), Color4.Blue)));
+            Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(1988500E24, 1000000, 0, 0, new Vector3(0, 0, 0), new Vector3(0, 0, 0), Color4.DeepSkyBlue)));
+            // earth
+            Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(5.97219E24, 100000, 0, 0, new Vector3(100522931705.436203f, 108848124826.68469238f, -5533885.3813707828522f), new Vector3(-22381.068581034600356f, -22381068.581034600735f, -0.107058480605992698f), Color4.LightGoldenrodYellow)));
+            RunSimulation(25);
 
             CursorVisible = true;
             
@@ -91,7 +94,7 @@ namespace SolarForms.Components
             {
                 if (Controller.OldMouseState.Scroll.Y != mouseState.Scroll.Y)
                 {
-                    Controller.Camera.Radius -= 0.05f * (mouseState.Scroll.Y - Controller.OldMouseState.Scroll.Y);
+                    Controller.Camera.Radius -= 10000f * (mouseState.Scroll.Y - Controller.OldMouseState.Scroll.Y);
                 }
 
                 if (mouseState.IsButtonDown(MouseButton.Left))
@@ -102,7 +105,6 @@ namespace SolarForms.Components
                         Controller.Camera.YVal += 0.01f * (Controller.OldMouseState.Y - mouseState.Y);
                     }
                 }
-
 
                 if (keyState.IsKeyDown(Key.Escape))
                 {
@@ -195,7 +197,7 @@ namespace SolarForms.Components
                 60 * ((float)Math.PI / 180f), // field of view angle, in radians
                 aspectRatio,                // current window aspect ratio
                 0.1f,                       // near plane
-                4000f);                     // far plane
+                4000000000f);                     // far plane
         }
 
         private void OnClosed(object sender, EventArgs eventArgs)
@@ -222,7 +224,7 @@ namespace SolarForms.Components
                 List<AggregateObject> response = new List<AggregateObject>();
                 foreach (var obj in Controller.SimObject.Objects.Select(x => x.Object))
                 {
-                    response.Add(GravityMethods.RecalculateValues(obj, Controller.SimObject.Objects.Select(x => x.Object).ToList(), 0.001f));
+                    response.Add(GravityMethods.RecalculateValues(obj, Controller.SimObject.Objects.Select(x => x.Object).Where(x => x != obj).ToList(), 1f));
                 }
 
                 foreach (var x in response)
@@ -251,8 +253,8 @@ namespace SolarForms.Components
                 if (secondsElapsed == 0)
                     secondsElapsed = (DateTime.Now - endTime).TotalSeconds;
                 Console.WriteLine("Reached end of simulation: " + secondsElapsed);
-              //  Controller.Frame = Controller.SimObject.Objects.First().Positions.Count - 1;
-                Controller.Frame = 0;
+                Controller.Frame = Controller.SimObject.Objects.First().Positions.Count - 1;
+
 
             }
             if (Controller.Frame < 0)
@@ -267,8 +269,7 @@ namespace SolarForms.Components
                 GL.UniformMatrix4(20, false, ref _projectionMatrix);
                 if (!Controller.Paused)
                 {
-
-                    obj.Object.Position = obj.Positions[Controller.Frame];
+                    obj.Object.Position = obj.Positions[Controller.Frame] / 100000;
                     LineObjects.Add(new LineObject(obj.Object.Position, obj.Object.Colour, obj.Object.Radius / 10));
                 }
                 obj.Object.Render(matrixStuff);

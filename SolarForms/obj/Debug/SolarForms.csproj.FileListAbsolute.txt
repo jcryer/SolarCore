@@ -82,3 +82,4 @@ C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarF
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.MainMenu.resources
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.SimMenu.resources
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.ObjectForm.resources
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\TentacleSoftware.Telnet.dll
