@@ -55,9 +55,7 @@ namespace SolarForms.Components
         {
             return new Vector3(obj.Velocity.X + (accVector.X * timePeriod), obj.Velocity.Y + (accVector.Y * timePeriod), obj.Velocity.Z + (accVector.Z * timePeriod));
         }
-
-
-        -
+        
         public static Vector3 GetPositionVector(SolarObject obj, Vector3 velVector, float timePeriod)
         {
             return new Vector3(obj.Position.X + (velVector.X * timePeriod), obj.Position.Y + (velVector.Y * timePeriod), obj.Position.Z + (velVector.Z * timePeriod));

@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using Newtonsoft.Json;
+using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
@@ -48,14 +49,14 @@ namespace SolarForms.Components
             CreateProjection();
             //  Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(1988500E24, 10, 0, 0, new Vector3(0, 0, 0), new Vector3(0, 0, 0), Color4.DeepSkyBlue)));
             //  Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(5.97219E24, 1, 0, 0, new Vector3(6.719542947708291E-1f, 7.276047734995248E-1f, -3.699173895642074E-5f), new Vector3(-1.292614872359536E-2f, 1.161006760988238E-2f, -6.183144640412163E-8f), Color4.LightGoldenrodYellow)));
-     //       Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(10000000000, 5, 0, 0, new Vector3(0, 0, 0), new Vector3(0, 0, 0), Color4.Red)));
-    //        Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(10, 2, 0, 0, new Vector3(0, 0.4f, 0), new Vector3(0.9f, 0, 0.9f), Color4.MediumPurple)));
+            //Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(10000000000, 5, 0, 0, new Vector3(0, 0, 0), new Vector3(0, 0, 0), Color4.Red)));
+            //Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(10, 2, 0, 0, new Vector3(0, 0.4f, 0), new Vector3(0.9f, 0, 0.9f), Color4.MediumPurple)));
 
        //      Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(10, 2, 0, 0, new Vector3(0, 0.6f, 0), new Vector3(1f, 0, 0), Color4.Blue)));
-            Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(1988500E24, 1000000, 0, 0, new Vector3(0, 0, 0), new Vector3(0, 0, 0), Color4.DeepSkyBlue)));
+         //   Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(1988500E24, 1000000, 0, 0, new Vector3(0, 0, 0), new Vector3(0, 0, 0), Color4.DeepSkyBlue)));
             // earth
-            Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(5.97219E24, 100000, 0, 0, new Vector3(100522931705.436203f, 108848124826.68469238f, -5533885.3813707828522f), new Vector3(-22381.068581034600356f, -22381068.581034600735f, -0.107058480605992698f), Color4.LightGoldenrodYellow)));
-            RunSimulation(25);
+       //     Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(5.97219E24, 100000, 0, 0, new Vector3(1.005229317054362E+011f, 1.088481248266847E+011f, -5.533885381370783E+06f), new Vector3(-2.238106858103460E+04f, 2.010233093890558E+04f, -1.070584806059927E-01f), Color4.LightGoldenrodYellow)));
+            RunSimulation(5);
 
             CursorVisible = true;
             
@@ -94,7 +95,7 @@ namespace SolarForms.Components
             {
                 if (Controller.OldMouseState.Scroll.Y != mouseState.Scroll.Y)
                 {
-                    Controller.Camera.Radius -= 10000f * (mouseState.Scroll.Y - Controller.OldMouseState.Scroll.Y);
+                    Controller.Camera.Radius -= 100000f * (mouseState.Scroll.Y - Controller.OldMouseState.Scroll.Y);
                 }
 
                 if (mouseState.IsButtonDown(MouseButton.Left))
@@ -216,15 +217,35 @@ namespace SolarForms.Components
             base.Exit();
         }
 
+        public List<int> testing = new List<int>() {  };
         private void RunSimulation(int initialRender)
         {
+
+            foreach (var file in Directory.GetFiles("testData"))
+            {
+                var obj = JsonConvert.DeserializeObject<ReturnObject>(File.ReadAllText(file));
+                Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(obj.Mass, 100000, 0, 0, obj.GetPosition(), obj.GetVelocity(), Color4.Orange)));
+
+            }
+
+            foreach (var x in testing)
+            {
+                Console.WriteLine("aaaa");
+                var returnedValue = new Telnet().Run(x);
+                var settings = new JsonSerializerSettings() { ContractResolver = new PrivateContractResolver() };
+
+                File.WriteAllText($"testData/Moon", JsonConvert.SerializeObject(returnedValue, settings));
+                Controller.SimObject.Objects.Add(new SimulationObject(new SolarObject(returnedValue.Mass, 100000, 0, 0, returnedValue.GetPosition(), returnedValue.GetVelocity(), Color4.Orange)));
+            }
+
+
             var endTime = DateTime.Now.AddSeconds(initialRender);
             while (DateTime.Now < endTime)
             {
                 List<AggregateObject> response = new List<AggregateObject>();
                 foreach (var obj in Controller.SimObject.Objects.Select(x => x.Object))
                 {
-                    response.Add(GravityMethods.RecalculateValues(obj, Controller.SimObject.Objects.Select(x => x.Object).Where(x => x != obj).ToList(), 1f));
+                    response.Add(GravityMethods.RecalculateValues(obj, Controller.SimObject.Objects.Select(x => x.Object).Where(x => x != obj).ToList(), 100f));
                 }
 
                 foreach (var x in response)
@@ -269,7 +290,7 @@ namespace SolarForms.Components
                 GL.UniformMatrix4(20, false, ref _projectionMatrix);
                 if (!Controller.Paused)
                 {
-                    obj.Object.Position = obj.Positions[Controller.Frame] / 100000;
+                    obj.Object.Position = obj.Positions[Controller.Frame] / 1000000;
                     LineObjects.Add(new LineObject(obj.Object.Position, obj.Object.Colour, obj.Object.Radius / 10));
                 }
                 obj.Object.Render(matrixStuff);

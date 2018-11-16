@@ -20,7 +20,7 @@ namespace SolarForms.Components
         {
             Position = position;
             Object = new RenderObject(new Sphere().CreateSphere(2, colour));
-            DeleteBy = 600;
+            DeleteBy = 60000;
             Radius = radius;
         }
 
