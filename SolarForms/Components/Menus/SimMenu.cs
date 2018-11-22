@@ -32,8 +32,7 @@ namespace SolarForms.Components.Menus
                 new SimMenu().Show();
             else if (Location == 3)
             {
-                var ctrl = new ControlClass();
-                new ControlForm(ctrl).Show();
+                new ControlForm().Show();
             }
             else if (Location == 0)
                 new MainMenu().Show();

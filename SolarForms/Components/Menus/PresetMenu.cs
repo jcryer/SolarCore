@@ -24,7 +24,7 @@ namespace SolarForms.Components.Menus
         {
             if (Location == 1)
             {
-                //new ControlForm().Show();
+                new ControlForm(Preset).Show();
             }
             else if (Location == 0)
                 new SimMenu().Show();
@@ -76,8 +76,11 @@ namespace SolarForms.Components.Menus
                     case "Solar System":
                         Preset = Presets.SolarSystem;
                         break;
-                    case "Two-Body Diagram":
-                        Preset = Presets.TwoBodyDiagram;
+                    case "Two-Body Diagram 1":
+                        Preset = Presets.TwoBodyDiagram1;
+                        break;
+                    case "Two-Body Diagram 2":
+                        Preset = Presets.TwoBodyDiagram2;
                         break;
                     case "Three-Body Diagram":
                         Preset = Presets.ThreeBodyDiagram;
@@ -94,7 +97,8 @@ namespace SolarForms.Components.Menus
         None,
         BinaryStar,
         SolarSystem,
-        TwoBodyDiagram,
+        TwoBodyDiagram1,
+        TwoBodyDiagram2,
         ThreeBodyDiagram,
         BlackHole
     }

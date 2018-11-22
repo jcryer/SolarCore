@@ -85,3 +85,12 @@ C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarF
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.csprojAssemblyReference.cache
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\EntityFramework.dll
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\System.Data.SQLite.dll
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\System.Data.SQLite.EF6.dll
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\System.Data.SQLite.Linq.dll
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\EntityFramework.xml
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\System.Data.SQLite.xml
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\System.Data.SQLite.dll.config

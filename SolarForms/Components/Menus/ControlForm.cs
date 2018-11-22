@@ -15,16 +15,22 @@ namespace SolarForms.Components.Menus
 {
     public partial class ControlForm : MetroForm
     {
-
+       
         public MainWindow Window;
         public ControlClass Controller;
-        public ControlForm(ControlClass controller)
+        public ControlForm(Presets preset = Presets.None)
         {
-            Controller = controller;
+            Controller = new ControlClass(preset);
             InitializeComponent();
             KeyPreview = true;
             Thread t = new Thread(() => UpdateFields());
             t.Start();
+            if (preset != Presets.None)
+            {
+                metroButton1.PerformClick();
+                Hide();
+
+            }
         }
         
         private void UpdateFields()
@@ -44,6 +50,7 @@ namespace SolarForms.Components.Menus
                 Thread.Sleep(200);
             }
         }
+
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
            Controller.TimePeriod = SpeedControl.Value;

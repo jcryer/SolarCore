@@ -128,7 +128,9 @@ namespace SolarForms.Components
             if (name != "")
                 Name = name;
             else
-                Name = "Moon";
+            {
+                Name = "unknown";
+            }
             Mass = mass;
             Radius = radius;
             this.px = px;

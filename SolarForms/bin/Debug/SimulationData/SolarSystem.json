@@ -1,0 +1,8 @@
+{
+  "Name": "SolarSystem",
+  "NameOfObjects": [ "Sun", "Mercury", "Venus", "Earth", "Moon", "Mars", "Jupiter", "Neptune", "Saturn", "Uranus" ],
+  "SimScale": 10000000,
+  "CameraRadiusModifier": 10000.0,
+  "TimeConstant": 100,
+  "FixedLocation": false
+}

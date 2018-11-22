@@ -16,7 +16,7 @@ namespace SolarForms.Components.Menus
         int Location = 0;
         public MainMenu()
         {
-            this.StartPosition = FormStartPosition.CenterScreen;
+            StartPosition = FormStartPosition.CenterScreen;
             InitializeComponent();
             testButton.Select();
         }

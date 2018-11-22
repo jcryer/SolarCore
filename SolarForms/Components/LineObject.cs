@@ -20,7 +20,7 @@ namespace SolarForms.Components
         {
             Position = position;
             Object = new RenderObject(new Sphere().CreateSphere(2, colour));
-            DeleteBy = 60000;
+            DeleteBy = 6000;
             Radius = radius;
         }
 
@@ -29,7 +29,7 @@ namespace SolarForms.Components
             Object.Bind();
             var t = Matrix4.CreateTranslation(Position);
 
-            var s = Matrix4.CreateScale(0.01f * (float)Radius);
+            var s = Matrix4.CreateScale((float)Radius);
             var _modelView = s * t * projectionMatrix;
             GL.UniformMatrix4(21, false, ref _modelView);
             Object.Render();
