@@ -108,7 +108,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\ControlClass.cs" />
+    <Compile Include="Components\Menus\ExistingObjectsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Components\Menus\ExistingObjectsForm.Designer.cs">
+      <DependentUpon>ExistingObjectsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Components\Menus\ControlForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,16 +143,11 @@
     </Compile>
     <Compile Include="Components\ObjectFactory.cs" />
     <Compile Include="Components\RenderObject.cs" />
-    <Compile Include="Components\Simulation.cs" />
-    <Compile Include="Components\SolarObject.cs" />
     <Compile Include="Components\Telnet.cs" />
-    <Compile Include="Components\TexturedVertex.cs" />
     <Compile Include="Components\Vertex.cs" />
     <Compile Include="Components\LineObject.cs" />
     <Compile Include="Database\DatabaseMethods.cs" />
-    <Compile Include="Database\Object.cs" />
-    <Compile Include="Database\ObjectInitialValues.cs" />
-    <Compile Include="Database\ObjectVisualisation.cs" />
+    <Compile Include="Database\SolarObject.cs" />
     <Compile Include="Database\Settings.cs" />
     <Compile Include="Database\PlanetarySystem.cs" />
     <Compile Include="Database\Simulation.cs" />
@@ -160,6 +160,9 @@
       <DependentUpon>SimMenu.cs</DependentUpon>
     </Compile>
     <Content Include="pulsar-831502910.ico" />
+    <EmbeddedResource Include="Components\Menus\ExistingObjectsForm.resx">
+      <DependentUpon>ExistingObjectsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Components\Menus\ControlForm.resx">
       <DependentUpon>ControlForm.cs</DependentUpon>
     </EmbeddedResource>

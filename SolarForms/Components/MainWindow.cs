@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
+using SolarForms.Database;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,11 +15,11 @@ namespace SolarForms.Components
     public class MainWindow : GameWindow
     {
         private int _program;
-        public ControlClass Controller = new ControlClass();
+        public Simulation Simulation;
         private Matrix4 _projectionMatrix;
         private List<LineObject> LineObjects = new List<LineObject>();
 
-        public MainWindow(ControlClass controller) : base(1000, // initial width
+        public MainWindow(Simulation simulation) : base(1000, // initial width
         1000, // initial height
         GraphicsMode.Default, "SolarCore",  // initial title
         GameWindowFlags.Default,
@@ -28,7 +28,7 @@ namespace SolarForms.Components
         0, // OpenGL minor version
         GraphicsContextFlags.ForwardCompatible)
         {
-            Controller = controller;
+            Simulation = simulation;
         }
 
         protected override void OnResize(EventArgs e)
@@ -42,13 +42,16 @@ namespace SolarForms.Components
 
         protected override void OnLoad(EventArgs e)
         {
-            
-            Controller.OldMouseState = Mouse.GetState();
-            Controller.OldKeyState = Keyboard.GetState();
+            Simulation.OldMouseState = Mouse.GetState();
+            Simulation.OldKeyState = Keyboard.GetState();
             VSync = VSyncMode.Off;
             CreateProjection();
-            //  Controller.SimObject.Run(100000);
-            Controller.SimObject.Run(10000);
+            foreach (var x in Simulation.PlanetarySystem.Objects)
+            {
+                x.Obj = new RenderObject(new Sphere().CreateSphere(3, x.ObjectColour));
+            }
+            //  Simulation.SimObject.Run(100000);
+            Simulation.Run(1000000);
 
             CursorVisible = true;
             
@@ -65,14 +68,15 @@ namespace SolarForms.Components
 
         private void test()
         {
+            /*
             while (true)
             {
-                if (Controller.Frame + 1000 > Controller.SimObject.Objects.First().Positions.Count && !Controller.SimObject.PreRenderComplete)
+                if (Simulation.CurrentFrame + 1000 > Simulation.PlanetarySystem.Objects.First().Positions.Count && !Simulation.SimObject.PreRenderComplete)
                 {
                     Console.WriteLine("Re-rendering!");
-                    Controller.SimObject.Run(1000, true);
+                    Simulation.SimObject.Run(1000, true);
                 }
-            }
+            }*/
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
@@ -100,17 +104,17 @@ namespace SolarForms.Components
 
             if (Focused)
             {
-                if (Controller.OldMouseState.Scroll.Y != mouseState.Scroll.Y)
+                if (Simulation.OldMouseState.Scroll.Y != mouseState.Scroll.Y)
                 {
-                    Controller.Camera.Radius -= Controller.SimObject.CameraRadiusModifier * (mouseState.Scroll.Y - Controller.OldMouseState.Scroll.Y);
+                    Simulation.Camera.Zoom -= Simulation.Camera.ZoomModifier * (mouseState.Scroll.Y - Simulation.OldMouseState.Scroll.Y);
                 }
 
                 if (mouseState.IsButtonDown(MouseButton.Left))
                 {
-                    if (Controller.OldMouseState.IsButtonDown(MouseButton.Left) == true)
+                    if (Simulation.OldMouseState.IsButtonDown(MouseButton.Left) == true)
                     {
-                        Controller.Camera.XVal += 0.01f * (mouseState.X - Controller.OldMouseState.X);
-                        Controller.Camera.YVal += 0.01f * (Controller.OldMouseState.Y - mouseState.Y);
+                        Simulation.Camera.XVal += 0.01f * (mouseState.X - Simulation.OldMouseState.X);
+                        Simulation.Camera.YVal += 0.01f * (Simulation.OldMouseState.Y - mouseState.Y);
                     }
                 }
 
@@ -120,27 +124,27 @@ namespace SolarForms.Components
                 }
                 if (keyState.IsKeyDown(Key.Left))
                 {
-                    Controller.TimePeriod = Controller.TimePeriod >= 20 ? 20 : Controller.TimePeriod - 1;
+                    Simulation.Speed = Simulation.Speed >= 20 ? 20 : Simulation.Speed - 1;
                 }
                 if (keyState.IsKeyDown(Key.Right))
                 {
-                    Controller.TimePeriod = Controller.TimePeriod <= -20 ? 20 : Controller.TimePeriod + 1;
+                    Simulation.Speed = Simulation.Speed <= -20 ? 20 : Simulation.Speed + 1;
                 }
                 if (keyState.IsKeyDown(Key.S))
                 {
-                    Controller.Camera.XVal += 0.01;
+                    Simulation.Camera.XVal += 0.01;
                 }
                 if (keyState.IsKeyDown(Key.W))
                 {
-                    Controller.Camera.XVal -= 0.01;
+                    Simulation.Camera.XVal -= 0.01;
                 }
                 if (keyState.IsKeyDown(Key.A))
                 {
-                    Controller.Camera.YVal += 0.01;
+                    Simulation.Camera.YVal += 0.01;
                 }
                 if (keyState.IsKeyDown(Key.D))
                 {
-                    Controller.Camera.YVal -= 0.01;
+                    Simulation.Camera.YVal -= 0.01;
                 }
                 if (keyState.IsKeyDown(Key.R))
                 {
@@ -148,47 +152,47 @@ namespace SolarForms.Components
                 }
                 if (keyState.IsKeyDown(Key.Comma))
                 {
-                    if (!Controller.OldKeyState.IsKeyDown(Key.Comma))
+                    if (!Simulation.OldKeyState.IsKeyDown(Key.Comma))
                     {
-                        Controller.Camera.Focus -= 1;
-                        if (Controller.Camera.Focus < 0)
-                            Controller.Camera.Focus = 0;
+                        Simulation.Camera.Focus -= 1;
+                        if (Simulation.Camera.Focus < 0)
+                            Simulation.Camera.Focus = 0;
                     }
                 }
 
                 if (keyState.IsKeyDown(Key.Period))
                 {
-                    if (!Controller.OldKeyState.IsKeyDown(Key.Period))
+                    if (!Simulation.OldKeyState.IsKeyDown(Key.Period))
                     {
-                        Controller.Camera.Focus += 1;
-                        if (Controller.Camera.Focus >= Controller.SimObject.Objects.Count)
-                            Controller.Camera.Focus -= 1;
+                        Simulation.Camera.Focus += 1;
+                        if (Simulation.Camera.Focus >= Simulation.PlanetarySystem.Objects.Count)
+                            Simulation.Camera.Focus -= 1;
                     }
                 }
 
                 if (keyState.IsKeyDown(Key.Space))
                 {
-                    if (!Controller.OldKeyState.IsKeyDown(Key.Space))
+                    if (!Simulation.OldKeyState.IsKeyDown(Key.Space))
                     {
-                        Controller.Paused = !Controller.Paused;
+                        Simulation.Paused = !Simulation.Paused;
                     }
                 }
 
-                if (Controller.Camera.YVal > 0.49) Controller.Camera.YVal = 0.49999;
-                if (Controller.Camera.YVal < -0.49) Controller.Camera.YVal = -0.49999;
+                if (Simulation.Camera.YVal > 0.49) Simulation.Camera.YVal = 0.49999;
+                if (Simulation.Camera.YVal < -0.49) Simulation.Camera.YVal = -0.49999;
 
-                if (Controller.Camera.Radius < 10000) Controller.Camera.YVal = 10000;
-                if (Controller.Camera.Radius > 10000000) Controller.Camera.Radius = 10000000;
+                if (Simulation.Camera.Zoom < 10000) Simulation.Camera.Zoom = 10000;
+                if (Simulation.Camera.Zoom > 10000000) Simulation.Camera.Zoom = 10000000;
 
                 var pi180 = (Math.PI);
 
-                var initialPosition = Controller.SimObject.Objects[Controller.Camera.Focus].Object.Position;
-                Controller.Camera.Position.X = initialPosition.X + Controller.Camera.Radius * (float)(Math.Sin(Controller.Camera.XVal * pi180) * Math.Cos(Controller.Camera.YVal * pi180));
-                Controller.Camera.Position.Y = initialPosition.Y + Controller.Camera.Radius * (float)(Math.Sin(Controller.Camera.YVal * pi180));
-                Controller.Camera.Position.Z = initialPosition.Z + Controller.Camera.Radius * -(float)(Math.Cos(Controller.Camera.XVal * pi180) * Math.Cos(Controller.Camera.YVal * pi180));
+                var initialPosition = Simulation.PlanetarySystem.Objects[Simulation.Camera.Focus].Position;
+                Simulation.Camera.Position.X = initialPosition.X + (float)Simulation.Camera.Zoom * (float)(Math.Sin(Simulation.Camera.XVal * pi180) * Math.Cos(Simulation.Camera.YVal * pi180));
+                Simulation.Camera.Position.Y = initialPosition.Y + (float)Simulation.Camera.Zoom * (float)(Math.Sin(Simulation.Camera.YVal * pi180));
+                Simulation.Camera.Position.Z = initialPosition.Z + (float)Simulation.Camera.Zoom * -(float)(Math.Cos(Simulation.Camera.XVal * pi180) * Math.Cos(Simulation.Camera.YVal * pi180));
 
-                Controller.OldKeyState = keyState;
-                Controller.OldMouseState = mouseState;
+                Simulation.OldKeyState = keyState;
+                Simulation.OldMouseState = mouseState;
             }
         }
 
@@ -196,9 +200,9 @@ namespace SolarForms.Components
         {
             LineObjects.ForEach(x => x.Object.Dispose());
             LineObjects.Clear();
-            Controller.Frame = 0;
-            Controller.TimePeriod = 1;
-            Controller.Paused = false;
+            Simulation.CurrentFrame = 0;
+            Simulation.Speed = 1;
+            Simulation.Paused = false;
         }
 
         private void CreateProjection()
@@ -219,8 +223,8 @@ namespace SolarForms.Components
         public override void Exit()
         {
             Debug.WriteLine("Exit called");
-            foreach (var obj in Controller.SimObject.Objects.Select(x => x.Object))
-                obj.Object.Dispose();
+            foreach (var obj in Simulation.PlanetarySystem.Objects)
+                obj.Obj.Dispose();
             foreach (var obj in LineObjects.Select(x => x.Object))
                 obj.Dispose();
             GL.DeleteProgram(_program);
@@ -231,57 +235,59 @@ namespace SolarForms.Components
         double secondsElapsed = 0;
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            if (Controller.SimObject.PreRenderedObjects != null)
+            /*
+            if (Simulation.PlanetarySystem.PreRenderedObjects != null)
             {
-                if (Controller.SimObject.PreRenderedObjects.Count > 0 && Controller.SimObject.PreRenderComplete)
+                if (Simulation.PlanetarySystem.PreRenderedObjects.Count > 0 && Simulation.SimObject.PreRenderComplete)
                 {
-                    Controller.SimObject.Objects.AddRange(Controller.SimObject.PreRenderedObjects);
-                    Controller.SimObject.PreRenderedObjects.Clear();
-                    Controller.SimObject.PreRenderComplete = false;
+                    Simulation.SimObject.Objects.AddRange(Simulation.SimObject.PreRenderedObjects);
+                    Simulation.SimObject.PreRenderedObjects.Clear();
+                    Simulation.SimObject.PreRenderComplete = false;
                 }
             }
+            */
 
-            if (!Controller.SimObject.FixedLocation)
+            if (!Simulation.Camera.Fixed)
             {
-                Controller.Camera.LookAt = Controller.SimObject.Objects[Controller.Camera.Focus].Object.Position;
+                Simulation.Camera.LookAt = Simulation.PlanetarySystem.Objects[Simulation.Camera.Focus].Position;
             }
-            var matrixStuff = Matrix4.LookAt(Controller.Camera.Position, Controller.Camera.LookAt, Vector3.UnitY);
-            if (!Controller.Paused)
-                Controller.Frame += Controller.TimePeriod;
+            var matrixStuff = Matrix4.LookAt(Simulation.Camera.Position, Simulation.Camera.LookAt, Vector3.UnitY);
+            if (!Simulation.Paused)
+                Simulation.CurrentFrame += Simulation.Speed;
 
             Title = $"(Vsync: {VSync}) FPS: {1f / e.Time:0}";
             GL.ClearColor(Color4.Black);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            if (Controller.Frame >= Controller.SimObject.Objects.First().Positions.Count)
+            if (Simulation.CurrentFrame >= Simulation.PlanetarySystem.Objects.First().Positions.Count)
             {
                 if (secondsElapsed == 0)
                     secondsElapsed = (DateTime.Now - endTime).TotalSeconds;
                 Console.WriteLine("Reached end of simulation: " + secondsElapsed);
-                Controller.Frame = Controller.SimObject.Objects.First().Positions.Count - 1;
+                Simulation.CurrentFrame = Simulation.PlanetarySystem.Objects.First().Positions.Count - 1;
             }
-            if (Controller.Frame < 0)
+            if (Simulation.CurrentFrame < 0)
             {
                 Console.WriteLine("Beginning of simulation");
-                Controller.Frame = 0;
+                Simulation.CurrentFrame = 0;
             }
 
-            foreach (var obj in Controller.SimObject.Objects)
+            foreach (var obj in Simulation.PlanetarySystem.Objects)
             {
                 GL.UseProgram(_program);
                 GL.UniformMatrix4(20, false, ref _projectionMatrix);
-                if (!Controller.Paused)
+                if (!Simulation.Paused)
                 {
-                    obj.Object.Position = obj.Positions[Controller.Frame] / Controller.SimObject.SimScale;
-                    LineObjects.Add(new LineObject(obj.Object.Position, obj.Object.Colour, obj.Object.Radius / 10));
+                    obj.Position = obj.Positions[Simulation.CurrentFrame] / Simulation.Scale;
+                    LineObjects.Add(new LineObject(obj.Position, obj.ObjectColour, obj.Radius / 10));
                 }
-                obj.Object.Render(matrixStuff);
+                obj.Render(matrixStuff);
             }
 
             for (int i = 0; i < LineObjects.Count; i++)
             {
-                if (!Controller.Paused)
+                if (!Simulation.Paused)
                 {
-                    LineObjects[i].DeleteBy -= Math.Abs(Controller.TimePeriod);
+                    LineObjects[i].DeleteBy -= Math.Abs(Simulation.Speed);
                 }
                 GL.UseProgram(_program);
                 GL.UniformMatrix4(20, false, ref _projectionMatrix);

@@ -49,20 +49,23 @@ namespace SolarForms
                 "CREATE TABLE IF NOT EXISTS `Simulation` (" +
                 "`SimulationID`	INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "`PlanetarySystemID`	INTEGER NOT NULL," +
-                "`Speed`	REAL NOT NULL," +
                 "`Zoom`	REAL NOT NULL," +
-                "`InitialFocus`	INTEGER NOT NULL," +
-                "foreign key(PlanetarySystemID) references PlanetarySystem(PlanetarySystemID)); ", DBConnection);
+                "`ZoomModifier`	REAL NOT NULL," +
+                "`Focus`	INTEGER NOT NULL," +
+                "`Fixed`	INTEGER NOT NULL," +
+                "`Speed`	REAL NOT NULL," +
+                "`Scale`	INTEGER NOT NULL," +
+                "FOREIGN KEY(`PlanetarySystemID`) REFERENCES `PlanetarySystem`(`PlanetarySystemID`)); ", DBConnection);
 
             SQLiteCommand ObjectView = new SQLiteCommand("" +
             "CREATE TABLE IF NOT EXISTS `ObjectView` (" +
-            "`PerformanceID`	INTEGER NOT NULL," +
+            "`SimulationID`	INTEGER NOT NULL," +
             "`ObjectID`	INTEGER NOT NULL," +
             "`TrailActive`	INTEGER NOT NULL," +
             "`TrailLength`	INTEGER NOT NULL," +
             "`TrailColour`	INTEGER NOT NULL," +
             "`ObjectColour`	INTEGER NOT NULL," +
-            "foreign key(PerformanceID) references Performance(PerformanceID)," +
+            "foreign key(SimulationID) references Simulation(SimulationID)," +
             "foreign key(ObjectID) references Object(ObjectID)); ", DBConnection);
 
             Object.ExecuteNonQuery();
@@ -71,22 +74,9 @@ namespace SolarForms
             Simulation.ExecuteNonQuery();
             ObjectView.ExecuteNonQuery();
 
-            Database.DatabaseMethods.GetSimulation(0);
-            //   var obj = JsonConvert.DeserializeObject<SolarObject>(File.ReadAllText("PlanetaryData/Earth.json"));
-
-            //    new Components.Menus.ObjectForm(obj).Show();
-            /*
-            testing.Add(new Telnet().Run(10));
-            Console.WriteLine("done!");
-            
-            testing.Add(new Telnet().Run(299));
-            Console.WriteLine("done!");
-
-            testing.Add(new Telnet().Run(399));
-            Console.WriteLine("done!");
-
-            testing.Add(new Telnet().Run(499));
-            Console.WriteLine("done!");*/
+            //Database.DatabaseMethods.AddObject(1111);
+            Console.WriteLine("Done!");
+         
             new Components.Menus.MainMenu().Show();
             //new PresetMenu().Show();
             Application.Run();

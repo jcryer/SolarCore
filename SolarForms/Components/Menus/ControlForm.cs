@@ -1,26 +1,20 @@
 ﻿using MetroFramework.Forms;
-using OpenTK.Input;
+using SolarForms.Database;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SolarForms.Components.Menus
 {
     public partial class ControlForm : MetroForm
     {
-       
         public MainWindow Window;
-        public ControlClass Controller;
+        public Simulation Simulation;
         public ControlForm(Presets preset = Presets.None)
         {
-            Controller = new ControlClass(preset);
+            Simulation = DatabaseMethods.GetSimulation(1);
             InitializeComponent();
             KeyPreview = true;
             Thread t = new Thread(() => UpdateFields());
@@ -29,7 +23,10 @@ namespace SolarForms.Components.Menus
             {
                 metroButton1.PerformClick();
                 Hide();
-
+            }
+            foreach (var obj in Simulation.PlanetarySystem.Objects)
+            {
+                ObjectList.Items.Add(obj.Name);
             }
         }
         
@@ -41,8 +38,8 @@ namespace SolarForms.Components.Menus
                 {
                     MethodInvoker mi = delegate ()
                     {
-                        if (SpeedControl.Value != Controller.TimePeriod)
-                            SpeedControl.Value = Controller.TimePeriod;
+                        if (SpeedControl.Value != Simulation.Speed)
+                            SpeedControl.Value = Simulation.Speed;
                     };
                     Invoke(mi);
                 }
@@ -53,7 +50,7 @@ namespace SolarForms.Components.Menus
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
-           Controller.TimePeriod = SpeedControl.Value;
+            Simulation.Speed = SpeedControl.Value;
         }
 
         private void ControlForm_KeyDown(object sender, KeyEventArgs e)
@@ -73,11 +70,9 @@ namespace SolarForms.Components.Menus
         }
         private void metroButton1_Click(object sender, EventArgs e)
         {
-            ObjectList.Items.Add("test haha");
-
             if (Window == null)
             {
-                Window = new MainWindow(Controller);
+                Window = new MainWindow(Simulation);
                 Window.Run(60);
             }
         }
@@ -89,24 +84,24 @@ namespace SolarForms.Components.Menus
 
         private void SpeedControl_ValueChanged(object sender, EventArgs e)
         {
-            Controller.TimePeriod = SpeedControl.Value;
+            Simulation.Speed = SpeedControl.Value;
 
         }
 
         private void PlayButton_Click(object sender, EventArgs e)
         {
-            Controller.Paused = false;
+            Simulation.Paused = false;
         }
 
         private void PauseButton_Click(object sender, EventArgs e)
         {
-            Controller.Paused = true;
+            Simulation.Paused = true;
         }
 
         private void RestartButton_Click(object sender, EventArgs e)
         {
             Window.ResetSim();
-            Controller.TimePeriod = SpeedControl.Value;
+            Simulation.Speed = SpeedControl.Value;
         }
 
         private void metroButton2_Click(object sender, EventArgs e)
@@ -129,12 +124,27 @@ namespace SolarForms.Components.Menus
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-
+            var form = new ObjectForm(Simulation);
+            var result = form.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                if (Simulation.PlanetarySystem.Objects.Any(x => x.Id == form.obj.Id))
+                {
+                    Simulation.PlanetarySystem.Objects[Simulation.PlanetarySystem.Objects.IndexOf(form.obj)] = form.obj;
+                }
+                else
+                {
+                    Simulation.PlanetarySystem.Objects.Add(form.obj);
+                    ObjectList.Items.Add(form.obj.Name);
+                }
+            }
         }
 
         private void RemoveButton_Click(object sender, EventArgs e)
         {
-
+            Simulation.PlanetarySystem.Objects.RemoveAll(x => x.Name == ObjectList.SelectedItems[0].Text);
+            ObjectList.Items.Remove(ObjectList.SelectedItems[0]);
+            
         }
 
         private void EditButton_Click(object sender, EventArgs e)

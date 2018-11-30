@@ -13,7 +13,7 @@ namespace SolarForms.Components.Menus
 {
     public partial class PresetMenu : MetroForm
     {
-        int Location = 0;
+        new int Location = 0;
         Presets Preset = Presets.None;
         public PresetMenu()
         {

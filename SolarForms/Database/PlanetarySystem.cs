@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SolarForms.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,17 +7,24 @@ using System.Threading.Tasks;
 
 namespace SolarForms.Database
 {
-    class PlanetarySystem
+    public class PlanetarySystem
     {
-        int PlanetarySystemID;
-        string Name;
-        string Description;
+        public string Name;
+        public string Description;
+        public List<SolarObject> Objects;
 
-        public PlanetarySystem(int planetarySystemID, string name, string description)
+        public PlanetarySystem()
         {
-            PlanetarySystemID = planetarySystemID;
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-            Description = description ?? throw new ArgumentNullException(nameof(description));
+            Objects = new List<SolarObject>();
+
         }
+        public PlanetarySystem(string name, string description)
+        {
+            Name = name;
+            Description = description;
+            Objects = new List<SolarObject>();
+        }
+
+        
     }
 }

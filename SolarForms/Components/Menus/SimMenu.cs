@@ -15,7 +15,7 @@ namespace SolarForms.Components.Menus
 {
     public partial class SimMenu : MetroForm
     {
-        int Location = 0;
+        new int Location = 0;
 
         public SimMenu()
         {

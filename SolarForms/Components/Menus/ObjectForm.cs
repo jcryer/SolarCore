@@ -1,25 +1,23 @@
 ﻿using MetroFramework.Forms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using SolarForms.Database;
 
 namespace SolarForms.Components.Menus
 {
     public partial class ObjectForm : MetroForm
     {
-        SolarObject s;
-        public ObjectForm(SolarObject s = null)
+        Simulation Sim;
+        public SolarObject obj;
+        public ObjectForm(Simulation sim, SolarObject s = null)
         {
+            Sim = sim;
             InitializeComponent();
             if (s != null)
             {
+                obj = s;
                 NameTextbox.Text = s.Name;
                 XPos.Text = s.Position.X.ToString();
                 YPos.Text = s.Position.Y.ToString();
@@ -29,7 +27,7 @@ namespace SolarForms.Components.Menus
                 ZVec.Text = s.Velocity.Z.ToString();
                 Mass.Text = s.Mass.ToString();
                 RadiusTextbox.Text = s.Radius.ToString();
-                ColourDialog.Color = Color.FromArgb(s.Colour.ToArgb());
+                ColourDialog.Color = Color.FromArgb(s.ObjectColour.ToArgb());
                 ColourSquare.BackColor = ColourDialog.Color;
                 testButton.Select();
             }
@@ -94,6 +92,22 @@ namespace SolarForms.Components.Menus
                 testButton.Select();
 
             }
+        }
+
+        private void ExistingButton_Click(object sender, EventArgs e)
+        {
+            new ExistingObjectsForm().Show();
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        private void CancelButton_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
