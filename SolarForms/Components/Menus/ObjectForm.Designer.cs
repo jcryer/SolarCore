@@ -41,24 +41,24 @@
             this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
             this.Mass = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel5 = new MetroFramework.Controls.MetroLabel();
-            this.RadiusTextbox = new MetroFramework.Controls.MetroTextBox();
+            this.Radius = new MetroFramework.Controls.MetroTextBox();
             this.SaveButton = new MetroFramework.Controls.MetroButton();
             this.CancelButton = new MetroFramework.Controls.MetroButton();
             this.ColourDialog = new System.Windows.Forms.ColorDialog();
             this.testButton = new MetroFramework.Controls.MetroButton();
-            this.ColourSquare = new System.Windows.Forms.TextBox();
-            this.metroLabel6 = new MetroFramework.Controls.MetroLabel();
+            this.ObjectColour = new System.Windows.Forms.TextBox();
             this.ExistingButton = new MetroFramework.Controls.MetroButton();
-            this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
-            this.metroCheckBox1 = new MetroFramework.Controls.MetroCheckBox();
-            this.metroTextBox1 = new MetroFramework.Controls.MetroTextBox();
+            this.TrailsActive = new MetroFramework.Controls.MetroCheckBox();
+            this.TrailLength = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel8 = new MetroFramework.Controls.MetroLabel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.TrailColour = new System.Windows.Forms.TextBox();
             this.metroLabel9 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel10 = new MetroFramework.Controls.MetroLabel();
-            this.metroTextBox2 = new MetroFramework.Controls.MetroTextBox();
+            this.Obliquity = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel11 = new MetroFramework.Controls.MetroLabel();
-            this.metroTextBox3 = new MetroFramework.Controls.MetroTextBox();
+            this.OrbitalSpeed = new MetroFramework.Controls.MetroTextBox();
+            this.ObjectColourButton = new MetroFramework.Controls.MetroButton();
+            this.TrailColourButton = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
             // 
             // XPos
@@ -109,7 +109,7 @@
             // 
             // 
             this.NameTextbox.CustomButton.Image = null;
-            this.NameTextbox.CustomButton.Location = new System.Drawing.Point(138, 1);
+            this.NameTextbox.CustomButton.Location = new System.Drawing.Point(226, 1);
             this.NameTextbox.CustomButton.Name = "";
             this.NameTextbox.CustomButton.Size = new System.Drawing.Size(23, 23);
             this.NameTextbox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -150,7 +150,7 @@
             // 
             // 
             this.ZPos.CustomButton.Image = null;
-            this.ZPos.CustomButton.Location = new System.Drawing.Point(76, 1);
+            this.ZPos.CustomButton.Location = new System.Drawing.Point(77, 1);
             this.ZPos.CustomButton.Name = "";
             this.ZPos.CustomButton.Size = new System.Drawing.Size(23, 23);
             this.ZPos.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -169,7 +169,7 @@
             this.ZPos.SelectionLength = 0;
             this.ZPos.SelectionStart = 0;
             this.ZPos.ShortcutsEnabled = true;
-            this.ZPos.Size = new System.Drawing.Size(100, 25);
+            this.ZPos.Size = new System.Drawing.Size(101, 25);
             this.ZPos.TabIndex = 4;
             this.ZPos.UseSelectable = true;
             this.ZPos.WaterMark = "Z";
@@ -249,7 +249,7 @@
             // 
             // 
             this.ZVec.CustomButton.Image = null;
-            this.ZVec.CustomButton.Location = new System.Drawing.Point(75, 1);
+            this.ZVec.CustomButton.Location = new System.Drawing.Point(76, 1);
             this.ZVec.CustomButton.Name = "";
             this.ZVec.CustomButton.Size = new System.Drawing.Size(23, 23);
             this.ZVec.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -268,7 +268,7 @@
             this.ZVec.SelectionLength = 0;
             this.ZVec.SelectionStart = 0;
             this.ZVec.ShortcutsEnabled = true;
-            this.ZVec.Size = new System.Drawing.Size(99, 25);
+            this.ZVec.Size = new System.Drawing.Size(100, 25);
             this.ZVec.TabIndex = 8;
             this.ZVec.UseSelectable = true;
             this.ZVec.WaterMark = "Z";
@@ -333,7 +333,7 @@
             // 
             // 
             this.Mass.CustomButton.Image = null;
-            this.Mass.CustomButton.Location = new System.Drawing.Point(121, 1);
+            this.Mass.CustomButton.Location = new System.Drawing.Point(130, 1);
             this.Mass.CustomButton.Name = "";
             this.Mass.CustomButton.Size = new System.Drawing.Size(23, 23);
             this.Mass.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -351,7 +351,7 @@
             this.Mass.SelectionLength = 0;
             this.Mass.SelectionStart = 0;
             this.Mass.ShortcutsEnabled = true;
-            this.Mass.Size = new System.Drawing.Size(145, 25);
+            this.Mass.Size = new System.Drawing.Size(154, 25);
             this.Mass.TabIndex = 10;
             this.Mass.UseSelectable = true;
             this.Mass.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -367,35 +367,35 @@
             this.metroLabel5.TabIndex = 13;
             this.metroLabel5.Text = "Radius (m)";
             // 
-            // RadiusTextbox
+            // Radius
             // 
             // 
             // 
             // 
-            this.RadiusTextbox.CustomButton.Image = null;
-            this.RadiusTextbox.CustomButton.Location = new System.Drawing.Point(121, 1);
-            this.RadiusTextbox.CustomButton.Name = "";
-            this.RadiusTextbox.CustomButton.Size = new System.Drawing.Size(23, 23);
-            this.RadiusTextbox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.RadiusTextbox.CustomButton.TabIndex = 1;
-            this.RadiusTextbox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.RadiusTextbox.CustomButton.UseSelectable = true;
-            this.RadiusTextbox.CustomButton.Visible = false;
-            this.RadiusTextbox.Lines = new string[0];
-            this.RadiusTextbox.Location = new System.Drawing.Point(89, 242);
-            this.RadiusTextbox.MaxLength = 32767;
-            this.RadiusTextbox.Name = "RadiusTextbox";
-            this.RadiusTextbox.PasswordChar = '\0';
-            this.RadiusTextbox.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.RadiusTextbox.SelectedText = "";
-            this.RadiusTextbox.SelectionLength = 0;
-            this.RadiusTextbox.SelectionStart = 0;
-            this.RadiusTextbox.ShortcutsEnabled = true;
-            this.RadiusTextbox.Size = new System.Drawing.Size(145, 25);
-            this.RadiusTextbox.TabIndex = 12;
-            this.RadiusTextbox.UseSelectable = true;
-            this.RadiusTextbox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.RadiusTextbox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.Radius.CustomButton.Image = null;
+            this.Radius.CustomButton.Location = new System.Drawing.Point(130, 1);
+            this.Radius.CustomButton.Name = "";
+            this.Radius.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.Radius.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.Radius.CustomButton.TabIndex = 1;
+            this.Radius.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.Radius.CustomButton.UseSelectable = true;
+            this.Radius.CustomButton.Visible = false;
+            this.Radius.Lines = new string[0];
+            this.Radius.Location = new System.Drawing.Point(89, 242);
+            this.Radius.MaxLength = 32767;
+            this.Radius.Name = "Radius";
+            this.Radius.PasswordChar = '\0';
+            this.Radius.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.Radius.SelectedText = "";
+            this.Radius.SelectionLength = 0;
+            this.Radius.SelectionStart = 0;
+            this.Radius.ShortcutsEnabled = true;
+            this.Radius.Size = new System.Drawing.Size(154, 25);
+            this.Radius.TabIndex = 12;
+            this.Radius.UseSelectable = true;
+            this.Radius.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.Radius.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // SaveButton
             // 
@@ -419,123 +419,108 @@
             // 
             // testButton
             // 
-            this.testButton.Location = new System.Drawing.Point(459, 349);
+            this.testButton.Location = new System.Drawing.Point(460, 344);
             this.testButton.Name = "testButton";
             this.testButton.Size = new System.Drawing.Size(10, 10);
             this.testButton.TabIndex = 17;
             this.testButton.UseSelectable = true;
             this.testButton.Visible = false;
             // 
-            // ColourSquare
+            // ObjectColour
             // 
-            this.ColourSquare.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.ColourSquare.Enabled = false;
-            this.ColourSquare.Location = new System.Drawing.Point(355, 164);
-            this.ColourSquare.Multiline = true;
-            this.ColourSquare.Name = "ColourSquare";
-            this.ColourSquare.ReadOnly = true;
-            this.ColourSquare.Size = new System.Drawing.Size(100, 25);
-            this.ColourSquare.TabIndex = 18;
-            this.ColourSquare.TextChanged += new System.EventHandler(this.ColourSquare_TextChanged);
-            // 
-            // metroLabel6
-            // 
-            this.metroLabel6.AutoSize = true;
-            this.metroLabel6.Location = new System.Drawing.Point(249, 166);
-            this.metroLabel6.Name = "metroLabel6";
-            this.metroLabel6.Size = new System.Drawing.Size(92, 19);
-            this.metroLabel6.TabIndex = 19;
-            this.metroLabel6.Text = "Object Colour";
+            this.ObjectColour.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.ObjectColour.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ObjectColour.Enabled = false;
+            this.ObjectColour.Location = new System.Drawing.Point(355, 164);
+            this.ObjectColour.Multiline = true;
+            this.ObjectColour.Name = "ObjectColour";
+            this.ObjectColour.ReadOnly = true;
+            this.ObjectColour.Size = new System.Drawing.Size(101, 25);
+            this.ObjectColour.TabIndex = 18;
             // 
             // ExistingButton
             // 
             this.ExistingButton.Location = new System.Drawing.Point(312, 44);
             this.ExistingButton.Name = "ExistingButton";
-            this.ExistingButton.Size = new System.Drawing.Size(136, 23);
+            this.ExistingButton.Size = new System.Drawing.Size(143, 23);
             this.ExistingButton.TabIndex = 20;
             this.ExistingButton.Text = "Copy from Existing";
             this.ExistingButton.UseSelectable = true;
             this.ExistingButton.Click += new System.EventHandler(this.ExistingButton_Click);
             // 
-            // metroLabel7
+            // TrailsActive
             // 
-            this.metroLabel7.AutoSize = true;
-            this.metroLabel7.Location = new System.Drawing.Point(251, 282);
-            this.metroLabel7.Name = "metroLabel7";
-            this.metroLabel7.Size = new System.Drawing.Size(76, 19);
-            this.metroLabel7.TabIndex = 22;
-            this.metroLabel7.Text = "Trail Colour";
+            this.TrailsActive.AutoSize = true;
+            this.TrailsActive.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.TrailsActive.FontWeight = MetroFramework.MetroCheckBoxWeight.Light;
+            this.TrailsActive.Location = new System.Drawing.Point(357, 209);
+            this.TrailsActive.Name = "TrailsActive";
+            this.TrailsActive.Size = new System.Drawing.Size(98, 19);
+            this.TrailsActive.TabIndex = 23;
+            this.TrailsActive.Text = "Trails Active?";
+            this.TrailsActive.UseSelectable = true;
+            this.TrailsActive.CheckedChanged += new System.EventHandler(this.TrailsActive_CheckedChanged);
             // 
-            // metroCheckBox1
-            // 
-            this.metroCheckBox1.AutoSize = true;
-            this.metroCheckBox1.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.metroCheckBox1.FontWeight = MetroFramework.MetroCheckBoxWeight.Light;
-            this.metroCheckBox1.Location = new System.Drawing.Point(357, 209);
-            this.metroCheckBox1.Name = "metroCheckBox1";
-            this.metroCheckBox1.Size = new System.Drawing.Size(98, 19);
-            this.metroCheckBox1.TabIndex = 23;
-            this.metroCheckBox1.Text = "Trails Active?";
-            this.metroCheckBox1.UseSelectable = true;
-            // 
-            // metroTextBox1
+            // TrailLength
             // 
             // 
             // 
             // 
-            this.metroTextBox1.CustomButton.Image = null;
-            this.metroTextBox1.CustomButton.Location = new System.Drawing.Point(76, 1);
-            this.metroTextBox1.CustomButton.Name = "";
-            this.metroTextBox1.CustomButton.Size = new System.Drawing.Size(23, 23);
-            this.metroTextBox1.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroTextBox1.CustomButton.TabIndex = 1;
-            this.metroTextBox1.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.metroTextBox1.CustomButton.UseSelectable = true;
-            this.metroTextBox1.CustomButton.Visible = false;
-            this.metroTextBox1.Lines = new string[0];
-            this.metroTextBox1.Location = new System.Drawing.Point(356, 242);
-            this.metroTextBox1.MaxLength = 32767;
-            this.metroTextBox1.Name = "metroTextBox1";
-            this.metroTextBox1.PasswordChar = '\0';
-            this.metroTextBox1.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.metroTextBox1.SelectedText = "";
-            this.metroTextBox1.SelectionLength = 0;
-            this.metroTextBox1.SelectionStart = 0;
-            this.metroTextBox1.ShortcutsEnabled = true;
-            this.metroTextBox1.Size = new System.Drawing.Size(100, 25);
-            this.metroTextBox1.TabIndex = 24;
-            this.metroTextBox1.UseSelectable = true;
-            this.metroTextBox1.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.metroTextBox1.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.TrailLength.CustomButton.Image = null;
+            this.TrailLength.CustomButton.Location = new System.Drawing.Point(76, 1);
+            this.TrailLength.CustomButton.Name = "";
+            this.TrailLength.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.TrailLength.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.TrailLength.CustomButton.TabIndex = 1;
+            this.TrailLength.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.TrailLength.CustomButton.UseSelectable = true;
+            this.TrailLength.CustomButton.Visible = false;
+            this.TrailLength.Enabled = false;
+            this.TrailLength.Lines = new string[0];
+            this.TrailLength.Location = new System.Drawing.Point(356, 242);
+            this.TrailLength.MaxLength = 32767;
+            this.TrailLength.Name = "TrailLength";
+            this.TrailLength.PasswordChar = '\0';
+            this.TrailLength.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.TrailLength.SelectedText = "";
+            this.TrailLength.SelectionLength = 0;
+            this.TrailLength.SelectionStart = 0;
+            this.TrailLength.ShortcutsEnabled = true;
+            this.TrailLength.Size = new System.Drawing.Size(100, 25);
+            this.TrailLength.TabIndex = 24;
+            this.TrailLength.UseSelectable = true;
+            this.TrailLength.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.TrailLength.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // metroLabel8
             // 
             this.metroLabel8.AutoSize = true;
-            this.metroLabel8.Location = new System.Drawing.Point(250, 242);
+            this.metroLabel8.Location = new System.Drawing.Point(251, 242);
             this.metroLabel8.Name = "metroLabel8";
             this.metroLabel8.Size = new System.Drawing.Size(75, 19);
             this.metroLabel8.TabIndex = 25;
             this.metroLabel8.Text = "Trail Length";
             // 
-            // textBox1
+            // TrailColour
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(357, 282);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(99, 25);
-            this.textBox1.TabIndex = 21;
+            this.TrailColour.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.TrailColour.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TrailColour.Enabled = false;
+            this.TrailColour.Location = new System.Drawing.Point(357, 282);
+            this.TrailColour.Multiline = true;
+            this.TrailColour.Name = "TrailColour";
+            this.TrailColour.ReadOnly = true;
+            this.TrailColour.Size = new System.Drawing.Size(99, 25);
+            this.TrailColour.TabIndex = 21;
             // 
             // metroLabel9
             // 
             this.metroLabel9.AutoSize = true;
             this.metroLabel9.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.metroLabel9.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.metroLabel9.Location = new System.Drawing.Point(250, 203);
+            this.metroLabel9.Location = new System.Drawing.Point(251, 203);
             this.metroLabel9.Name = "metroLabel9";
-            this.metroLabel9.Size = new System.Drawing.Size(57, 25);
+            this.metroLabel9.Size = new System.Drawing.Size(50, 25);
             this.metroLabel9.TabIndex = 26;
             this.metroLabel9.Text = "Trails";
             // 
@@ -548,35 +533,35 @@
             this.metroLabel10.TabIndex = 28;
             this.metroLabel10.Text = "Obliquity (°)";
             // 
-            // metroTextBox2
+            // Obliquity
             // 
             // 
             // 
             // 
-            this.metroTextBox2.CustomButton.Image = null;
-            this.metroTextBox2.CustomButton.Location = new System.Drawing.Point(121, 1);
-            this.metroTextBox2.CustomButton.Name = "";
-            this.metroTextBox2.CustomButton.Size = new System.Drawing.Size(23, 23);
-            this.metroTextBox2.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroTextBox2.CustomButton.TabIndex = 1;
-            this.metroTextBox2.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.metroTextBox2.CustomButton.UseSelectable = true;
-            this.metroTextBox2.CustomButton.Visible = false;
-            this.metroTextBox2.Lines = new string[0];
-            this.metroTextBox2.Location = new System.Drawing.Point(89, 282);
-            this.metroTextBox2.MaxLength = 32767;
-            this.metroTextBox2.Name = "metroTextBox2";
-            this.metroTextBox2.PasswordChar = '\0';
-            this.metroTextBox2.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.metroTextBox2.SelectedText = "";
-            this.metroTextBox2.SelectionLength = 0;
-            this.metroTextBox2.SelectionStart = 0;
-            this.metroTextBox2.ShortcutsEnabled = true;
-            this.metroTextBox2.Size = new System.Drawing.Size(145, 25);
-            this.metroTextBox2.TabIndex = 27;
-            this.metroTextBox2.UseSelectable = true;
-            this.metroTextBox2.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.metroTextBox2.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.Obliquity.CustomButton.Image = null;
+            this.Obliquity.CustomButton.Location = new System.Drawing.Point(130, 1);
+            this.Obliquity.CustomButton.Name = "";
+            this.Obliquity.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.Obliquity.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.Obliquity.CustomButton.TabIndex = 1;
+            this.Obliquity.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.Obliquity.CustomButton.UseSelectable = true;
+            this.Obliquity.CustomButton.Visible = false;
+            this.Obliquity.Lines = new string[0];
+            this.Obliquity.Location = new System.Drawing.Point(89, 282);
+            this.Obliquity.MaxLength = 32767;
+            this.Obliquity.Name = "Obliquity";
+            this.Obliquity.PasswordChar = '\0';
+            this.Obliquity.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.Obliquity.SelectedText = "";
+            this.Obliquity.SelectionLength = 0;
+            this.Obliquity.SelectionStart = 0;
+            this.Obliquity.ShortcutsEnabled = true;
+            this.Obliquity.Size = new System.Drawing.Size(154, 25);
+            this.Obliquity.TabIndex = 27;
+            this.Obliquity.UseSelectable = true;
+            this.Obliquity.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.Obliquity.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // metroLabel11
             // 
@@ -587,59 +572,80 @@
             this.metroLabel11.TabIndex = 30;
             this.metroLabel11.Text = "Orbital Speed (ms⁻¹)";
             // 
-            // metroTextBox3
+            // OrbitalSpeed
             // 
             // 
             // 
             // 
-            this.metroTextBox3.CustomButton.Image = null;
-            this.metroTextBox3.CustomButton.Location = new System.Drawing.Point(78, 1);
-            this.metroTextBox3.CustomButton.Name = "";
-            this.metroTextBox3.CustomButton.Size = new System.Drawing.Size(23, 23);
-            this.metroTextBox3.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroTextBox3.CustomButton.TabIndex = 1;
-            this.metroTextBox3.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.metroTextBox3.CustomButton.UseSelectable = true;
-            this.metroTextBox3.CustomButton.Visible = false;
-            this.metroTextBox3.Lines = new string[0];
-            this.metroTextBox3.Location = new System.Drawing.Point(141, 164);
-            this.metroTextBox3.MaxLength = 32767;
-            this.metroTextBox3.Name = "metroTextBox3";
-            this.metroTextBox3.PasswordChar = '\0';
-            this.metroTextBox3.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.metroTextBox3.SelectedText = "";
-            this.metroTextBox3.SelectionLength = 0;
-            this.metroTextBox3.SelectionStart = 0;
-            this.metroTextBox3.ShortcutsEnabled = true;
-            this.metroTextBox3.Size = new System.Drawing.Size(102, 25);
-            this.metroTextBox3.TabIndex = 29;
-            this.metroTextBox3.UseSelectable = true;
-            this.metroTextBox3.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.metroTextBox3.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.OrbitalSpeed.CustomButton.Image = null;
+            this.OrbitalSpeed.CustomButton.Location = new System.Drawing.Point(78, 1);
+            this.OrbitalSpeed.CustomButton.Name = "";
+            this.OrbitalSpeed.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.OrbitalSpeed.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.OrbitalSpeed.CustomButton.TabIndex = 1;
+            this.OrbitalSpeed.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.OrbitalSpeed.CustomButton.UseSelectable = true;
+            this.OrbitalSpeed.CustomButton.Visible = false;
+            this.OrbitalSpeed.Lines = new string[0];
+            this.OrbitalSpeed.Location = new System.Drawing.Point(141, 164);
+            this.OrbitalSpeed.MaxLength = 32767;
+            this.OrbitalSpeed.Name = "OrbitalSpeed";
+            this.OrbitalSpeed.PasswordChar = '\0';
+            this.OrbitalSpeed.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.OrbitalSpeed.SelectedText = "";
+            this.OrbitalSpeed.SelectionLength = 0;
+            this.OrbitalSpeed.SelectionStart = 0;
+            this.OrbitalSpeed.ShortcutsEnabled = true;
+            this.OrbitalSpeed.Size = new System.Drawing.Size(102, 25);
+            this.OrbitalSpeed.TabIndex = 29;
+            this.OrbitalSpeed.UseSelectable = true;
+            this.OrbitalSpeed.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.OrbitalSpeed.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // ObjectColourButton
+            // 
+            this.ObjectColourButton.Location = new System.Drawing.Point(251, 164);
+            this.ObjectColourButton.Name = "ObjectColourButton";
+            this.ObjectColourButton.Size = new System.Drawing.Size(98, 25);
+            this.ObjectColourButton.TabIndex = 31;
+            this.ObjectColourButton.Text = "Object Colour";
+            this.ObjectColourButton.UseSelectable = true;
+            this.ObjectColourButton.Click += new System.EventHandler(this.ObjectColourButton_Click);
+            // 
+            // TrailColourButton
+            // 
+            this.TrailColourButton.Enabled = false;
+            this.TrailColourButton.Location = new System.Drawing.Point(249, 282);
+            this.TrailColourButton.Name = "TrailColourButton";
+            this.TrailColourButton.Size = new System.Drawing.Size(98, 25);
+            this.TrailColourButton.TabIndex = 32;
+            this.TrailColourButton.Text = "Trail Colour";
+            this.TrailColourButton.UseSelectable = true;
+            this.TrailColourButton.Click += new System.EventHandler(this.TrailColourButton_Click);
             // 
             // ObjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(471, 352);
+            this.Controls.Add(this.TrailColourButton);
+            this.Controls.Add(this.ObjectColourButton);
             this.Controls.Add(this.metroLabel11);
-            this.Controls.Add(this.metroTextBox3);
+            this.Controls.Add(this.OrbitalSpeed);
             this.Controls.Add(this.metroLabel10);
-            this.Controls.Add(this.metroTextBox2);
+            this.Controls.Add(this.Obliquity);
             this.Controls.Add(this.metroLabel9);
             this.Controls.Add(this.metroLabel8);
-            this.Controls.Add(this.metroTextBox1);
-            this.Controls.Add(this.metroCheckBox1);
-            this.Controls.Add(this.metroLabel7);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.TrailLength);
+            this.Controls.Add(this.TrailsActive);
+            this.Controls.Add(this.TrailColour);
             this.Controls.Add(this.ExistingButton);
-            this.Controls.Add(this.metroLabel6);
-            this.Controls.Add(this.ColourSquare);
+            this.Controls.Add(this.ObjectColour);
             this.Controls.Add(this.testButton);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.metroLabel5);
-            this.Controls.Add(this.RadiusTextbox);
+            this.Controls.Add(this.Radius);
             this.Controls.Add(this.metroLabel4);
             this.Controls.Add(this.Mass);
             this.Controls.Add(this.YVec);
@@ -676,23 +682,23 @@
         private MetroFramework.Controls.MetroLabel metroLabel4;
         private MetroFramework.Controls.MetroTextBox Mass;
         private MetroFramework.Controls.MetroLabel metroLabel5;
-        private MetroFramework.Controls.MetroTextBox RadiusTextbox;
+        private MetroFramework.Controls.MetroTextBox Radius;
         private MetroFramework.Controls.MetroButton SaveButton;
         private new MetroFramework.Controls.MetroButton CancelButton;
         private System.Windows.Forms.ColorDialog ColourDialog;
         private MetroFramework.Controls.MetroButton testButton;
-        private System.Windows.Forms.TextBox ColourSquare;
-        private MetroFramework.Controls.MetroLabel metroLabel6;
+        private System.Windows.Forms.TextBox ObjectColour;
         private MetroFramework.Controls.MetroButton ExistingButton;
-        private MetroFramework.Controls.MetroLabel metroLabel7;
-        private MetroFramework.Controls.MetroCheckBox metroCheckBox1;
-        private MetroFramework.Controls.MetroTextBox metroTextBox1;
+        private MetroFramework.Controls.MetroCheckBox TrailsActive;
+        private MetroFramework.Controls.MetroTextBox TrailLength;
         private MetroFramework.Controls.MetroLabel metroLabel8;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox TrailColour;
         private MetroFramework.Controls.MetroLabel metroLabel9;
         private MetroFramework.Controls.MetroLabel metroLabel10;
-        private MetroFramework.Controls.MetroTextBox metroTextBox2;
+        private MetroFramework.Controls.MetroTextBox Obliquity;
         private MetroFramework.Controls.MetroLabel metroLabel11;
-        private MetroFramework.Controls.MetroTextBox metroTextBox3;
+        private MetroFramework.Controls.MetroTextBox OrbitalSpeed;
+        private MetroFramework.Controls.MetroButton ObjectColourButton;
+        private MetroFramework.Controls.MetroButton TrailColourButton;
     }
 }

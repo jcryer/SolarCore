@@ -69,7 +69,7 @@ namespace SolarForms.Database
                 {
                     dict.Add(objReader.GetName(i), objReader[i].ToString());
                 }
-                objects.Add(new SolarObject(dict["Name"], double.Parse(dict["Mass"]), double.Parse(dict["Radius"]), double.Parse(dict["Obliquity"]), double.Parse(dict["OrbitalSpeed"])));
+                objects.Add(new SolarObject(dict["Name"], double.Parse(dict["Mass"]), double.Parse(dict["Radius"]), double.Parse(dict["Obliquity"]), double.Parse(dict["OrbitalSpeed"]), int.Parse(dict["ObjectID"])));
             }
             return objects;
         }

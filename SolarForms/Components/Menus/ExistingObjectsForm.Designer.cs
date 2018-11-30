@@ -68,6 +68,7 @@
             this.ConfirmButton.TabIndex = 14;
             this.ConfirmButton.Text = "Confirm";
             this.ConfirmButton.UseSelectable = true;
+            this.ConfirmButton.Click += new System.EventHandler(this.ConfirmButton_Click);
             // 
             // CancelButton
             // 

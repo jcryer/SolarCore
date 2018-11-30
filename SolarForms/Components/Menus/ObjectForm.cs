@@ -17,22 +17,33 @@ namespace SolarForms.Components.Menus
             InitializeComponent();
             if (s != null)
             {
-                obj = s;
-                NameTextbox.Text = s.Name;
-                XPos.Text = s.Position.X.ToString();
-                YPos.Text = s.Position.Y.ToString();
-                ZPos.Text = s.Position.Z.ToString();
-                XVec.Text = s.Velocity.X.ToString();
-                YVec.Text = s.Velocity.Y.ToString();
-                ZVec.Text = s.Velocity.Z.ToString();
-                Mass.Text = s.Mass.ToString();
-                RadiusTextbox.Text = s.Radius.ToString();
-                ColourDialog.Color = Color.FromArgb(s.ObjectColour.ToArgb());
-                ColourSquare.BackColor = ColourDialog.Color;
-                testButton.Select();
+                Update(s);
+            }
+            else
+            {
+                Sim = new Simulation();
             }
         }
 
+        private void Update(SolarObject s)
+        {
+            obj = s;
+            NameTextbox.Text = s.Name;
+            XPos.Text = s.Position.X.ToString();
+            YPos.Text = s.Position.Y.ToString();
+            ZPos.Text = s.Position.Z.ToString();
+            XVec.Text = s.Velocity.X.ToString();
+            YVec.Text = s.Velocity.Y.ToString();
+            ZVec.Text = s.Velocity.Z.ToString();
+            Mass.Text = s.Mass.ToString();
+            Radius.Text = s.Radius.ToString();
+            if (s.ObjectColour.ToArgb() != 0)
+            {
+                ColourDialog.Color = Color.FromArgb(s.ObjectColour.ToArgb());
+                ObjectColour.BackColor = ColourDialog.Color;
+            }
+            testButton.Select();
+        }
         private bool IsNumberKey (char c)
         {
             if (!Regex.IsMatch(c.ToString(), "[\\d.E]+"))
@@ -86,17 +97,17 @@ namespace SolarForms.Components.Menus
 
         private void ColourSquare_TextChanged(object sender, EventArgs e)
         {
-            if (ColourDialog.ShowDialog() == DialogResult.OK)
-            {
-                ColourSquare.BackColor = ColourDialog.Color;
-                testButton.Select();
 
-            }
         }
 
         private void ExistingButton_Click(object sender, EventArgs e)
         {
-            new ExistingObjectsForm().Show();
+            var form = new ExistingObjectsForm();
+            var result = form.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                Update(form.Object);
+            }
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
@@ -108,6 +119,41 @@ namespace SolarForms.Components.Menus
         private void CancelButton_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void TrailsActive_CheckedChanged(object sender, EventArgs e)
+        {
+            if (TrailsActive.Checked)
+            {
+                TrailLength.Enabled = false;
+                TrailColour.Enabled = false;
+                TrailColourButton.Enabled = false;
+            }
+            else
+            {
+                TrailLength.Enabled = true;
+                TrailColour.Enabled = true;
+                TrailColourButton.Enabled = true;
+            }
+        }
+        
+
+        private void ObjectColourButton_Click(object sender, EventArgs e)
+        {
+            if (ColourDialog.ShowDialog() == DialogResult.OK)
+            {
+                ObjectColour.BackColor = ColourDialog.Color;
+                testButton.Select();
+            }
+        }
+
+        private void TrailColourButton_Click(object sender, EventArgs e)
+        {
+            if (ColourDialog.ShowDialog() == DialogResult.OK)
+            {
+                TrailColour.BackColor = ColourDialog.Color;
+                testButton.Select();
+            }
         }
     }
 }

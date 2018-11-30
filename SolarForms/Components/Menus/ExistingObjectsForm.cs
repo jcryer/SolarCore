@@ -14,10 +14,13 @@ namespace SolarForms.Components.Menus
 {
     public partial class ExistingObjectsForm : MetroForm
     {
+        public SolarObject Object;
+        public List<SolarObject> Objects;
         public ExistingObjectsForm()
         {
+            Objects = DatabaseMethods.GetObjects();
             InitializeComponent();
-            foreach (var o in DatabaseMethods.GetObjects())
+            foreach (var o in Objects)
             {
                 ObjectList.Items.Add(o.Name);
             }
@@ -34,6 +37,13 @@ namespace SolarForms.Components.Menus
                 ConfirmButton.Enabled = true;
 
             }
+        }
+
+        private void ConfirmButton_Click(object sender, EventArgs e)
+        {
+            Object = Objects.First(x => x.Name == ObjectList.SelectedItems[0].Text);
+            DialogResult = DialogResult.OK;
+            Close();
         }
     }
 }

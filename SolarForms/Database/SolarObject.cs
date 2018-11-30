@@ -12,6 +12,7 @@ namespace SolarForms.Database
 {
     public class SolarObject
     {
+        public int DatabaseID;
         public int Id;
         public string Name;
         public double Mass;
@@ -45,8 +46,9 @@ namespace SolarForms.Database
 
         }
 
-        public SolarObject(string name, double mass, double radius, double obliquity, double orbitalSpeed)
+        public SolarObject(string name, double mass, double radius, double obliquity, double orbitalSpeed, int databaseId = 0)
         {
+            DatabaseID = databaseId;
             Name = name;
             Mass = mass;
             Radius = radius;
