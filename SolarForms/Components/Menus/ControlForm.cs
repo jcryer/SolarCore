@@ -24,9 +24,12 @@ namespace SolarForms.Components.Menus
                 metroButton1.PerformClick();
                 Hide();
             }
+            int id = 0;
             foreach (var obj in Simulation.PlanetarySystem.Objects)
             {
-                ObjectList.Items.Add(obj.Name);
+                id++;
+                ObjectList.Items.Add($"{id}: {obj.Name}");
+                obj.ID = id;
             }
         }
         
@@ -85,7 +88,6 @@ namespace SolarForms.Components.Menus
         private void SpeedControl_ValueChanged(object sender, EventArgs e)
         {
             Simulation.Speed = SpeedControl.Value;
-
         }
 
         private void PlayButton_Click(object sender, EventArgs e)
@@ -128,15 +130,14 @@ namespace SolarForms.Components.Menus
             var result = form.ShowDialog();
             if (result == DialogResult.OK)
             {
-                if (Simulation.PlanetarySystem.Objects.Any(x => x.Id == form.obj.Id))
+                int last = 1;
+                if (ObjectList.Items.Count != 0)
                 {
-                    Simulation.PlanetarySystem.Objects[Simulation.PlanetarySystem.Objects.IndexOf(form.obj)] = form.obj;
+                    last = ObjectList.Items.Count + 1;
                 }
-                else
-                {
-                    Simulation.PlanetarySystem.Objects.Add(form.obj);
-                    ObjectList.Items.Add(form.obj.Name);
-                }
+                form.SolarObject.ID = last;
+                Simulation.PlanetarySystem.Objects.Add(form.SolarObject);
+                ObjectList.Items.Add(form.SolarObject.ID + ": " + form.SolarObject.Name);
             }
         }
 
@@ -149,7 +150,13 @@ namespace SolarForms.Components.Menus
 
         private void EditButton_Click(object sender, EventArgs e)
         {
-
+            var form = new ObjectForm(Simulation, Simulation.PlanetarySystem.Objects.First(x => x.ID + ": " + x.Name == ObjectList.SelectedItems[0].Text));
+            var result = form.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                Simulation.PlanetarySystem.Objects[Simulation.PlanetarySystem.Objects.IndexOf(form.SolarObject)] = form.SolarObject;
+                ObjectList.SelectedItems[0].Text = form.SolarObject.ID + ": " + form.SolarObject.Name;
+            }
         }
 
         private void ObjectList_SelectedIndexChanged(object sender, EventArgs e)

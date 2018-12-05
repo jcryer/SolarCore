@@ -26,7 +26,6 @@ namespace SolarForms.Components
             telnetClient.ConnectionClosed += HandleConnectionClosed;
             telnetClient.MessageReceived += HandleMessageReceived;
             telnetClient.Connect();
-         //   Console.ReadLine();
             while (!Done)
             {
                 continue;

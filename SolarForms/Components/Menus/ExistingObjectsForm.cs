@@ -1,4 +1,5 @@
 ﻿using MetroFramework.Forms;
+using OpenTK;
 using SolarForms.Database;
 using System;
 using System.Collections.Generic;
@@ -15,14 +16,31 @@ namespace SolarForms.Components.Menus
     public partial class ExistingObjectsForm : MetroForm
     {
         public SolarObject Object;
+        public Vector3 Location;
         public List<SolarObject> Objects;
-        public ExistingObjectsForm()
+        public Dictionary<string, Vector3> Locations;
+
+        int Mode = 0;
+        public ExistingObjectsForm(int mode = 0)
         {
-            Objects = DatabaseMethods.GetObjects();
+            Mode = mode;
             InitializeComponent();
-            foreach (var o in Objects)
+
+            if (mode == 0)
             {
-                ObjectList.Items.Add(o.Name);
+                Objects = DatabaseMethods.GetObjects();
+                foreach (var o in Objects)
+                {
+                    ObjectList.Items.Add(o.Name);
+                }
+            }
+            else
+            {
+                Locations = DatabaseMethods.GetLocationPresets(mode-1);
+                foreach (var o in Locations.Keys)
+                {
+                    ObjectList.Items.Add(o);
+                }
             }
         }
 
@@ -41,9 +59,19 @@ namespace SolarForms.Components.Menus
 
         private void ConfirmButton_Click(object sender, EventArgs e)
         {
-            Object = Objects.First(x => x.Name == ObjectList.SelectedItems[0].Text);
+            if (Mode == 0)
+                Object = Objects.First(x => x.Name == ObjectList.SelectedItems[0].Text);
+            else
+                Location = Locations[ObjectList.SelectedItems[0].Text];
+
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void CancelButton_Click(object sender, EventArgs e)
+        {
+            Close();
+
         }
     }
 }

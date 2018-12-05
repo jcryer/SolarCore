@@ -13,7 +13,7 @@ namespace SolarForms.Database
     public class SolarObject
     {
         public int DatabaseID;
-        public int Id;
+        public int ID;
         public string Name;
         public double Mass;
         public double Radius;
@@ -28,9 +28,12 @@ namespace SolarForms.Database
         public RenderObject Obj;
 
         public List<Vector3> Positions;
-        public SolarObject(int id, string name, double mass, double radius, double obliquity, double orbitalSpeed, bool trailsActive, int trailLength, Color4 trailColour, Color4 objectColour, Vector3 position, Vector3 velocity)
+        public SolarObject()
         {
-            Id = id;
+
+        }
+        public SolarObject(string name, double mass, double radius, double obliquity, double orbitalSpeed, bool trailsActive, int trailLength, Color4 trailColour, Color4 objectColour, Vector3 position, Vector3 velocity)
+        {
             Name = name;
             Mass = mass;
             Radius = radius;
@@ -43,7 +46,6 @@ namespace SolarForms.Database
             Position = position;
             Velocity = velocity;
             Positions = new List<Vector3>();
-
         }
 
         public SolarObject(string name, double mass, double radius, double obliquity, double orbitalSpeed, int databaseId = 0)
