@@ -53,7 +53,8 @@ namespace SolarForms
                 "`ZoomModifier`	REAL NOT NULL," +
                 "`Focus`	INTEGER NOT NULL," +
                 "`Fixed`	INTEGER NOT NULL," +
-                "`Speed`	REAL NOT NULL," +
+                "`Speed`	INTEGER NOT NULL," +
+                "'SpeedModifier' INTEGER NOT NULL," +
                 "`Scale`	INTEGER NOT NULL," +
                 "FOREIGN KEY(`PlanetarySystemID`) REFERENCES `PlanetarySystem`(`PlanetarySystemID`)); ", DBConnection);
 
@@ -74,14 +75,13 @@ namespace SolarForms
             Simulation.ExecuteNonQuery();
             ObjectView.ExecuteNonQuery();
 
-            //Database.DatabaseMethods.AddObject(1111);
+           // int[] test = new int[] { 10, 199, 299, 399, 499, 599, 699, 799, 899, 999 };
+           // foreach (int i in test)
+           //     Database.DatabaseMethods.AddObject(i);
             Console.WriteLine("Done!");
          
             new Components.Menus.MainMenu().Show();
-            //new PresetMenu().Show();
             Application.Run();
-            //new ControlForm().ShowDialog();
-           // new MainWindow().Run(60);
         }
     }
 }

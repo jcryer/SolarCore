@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlForm));
             this.SpeedControl = new MetroFramework.Controls.MetroTrackBar();
             this.SpeedControlLabel = new System.Windows.Forms.Label();
-            this.metroButton1 = new MetroFramework.Controls.MetroButton();
+            this.RunButton = new MetroFramework.Controls.MetroButton();
             this.PlayButton = new MetroFramework.Controls.MetroButton();
             this.PauseButton = new MetroFramework.Controls.MetroButton();
             this.RestartButton = new MetroFramework.Controls.MetroButton();
@@ -66,15 +66,15 @@
             this.SpeedControlLabel.TabIndex = 1;
             this.SpeedControlLabel.Text = "Speed Control";
             // 
-            // metroButton1
+            // RunButton
             // 
-            this.metroButton1.Location = new System.Drawing.Point(12, 64);
-            this.metroButton1.Name = "metroButton1";
-            this.metroButton1.Size = new System.Drawing.Size(172, 23);
-            this.metroButton1.TabIndex = 8;
-            this.metroButton1.Text = "Run";
-            this.metroButton1.UseSelectable = true;
-            this.metroButton1.Click += new System.EventHandler(this.metroButton1_Click);
+            this.RunButton.Location = new System.Drawing.Point(12, 64);
+            this.RunButton.Name = "RunButton";
+            this.RunButton.Size = new System.Drawing.Size(172, 23);
+            this.RunButton.TabIndex = 8;
+            this.RunButton.Text = "Run";
+            this.RunButton.UseSelectable = true;
+            this.RunButton.Click += new System.EventHandler(this.RunButton_Click);
             // 
             // PlayButton
             // 
@@ -187,7 +187,7 @@
             this.Controls.Add(this.RestartButton);
             this.Controls.Add(this.PauseButton);
             this.Controls.Add(this.PlayButton);
-            this.Controls.Add(this.metroButton1);
+            this.Controls.Add(this.RunButton);
             this.Controls.Add(this.SpeedControl);
             this.Controls.Add(this.SpeedControlLabel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -196,7 +196,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Controls";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ControlForm_FormClosing);
-            this.Load += new System.EventHandler(this.ControlForm_Load);
             this.Resize += new System.EventHandler(this.ControlForm_Resize);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -206,7 +205,7 @@
         #endregion
         private MetroFramework.Controls.MetroTrackBar SpeedControl;
         private System.Windows.Forms.Label SpeedControlLabel;
-        private MetroFramework.Controls.MetroButton metroButton1;
+        private MetroFramework.Controls.MetroButton RunButton;
         private MetroFramework.Controls.MetroButton PlayButton;
         private MetroFramework.Controls.MetroButton PauseButton;
         private MetroFramework.Controls.MetroButton RestartButton;

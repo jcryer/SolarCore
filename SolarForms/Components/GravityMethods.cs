@@ -9,18 +9,8 @@ namespace SolarForms.Components
     static class GravityMethods
     {
         private const double GRAV = 6.67408e-11;
-     //   private const double GRAV = 0;
 
         public static double GetDistance(SolarObject obj1, SolarObject obj2)
-        {
-            var x = obj1.Position.X - obj2.Position.X;
-            var y = obj1.Position.Y - obj2.Position.Y;
-            var z = obj1.Position.Z - obj2.Position.Z;
-
-            return Math.Sqrt(x * x + y * y + z * z);
-        }
-
-        public static double GetDistance(LineObject obj1, LineObject obj2)
         {
             var x = obj1.Position.X - obj2.Position.X;
             var y = obj1.Position.Y - obj2.Position.Y;
@@ -37,7 +27,6 @@ namespace SolarForms.Components
 
         public static Vector3 GetPositionDifference(Vector3 vec1, Vector3 vec2)
         {
-
             return new Vector3(vec1.X - vec2.X, vec1.Y - vec2.Y, vec1.Z - vec2.Z);
         }
 

@@ -94,12 +94,12 @@ namespace SolarForms.Components.Menus
     }
     public enum Presets
     {
-        None,
-        BinaryStar,
         SolarSystem,
+        BinaryStar,
         TwoBodyDiagram1,
         TwoBodyDiagram2,
         ThreeBodyDiagram,
-        BlackHole
+        BlackHole,
+        None
     }
 }

@@ -14,16 +14,27 @@ namespace SolarForms.Components.Menus
         public Simulation Simulation;
         public ControlForm(Presets preset = Presets.None)
         {
-            Simulation = DatabaseMethods.GetSimulation(1);
             InitializeComponent();
+
+            if (preset != Presets.None)
+            {
+                Simulation = DatabaseMethods.GetSimulation((int)preset);
+            }
+            else
+            {
+                Simulation = new Simulation();
+
+                Simulation.Camera = new Camera(1000, 100000, 0, false);
+                Simulation.Scale = 1000000;
+                Simulation.SpeedModifier = 100000;
+                Simulation.Speed = 1;
+
+                RunButton.Enabled = false;
+            }
             KeyPreview = true;
             Thread t = new Thread(() => UpdateFields());
             t.Start();
-            if (preset != Presets.None)
-            {
-                metroButton1.PerformClick();
-                Hide();
-            }
+
             int id = 0;
             foreach (var obj in Simulation.PlanetarySystem.Objects)
             {
@@ -55,36 +66,13 @@ namespace SolarForms.Components.Menus
         {
             Simulation.Speed = SpeedControl.Value;
         }
-
-        private void ControlForm_KeyDown(object sender, KeyEventArgs e)
-        {
-
-        }
+        
         private void ControlForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (Window != null)
                 Window.Exit();
         }
-
-        private void ControlForm_Load(object sender, EventArgs e)
-        {
-         //   metroButton1.PerformClick();
-
-        }
-        private void metroButton1_Click(object sender, EventArgs e)
-        {
-            if (Window == null)
-            {
-                Window = new MainWindow(Simulation);
-                Window.Run(60);
-            }
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        
         private void SpeedControl_ValueChanged(object sender, EventArgs e)
         {
             Simulation.Speed = SpeedControl.Value;
@@ -104,11 +92,6 @@ namespace SolarForms.Components.Menus
         {
             Window.ResetSim();
             Simulation.Speed = SpeedControl.Value;
-        }
-
-        private void metroButton2_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void ControlForm_Resize(object sender, EventArgs e)
@@ -138,14 +121,16 @@ namespace SolarForms.Components.Menus
                 form.SolarObject.ID = last;
                 Simulation.PlanetarySystem.Objects.Add(form.SolarObject);
                 ObjectList.Items.Add(form.SolarObject.ID + ": " + form.SolarObject.Name);
+                RunButton.Enabled = true;
             }
         }
 
         private void RemoveButton_Click(object sender, EventArgs e)
         {
-            Simulation.PlanetarySystem.Objects.RemoveAll(x => x.Name == ObjectList.SelectedItems[0].Text);
+            Simulation.PlanetarySystem.Objects.RemoveAll(x => x.ID + ": " + x.Name == ObjectList.SelectedItems[0].Text);
             ObjectList.Items.Remove(ObjectList.SelectedItems[0]);
-            
+            if (Simulation.PlanetarySystem.Objects.Count == 0)
+                RunButton.Enabled = false;
         }
 
         private void EditButton_Click(object sender, EventArgs e)
@@ -171,6 +156,15 @@ namespace SolarForms.Components.Menus
                 RemoveButton.Enabled = true;
                 EditButton.Enabled = true;
 
+            }
+        }
+
+        private void RunButton_Click(object sender, EventArgs e)
+        {
+            if (Window == null)
+            {
+                Window = new MainWindow(Simulation);
+                Window.Run(60);
             }
         }
     }

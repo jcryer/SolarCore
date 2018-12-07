@@ -62,8 +62,8 @@ namespace SolarForms.Components
             Closed += OnClosed;
             RenderFrame += (sender, f) => OnRenderFrame(f);
 
-            Thread t = new Thread(() => test());
-            t.Start();
+          //  Thread t = new Thread(() => test());
+          //  t.Start();
         }
 
         private void test()

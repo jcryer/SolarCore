@@ -227,6 +227,8 @@ namespace SolarForms.Components.Menus
             var result = form.ShowDialog();
             if (result == DialogResult.OK)
             {
+                form.Object.Position = DatabaseMethods.GetLocationPresets(0)[form.Object.Name];
+                form.Object.Velocity = DatabaseMethods.GetLocationPresets(1)[form.Object.Name];
                 Update(form.Object);
             }
         }
@@ -253,9 +255,20 @@ namespace SolarForms.Components.Menus
                 ErrorMessage.Text = "'Mass' field must not be empty.";
                 return;
             }
+
+            if (SolarObject.Mass <= 0)
+            {
+                ErrorMessage.Text = "'Mass' field must be greater than 0.";
+                return;
+            }
             if (!SetRadius())
             {
                 ErrorMessage.Text = "'Radius' field must not be empty.";
+                return;
+            }
+            if (SolarObject.Radius <= 0)
+            {
+                ErrorMessage.Text = "'Radius' field must be greater than 0.";
                 return;
             }
             SetOther();
@@ -320,7 +333,7 @@ namespace SolarForms.Components.Menus
             var result = form.ShowDialog();
             if (result == DialogResult.OK)
             {
-                SolarObject.Position = form.Location;
+                SolarObject.Velocity = form.Location;
                 Update(SolarObject);
             }
         }

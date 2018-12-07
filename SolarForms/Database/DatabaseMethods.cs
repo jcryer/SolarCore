@@ -98,7 +98,7 @@ namespace SolarForms.Database
             }
             return results;
         }
-
+        static int i = 0;
         public static bool AddObject(int id)
         {
             var t = new Telnet().Run(id);
@@ -107,11 +107,14 @@ namespace SolarForms.Database
 
             var add = new SQLiteCommand(addString, Program.DBConnection);
             add.ExecuteNonQuery();
-
-            string addinitvaluesString = $"insert into InitialValues (Name, Mass, Radius, Obliquity, OrbitalSpeed) values('{t.Name}', '{t.Mass}', '{t.Radius}', 0, 0);";
+            var position = t.GetPosition();
+            var velocity = t.GetVelocity();
+            string addinitvaluesString = $"insert into InitialValues (ObjectID, PlanetarySystemID, PositionX, PositionY, PositionZ, VelocityX, VelocityY, VelocityZ) values('{i}', '0', '{position.X}', '{position.Y}', '{position.Z}', '{velocity.X}', '{velocity.Y}', '{velocity.Z}');";
 
             var addinitValues = new SQLiteCommand(addinitvaluesString, Program.DBConnection);
-            add.ExecuteNonQuery();
+            addinitValues.ExecuteNonQuery();
+            i++;
+
             return true;
         }
     }

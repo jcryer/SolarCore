@@ -13,12 +13,13 @@ namespace SolarForms.Database
     {
         public PlanetarySystem PlanetarySystem;
         public int Speed;
+        public int SpeedModifier;
         public MouseState OldMouseState = Mouse.GetState();
         public KeyboardState OldKeyState = Keyboard.GetState();
-        public int CurrentFrame = 0;
+        public int CurrentFrame;
         public Camera Camera;
         public bool Paused;
-        public int Scale = 10000000;
+        public int Scale;
 
         public Simulation()
         {
@@ -32,7 +33,7 @@ namespace SolarForms.Database
                 List<AggregateObject> response = new List<AggregateObject>();
                 foreach (var obj in PlanetarySystem.Objects)
                 {
-                    response.Add(GravityMethods.RecalculateValues(obj, PlanetarySystem.Objects.Where(x => x != obj).ToList(), Speed));
+                    response.Add(GravityMethods.RecalculateValues(obj, PlanetarySystem.Objects.Where(x => x != obj).ToList(), Speed * SpeedModifier));
                 }
 
                 foreach (var x in response)
