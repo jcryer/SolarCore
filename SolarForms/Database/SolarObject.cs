@@ -27,6 +27,9 @@ namespace SolarForms.Database
         public Vector3 Velocity;
         public RenderObject Obj;
 
+        public Vector3 InitialPosition;
+        public Vector3 InitialVelocity;
+
         public List<Vector3> Positions;
         public SolarObject()
         {
@@ -45,7 +48,7 @@ namespace SolarForms.Database
             ObjectColour = objectColour;
             Position = position;
             Velocity = velocity;
-            Positions = new List<Vector3>();
+            Positions = new List<Vector3>(); 
         }
 
         public SolarObject(string name, double mass, double radius, double obliquity, double orbitalSpeed, int databaseId = 0)
@@ -58,13 +61,13 @@ namespace SolarForms.Database
             OrbitalSpeed = orbitalSpeed;
             Positions = new List<Vector3>();
         }
-        public void Render(Matrix4 projectionMatrix)
+        public void Render(Matrix4 projectionMatrix, int scale)
         {
             Obj.Bind();
             var t2 = Matrix4.CreateTranslation(Position);
             var r1 = Matrix4.CreateRotationZ((float)Obliquity);
 
-            var s = Matrix4.CreateScale((float)Radius/100);
+            var s = Matrix4.CreateScale((float)Radius / scale);
             var _modelView = r1 * s * t2 * projectionMatrix;
             GL.UniformMatrix4(21, false, ref _modelView);
             Obj.Render();

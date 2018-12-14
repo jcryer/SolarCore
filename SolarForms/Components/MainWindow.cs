@@ -49,6 +49,8 @@ namespace SolarForms.Components
             foreach (var x in Simulation.PlanetarySystem.Objects)
             {
                 x.Obj = new RenderObject(new Sphere().CreateSphere(3, x.ObjectColour));
+                x.InitialPosition = x.Position;
+                x.InitialVelocity = x.Velocity;
             }
             //  Simulation.SimObject.Run(100000);
             Simulation.Run(1000000);
@@ -124,11 +126,11 @@ namespace SolarForms.Components
                 }
                 if (keyState.IsKeyDown(Key.Left))
                 {
-                    Simulation.Speed = Simulation.Speed >= 20 ? 20 : Simulation.Speed - 1;
+                    Simulation.Speed = Simulation.Speed <= -50 ? -50 : Simulation.Speed - 1;
                 }
                 if (keyState.IsKeyDown(Key.Right))
                 {
-                    Simulation.Speed = Simulation.Speed <= -20 ? 20 : Simulation.Speed + 1;
+                    Simulation.Speed = Simulation.Speed >= 50 ? 50 : Simulation.Speed + 1;
                 }
                 if (keyState.IsKeyDown(Key.S))
                 {
@@ -235,6 +237,34 @@ namespace SolarForms.Components
         double secondsElapsed = 0;
         protected override void OnRenderFrame(FrameEventArgs e)
         {
+            bool newObjects = false;
+            foreach (var obj in Simulation.PlanetarySystem.Objects)
+            {
+                if (obj.Obj == null)
+                {
+                    obj.InitialPosition = obj.Position;
+                    obj.InitialVelocity = obj.Velocity;
+                    newObjects = true;
+                    break;
+                }
+            }
+            if (newObjects || Simulation.Changed)
+            {
+                foreach (var obj in Simulation.PlanetarySystem.Objects)
+                {
+                    obj.Obj = new RenderObject(new Sphere().CreateSphere(3, obj.ObjectColour));
+                    obj.Position = obj.InitialPosition;
+                    obj.Velocity = obj.InitialVelocity;
+                    obj.Positions.Clear();
+                }
+                ResetSim();
+                Simulation.Run(100000);
+                foreach (var obj in Simulation.PlanetarySystem.Objects)
+                {
+                    obj.Position = obj.Positions.First();
+                }
+                Simulation.Changed = false;
+            }
             /*
             if (Simulation.PlanetarySystem.PreRenderedObjects != null)
             {
@@ -278,9 +308,17 @@ namespace SolarForms.Components
                 if (!Simulation.Paused)
                 {
                     obj.Position = obj.Positions[Simulation.CurrentFrame] / Simulation.Scale;
-                    LineObjects.Add(new LineObject(obj.Position, obj.ObjectColour, obj.Radius / 10));
+                    if (obj.TrailsActive)
+                    {
+                        LineObjects.Add(new LineObject(obj.Position, obj.TrailColour,  obj.TrailLength, obj.Radius / (Simulation.TrailScale * 10)));
+                    }
                 }
-                obj.Render(matrixStuff);
+                int test = 1;
+                if (obj.Name != "Sun")
+                {
+                    test = 10;
+                }
+                obj.Render(matrixStuff, Simulation.TrailScale/test);
             }
 
             for (int i = 0; i < LineObjects.Count; i++)

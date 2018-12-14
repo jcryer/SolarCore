@@ -40,6 +40,7 @@
             this.AddButton = new MetroFramework.Controls.MetroButton();
             this.RemoveButton = new MetroFramework.Controls.MetroButton();
             this.EditButton = new MetroFramework.Controls.MetroButton();
+            this.AdvancedButton = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
             // 
             // SpeedControl
@@ -47,8 +48,8 @@
             this.SpeedControl.BackColor = System.Drawing.Color.Transparent;
             this.SpeedControl.LargeChange = 2;
             this.SpeedControl.Location = new System.Drawing.Point(12, 131);
-            this.SpeedControl.Maximum = 500;
-            this.SpeedControl.Minimum = -500;
+            this.SpeedControl.Maximum = 50;
+            this.SpeedControl.Minimum = -50;
             this.SpeedControl.Name = "SpeedControl";
             this.SpeedControl.Size = new System.Drawing.Size(172, 23);
             this.SpeedControl.TabIndex = 7;
@@ -80,9 +81,9 @@
             // 
             this.PlayButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PlayButton.Location = new System.Drawing.Point(12, 398);
+            this.PlayButton.Location = new System.Drawing.Point(12, 390);
             this.PlayButton.Name = "PlayButton";
-            this.PlayButton.Size = new System.Drawing.Size(172, 25);
+            this.PlayButton.Size = new System.Drawing.Size(80, 25);
             this.PlayButton.TabIndex = 9;
             this.PlayButton.Text = "Play";
             this.PlayButton.UseSelectable = true;
@@ -92,9 +93,9 @@
             // 
             this.PauseButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PauseButton.Location = new System.Drawing.Point(12, 429);
+            this.PauseButton.Location = new System.Drawing.Point(104, 390);
             this.PauseButton.Name = "PauseButton";
-            this.PauseButton.Size = new System.Drawing.Size(172, 25);
+            this.PauseButton.Size = new System.Drawing.Size(80, 25);
             this.PauseButton.TabIndex = 10;
             this.PauseButton.Text = "Pause";
             this.PauseButton.UseSelectable = true;
@@ -104,7 +105,7 @@
             // 
             this.RestartButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.RestartButton.Location = new System.Drawing.Point(12, 460);
+            this.RestartButton.Location = new System.Drawing.Point(12, 421);
             this.RestartButton.Name = "RestartButton";
             this.RestartButton.Size = new System.Drawing.Size(172, 25);
             this.RestartButton.TabIndex = 11;
@@ -117,6 +118,7 @@
             this.ObjectList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ObjectList.CheckBoxes = true;
             this.ObjectList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ColumnOne});
             this.ObjectList.Font = new System.Drawing.Font("Segoe UI", 12F);
@@ -125,11 +127,12 @@
             this.ObjectList.MultiSelect = false;
             this.ObjectList.Name = "ObjectList";
             this.ObjectList.OwnerDraw = true;
-            this.ObjectList.Size = new System.Drawing.Size(172, 187);
+            this.ObjectList.Size = new System.Drawing.Size(172, 189);
             this.ObjectList.TabIndex = 12;
             this.ObjectList.UseCompatibleStateImageBehavior = false;
             this.ObjectList.UseSelectable = true;
             this.ObjectList.View = System.Windows.Forms.View.List;
+            this.ObjectList.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ObjectList_ItemChecked);
             this.ObjectList.SelectedIndexChanged += new System.EventHandler(this.ObjectList_SelectedIndexChanged);
             // 
             // ColumnOne
@@ -141,7 +144,7 @@
             // 
             this.AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.AddButton.Location = new System.Drawing.Point(12, 355);
+            this.AddButton.Location = new System.Drawing.Point(12, 357);
             this.AddButton.Name = "AddButton";
             this.AddButton.Size = new System.Drawing.Size(50, 25);
             this.AddButton.TabIndex = 13;
@@ -154,7 +157,7 @@
             this.RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RemoveButton.Enabled = false;
-            this.RemoveButton.Location = new System.Drawing.Point(73, 355);
+            this.RemoveButton.Location = new System.Drawing.Point(73, 357);
             this.RemoveButton.Name = "RemoveButton";
             this.RemoveButton.Size = new System.Drawing.Size(50, 25);
             this.RemoveButton.TabIndex = 14;
@@ -167,7 +170,7 @@
             this.EditButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.EditButton.Enabled = false;
-            this.EditButton.Location = new System.Drawing.Point(134, 355);
+            this.EditButton.Location = new System.Drawing.Point(134, 357);
             this.EditButton.Name = "EditButton";
             this.EditButton.Size = new System.Drawing.Size(50, 25);
             this.EditButton.TabIndex = 15;
@@ -175,11 +178,21 @@
             this.EditButton.UseSelectable = true;
             this.EditButton.Click += new System.EventHandler(this.EditButton_Click);
             // 
+            // AdvancedButton
+            // 
+            this.AdvancedButton.Location = new System.Drawing.Point(12, 606);
+            this.AdvancedButton.Name = "AdvancedButton";
+            this.AdvancedButton.Size = new System.Drawing.Size(172, 23);
+            this.AdvancedButton.TabIndex = 19;
+            this.AdvancedButton.Text = "Advanced";
+            this.AdvancedButton.UseSelectable = true;
+            // 
             // ControlForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(200, 503);
+            this.ClientSize = new System.Drawing.Size(200, 652);
+            this.Controls.Add(this.AdvancedButton);
             this.Controls.Add(this.EditButton);
             this.Controls.Add(this.RemoveButton);
             this.Controls.Add(this.AddButton);
@@ -214,5 +227,6 @@
         private MetroFramework.Controls.MetroButton AddButton;
         private MetroFramework.Controls.MetroButton RemoveButton;
         private MetroFramework.Controls.MetroButton EditButton;
+        private MetroFramework.Controls.MetroButton AdvancedButton;
     }
 }

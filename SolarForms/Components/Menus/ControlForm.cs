@@ -24,9 +24,11 @@ namespace SolarForms.Components.Menus
             {
                 Simulation = new Simulation();
 
-                Simulation.Camera = new Camera(1000, 100000, 0, false);
-                Simulation.Scale = 1000000;
-                Simulation.SpeedModifier = 100000;
+                Simulation.Camera = new Camera(10000, 10000, 0, false);
+                Simulation.Scale = 10000000;
+                Simulation.TrailScale = 100;
+
+                Simulation.SpeedModifier = 10000;
                 Simulation.Speed = 1;
 
                 RunButton.Enabled = false;
@@ -109,6 +111,7 @@ namespace SolarForms.Components.Menus
 
         private void AddButton_Click(object sender, EventArgs e)
         {
+
             var form = new ObjectForm(Simulation);
             var result = form.ShowDialog();
             if (result == DialogResult.OK)
@@ -122,6 +125,7 @@ namespace SolarForms.Components.Menus
                 Simulation.PlanetarySystem.Objects.Add(form.SolarObject);
                 ObjectList.Items.Add(form.SolarObject.ID + ": " + form.SolarObject.Name);
                 RunButton.Enabled = true;
+                if (Window != null) Simulation.Changed = true;
             }
         }
 
@@ -131,6 +135,8 @@ namespace SolarForms.Components.Menus
             ObjectList.Items.Remove(ObjectList.SelectedItems[0]);
             if (Simulation.PlanetarySystem.Objects.Count == 0)
                 RunButton.Enabled = false;
+            if (Window != null) Simulation.Changed = true;
+
         }
 
         private void EditButton_Click(object sender, EventArgs e)
@@ -141,6 +147,7 @@ namespace SolarForms.Components.Menus
             {
                 Simulation.PlanetarySystem.Objects[Simulation.PlanetarySystem.Objects.IndexOf(form.SolarObject)] = form.SolarObject;
                 ObjectList.SelectedItems[0].Text = form.SolarObject.ID + ": " + form.SolarObject.Name;
+                if (Window != null) Simulation.Changed = true;
             }
         }
 
@@ -165,6 +172,25 @@ namespace SolarForms.Components.Menus
             {
                 Window = new MainWindow(Simulation);
                 Window.Run(60);
+            }
+        }
+
+        private void ObjectList_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            ListViewItem item = e.Item as ListViewItem;
+            if (ObjectList.CheckedItems.Count == 1)
+            {
+                Simulation.Camera.Focus = int.Parse(ObjectList.CheckedItems[0].Text.Split(':')[0]) -1;
+            }
+            else
+            {
+                for (int i = 0; i < ObjectList.CheckedItems.Count; i++)
+                {
+                    if (ObjectList.CheckedItems[i] != item)
+                    {
+                        ObjectList.CheckedItems[i].Checked = false;
+                    }
+                }
             }
         }
     }

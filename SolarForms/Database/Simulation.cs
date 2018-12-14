@@ -20,6 +20,8 @@ namespace SolarForms.Database
         public Camera Camera;
         public bool Paused;
         public int Scale;
+        public int TrailScale;
+        public bool Changed = false;
 
         public Simulation()
         {

@@ -16,11 +16,11 @@ namespace SolarForms.Components
         public RenderObject Object;
         public int DeleteBy;
 
-        public LineObject(Vector3 position, Color4 colour, double radius = 1)
+        public LineObject(Vector3 position, Color4 colour,int deleteBy, double radius = 1)
         {
             Position = position;
             Object = new RenderObject(new Sphere().CreateSphere(2, colour));
-            DeleteBy = 6000;
+            DeleteBy = deleteBy;
             Radius = radius;
         }
 
