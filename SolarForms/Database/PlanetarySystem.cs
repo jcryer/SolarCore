@@ -9,6 +9,7 @@ namespace SolarForms.Database
 {
     public class PlanetarySystem
     {
+        public int DatabaseID;
         public string Name;
         public string Description;
         public List<SolarObject> Objects;
@@ -23,6 +24,7 @@ namespace SolarForms.Database
             Name = name;
             Description = description;
             Objects = new List<SolarObject>();
+            DatabaseID = -1;
         }
 
         

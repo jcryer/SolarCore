@@ -19,15 +19,23 @@ namespace SolarForms.Components.Menus
             if (preset != Presets.None)
             {
                 Simulation = DatabaseMethods.GetSimulation((int)preset);
+                if (!Simulation.PlanetarySystem.Objects.Any())
+                {
+                    RunButton.Enabled = false;
+                    SaveSimulation.Enabled = false;
+                }
+                else
+                {
+                    RunButton.Enabled = true;
+                    SaveSimulation.Enabled = true;
+                }
             }
             else
             {
                 Simulation = new Simulation();
-
                 Simulation.Camera = new Camera(10000, 10000, 0, false);
                 Simulation.Scale = 10000000;
                 Simulation.TrailScale = 100;
-
                 Simulation.SpeedModifier = 10000;
                 Simulation.Speed = 1;
 
@@ -192,6 +200,12 @@ namespace SolarForms.Components.Menus
                     }
                 }
             }
+        }
+
+        private void SaveSimulation_Click(object sender, EventArgs e)
+        {
+            DatabaseMethods.SetSimulation(Simulation);
+
         }
     }
 }

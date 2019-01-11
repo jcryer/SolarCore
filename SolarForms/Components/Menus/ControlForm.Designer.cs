@@ -41,6 +41,7 @@
             this.RemoveButton = new MetroFramework.Controls.MetroButton();
             this.EditButton = new MetroFramework.Controls.MetroButton();
             this.AdvancedButton = new MetroFramework.Controls.MetroButton();
+            this.SaveSimulation = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
             // 
             // SpeedControl
@@ -187,11 +188,24 @@
             this.AdvancedButton.Text = "Advanced";
             this.AdvancedButton.UseSelectable = true;
             // 
+            // SaveSimulation
+            // 
+            this.SaveSimulation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SaveSimulation.Location = new System.Drawing.Point(12, 575);
+            this.SaveSimulation.Name = "SaveSimulation";
+            this.SaveSimulation.Size = new System.Drawing.Size(172, 25);
+            this.SaveSimulation.TabIndex = 20;
+            this.SaveSimulation.Text = "Save As";
+            this.SaveSimulation.UseSelectable = true;
+            this.SaveSimulation.Click += new System.EventHandler(this.SaveSimulation_Click);
+            // 
             // ControlForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(200, 652);
+            this.Controls.Add(this.SaveSimulation);
             this.Controls.Add(this.AdvancedButton);
             this.Controls.Add(this.EditButton);
             this.Controls.Add(this.RemoveButton);
@@ -228,5 +242,6 @@
         private MetroFramework.Controls.MetroButton RemoveButton;
         private MetroFramework.Controls.MetroButton EditButton;
         private MetroFramework.Controls.MetroButton AdvancedButton;
+        private MetroFramework.Controls.MetroButton SaveSimulation;
     }
 }

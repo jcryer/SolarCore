@@ -11,6 +11,7 @@ namespace SolarForms.Database
 {
     public class Simulation
     {
+        public int DatabaseID;
         public PlanetarySystem PlanetarySystem;
         public int Speed;
         public int SpeedModifier;
@@ -26,6 +27,7 @@ namespace SolarForms.Database
         public Simulation()
         {
             PlanetarySystem = new PlanetarySystem();
+            DatabaseID = -1;
         }
 
         public void Run(int frames)

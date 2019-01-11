@@ -48,7 +48,8 @@ namespace SolarForms.Database
             ObjectColour = objectColour;
             Position = position;
             Velocity = velocity;
-            Positions = new List<Vector3>(); 
+            Positions = new List<Vector3>();
+            DatabaseID = -1;
         }
 
         public SolarObject(string name, double mass, double radius, double obliquity, double orbitalSpeed, int databaseId = 0)

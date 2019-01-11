@@ -22,7 +22,7 @@ namespace SolarForms.Components
         {
             Planet = planet;
 
-            telnetClient = new TelnetClient("horizons.jpl.nasa.gov", 6775, TimeSpan.FromSeconds(3), default(CancellationToken));
+            telnetClient = new TelnetClient("horizons.jpl.nasa.gov", 6775, TimeSpan.FromSeconds(5), default(CancellationToken));
             telnetClient.ConnectionClosed += HandleConnectionClosed;
             telnetClient.MessageReceived += HandleMessageReceived;
             telnetClient.Connect();
@@ -60,9 +60,6 @@ namespace SolarForms.Components
                     ephemeris = $"{output[i + 2]}\n{output[i + 3]}";
             }
 
-            // Console.WriteLine(resp);
-            // string ohGod = "Mass x10\^(.+) \(kg\) *= *([\d.]+)[\n +-]";
-
             Regex nameRegex = new Regex(" {2}(\\w+) +" + Planet);
             var nameMatches = nameRegex.Match(data).Groups;
 
@@ -80,25 +77,26 @@ namespace SolarForms.Components
 
         private void HandleMessageReceived(object sender, string message)
         {
+            Console.WriteLine(message);
             output.Add(message);
             if (message.Contains("System news updated"))
             {
                 telnetClient.Send(Planet.ToString());
-                Thread.Sleep(10);
+                Thread.Sleep(50);
                 telnetClient.Send("E");
-                Thread.Sleep(10);
+                Thread.Sleep(50);
                 telnetClient.Send("v");
-                Thread.Sleep(10);
+                Thread.Sleep(50);
                 telnetClient.Send("@sun");
-                Thread.Sleep(10);
+                Thread.Sleep(50);
                 telnetClient.Send("eclip");
-                Thread.Sleep(10);
+                Thread.Sleep(50);
                 telnetClient.Send("2018AD-Nov-11 00:00");
-                Thread.Sleep(10);
+                Thread.Sleep(50);
                 telnetClient.Send("2018AD-Nov-11 00:01");
-                Thread.Sleep(10);
+                Thread.Sleep(50);
                 telnetClient.Send("1d");
-                Thread.Sleep(10);
+                Thread.Sleep(50);
                 telnetClient.Send("y");
             }
             else if (message.Contains("$$EOE"))
