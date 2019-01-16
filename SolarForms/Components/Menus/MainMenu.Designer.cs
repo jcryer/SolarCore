@@ -92,7 +92,6 @@
             this.Name = "MainMenu";
             this.Resizable = false;
             this.Style = MetroFramework.MetroColorStyle.Red;
-            this.Text = "Main Menu";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainMenu_FormClosed);
             this.ResumeLayout(false);
 

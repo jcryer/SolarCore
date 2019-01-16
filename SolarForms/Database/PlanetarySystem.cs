@@ -10,13 +10,14 @@ namespace SolarForms.Database
     public class PlanetarySystem
     {
         public int DatabaseID;
-        public string Name;
-        public string Description;
+        public string Name = "";
+        public string Description = "";
         public List<SolarObject> Objects;
-
+        public List<SolarObject> DeletedObjects = new List<SolarObject>();
         public PlanetarySystem()
         {
             Objects = new List<SolarObject>();
+            DatabaseID = -1;
 
         }
         public PlanetarySystem(string name, string description)

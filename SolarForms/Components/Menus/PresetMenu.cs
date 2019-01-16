@@ -1,12 +1,9 @@
 ﻿using MetroFramework.Forms;
+using SolarForms.Database;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SolarForms.Components.Menus
@@ -14,17 +11,23 @@ namespace SolarForms.Components.Menus
     public partial class PresetMenu : MetroForm
     {
         new int Location = 0;
-        Presets Preset = Presets.None;
+        Simulation Simulation;
+        List<Simulation> Simulations = new List<Simulation>();
         public PresetMenu()
         {
             InitializeComponent();
+            Simulations = DatabaseMethods.GetSimulations();
+            foreach (var name in Simulations.Select(x => x.PlanetarySystem.Name))
+            {
+                PresetList.Items.Add(name);
+            }
         }
 
         private void PresetMenu_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (Location == 1)
             {
-                new ControlForm(Preset).Show();
+                new ControlForm(Simulation).Show();
             }
             else if (Location == 0)
                 new SimMenu().Show();
@@ -42,64 +45,21 @@ namespace SolarForms.Components.Menus
             Close();
         }
 
-        private void PresetList_Click(object sender, EventArgs e)
-        {
-           /* if (PresetList.SelectedItems.Count == 1)
-            {
-                ConfirmButton.Enabled = true;
-
-                Console.WriteLine(PresetList.SelectedItems[0].Text);
-            }
-            else
-            {
-                ConfirmButton.Enabled = false;
-
-            }*/
-
-        }
-
         private void PresetList_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (PresetList.SelectedItems.Count == 0)
             {
                 ConfirmButton.Enabled = false;
-                Preset = Presets.None;
             }
             else
             {
                 ConfirmButton.Enabled = true;
-                switch (PresetList.SelectedItems[0].Text)
+
+                if (Simulations.Any(x => x.PlanetarySystem.Name == PresetList.SelectedItems[0].Text))
                 {
-                    case "Binary Star":
-                        Preset = Presets.BinaryStar;
-                        break;
-                    case "Solar System":
-                        Preset = Presets.SolarSystem;
-                        break;
-                    case "Two-Body Diagram 1":
-                        Preset = Presets.TwoBodyDiagram1;
-                        break;
-                    case "Two-Body Diagram 2":
-                        Preset = Presets.TwoBodyDiagram2;
-                        break;
-                    case "Three-Body Diagram":
-                        Preset = Presets.ThreeBodyDiagram;
-                        break;
-                    case "Black Hole":
-                        Preset = Presets.BlackHole;
-                        break;
+                    Simulation = Simulations.First(x => x.PlanetarySystem.Name == PresetList.SelectedItems[0].Text);
                 }
             }
         }
-    }
-    public enum Presets
-    {
-        SolarSystem,
-        BinaryStar,
-        TwoBodyDiagram1,
-        TwoBodyDiagram2,
-        ThreeBodyDiagram,
-        BlackHole,
-        None
     }
 }

@@ -10,6 +10,28 @@ namespace SolarForms.Database
 {
     class DatabaseMethods
     {
+
+        public static List<Simulation> GetSimulations()
+        {
+            List<int> simulationIDs = new List<int>();
+            string simString = "select Simulation.SimulationID FROM Simulation;";
+            var simQuery = new SQLiteCommand(simString, Program.DBConnection);
+            var simReader = simQuery.ExecuteReader();
+
+            while (simReader.Read())
+            {
+                simulationIDs.Add(int.Parse(simReader[0].ToString()));
+            }
+
+            List<Simulation> simulations = new List<Simulation>();
+
+            foreach (var ID in simulationIDs)
+            {
+                simulations.Add(GetSimulation(ID));
+            }
+            return simulations;
+        }
+
         public static Simulation GetSimulation (int simulationId)
         {
             Simulation sim = new Simulation();
@@ -32,7 +54,7 @@ namespace SolarForms.Database
                 sim = new Simulation() { DatabaseID = int.Parse(dict["SimulationID"]), PlanetarySystem = new PlanetarySystem(dict["Name"], 
                     dict["Description"]) { DatabaseID = int.Parse(dict["PlanetarySystemID"])}, Speed = int.Parse(dict["Speed"]),
                     Scale = int.Parse(dict["Scale"]), Camera = new Camera(double.Parse(dict["Zoom"]), double.Parse(dict["ZoomModifier"]), 
-                    int.Parse(dict["InitialFocus"]), Convert.ToBoolean(int.Parse(dict["Fixed"]))) };
+                    int.Parse(dict["Focus"]), Convert.ToBoolean(int.Parse(dict["Fixed"]))) };
             }
 
             string objectQueryString = "select Object.ObjectID, ObjectView.TrailActive, ObjectView.TrailLength, " +
@@ -108,9 +130,23 @@ namespace SolarForms.Database
                     dict.Add(objReader.GetName(i), objReader[i].ToString());
                 }
                 if (mode == 0)
-                    results.Add(dict["Name"], new Vector3(float.Parse(dict["PositionX"]), float.Parse(dict["PositionY"]), float.Parse(dict["PositionZ"])));
+                {
+                    string key = dict["Name"];
+                    if (results.ContainsKey(dict["Name"]))
+                    {
+                        key += "-1";
+                    }
+                    results.Add(key, new Vector3(float.Parse(dict["PositionX"]), float.Parse(dict["PositionY"]), float.Parse(dict["PositionZ"])));
+                }
                 else
-                    results.Add(dict["Name"], new Vector3(float.Parse(dict["VelocityX"]), float.Parse(dict["VelocityY"]), float.Parse(dict["VelocityZ"])));
+                {
+                    string key = dict["Name"];
+                    if (results.ContainsKey(dict["Name"]))
+                    {
+                        key += "-1";
+                    }
+                    results.Add(key, new Vector3(float.Parse(dict["VelocityX"]), float.Parse(dict["VelocityY"]), float.Parse(dict["VelocityZ"])));
+                }
 
             }
             return results;
@@ -148,15 +184,16 @@ namespace SolarForms.Database
 
             if (sim.PlanetarySystem.DatabaseID == -1)
             {
-                cmd.CommandText = $"INSERT INTO PlanetarySystem (Name, Description) VALUES ({sim.PlanetarySystem.Name}, {sim.PlanetarySystem.Description});"; ;
+                cmd.CommandText = $"INSERT INTO PlanetarySystem (Name, Description) VALUES ('{sim.PlanetarySystem.Name}', '{sim.PlanetarySystem.Description}');"; ;
                 cmd.ExecuteScalar();
                 planetarySystemID = (int)cmd.Connection.LastInsertRowId;
+                sim.PlanetarySystem.DatabaseID = planetarySystemID;
             }
             else
             {
                 planetarySystemID = sim.PlanetarySystem.DatabaseID;
                 cmd.CommandText = $"UPDATE PlanetarySystem SET Name = '{sim.PlanetarySystem.Name}', " +
-                    $"Description = '{sim.PlanetarySystem.Description}', " +
+                    $"Description = '{sim.PlanetarySystem.Description}' " +
                     $"WHERE PlanetarySystemID = {planetarySystemID};";
                 cmd.ExecuteScalar();
             }
@@ -164,10 +201,11 @@ namespace SolarForms.Database
             if (sim.DatabaseID == -1)
             {
                 cmd.CommandText = $"INSERT INTO Simulation (PlanetarySystemID, Zoom, ZoomModifier, Focus, Fixed, Speed, SpeedModifier, Scale) " +
-                    $"VALUES ({sim.PlanetarySystem.DatabaseID}, {sim.Camera.Zoom}, {sim.Camera.ZoomModifier}, {sim.Camera.Focus}, {sim.Speed}, " +
+                    $"VALUES ({sim.PlanetarySystem.DatabaseID}, {sim.Camera.Zoom}, {sim.Camera.ZoomModifier}, {sim.Camera.Focus}, {sim.Camera.Fixed}, {sim.Speed}, " +
                     $"{sim.SpeedModifier}, {sim.Scale});";
                 cmd.ExecuteScalar();
                 simulationID = (int)cmd.Connection.LastInsertRowId;
+                sim.DatabaseID = simulationID;
             }
             else
             {
@@ -185,21 +223,32 @@ namespace SolarForms.Database
                 cmd.ExecuteScalar();
             }
 
+            foreach (var delObj in sim.PlanetarySystem.DeletedObjects)
+            {
+                cmd.CommandText = $"DELETE FROM Object WHERE ObjectID = {delObj.DatabaseID};";
+                cmd.ExecuteScalar();
+                cmd.CommandText = $"DELETE FROM ObjectView WHERE ObjectID = {delObj.DatabaseID} AND SimulationID = {simulationID};";
+                cmd.ExecuteScalar();
+                cmd.CommandText = $"DELETE FROM InitialValues WHERE ObjectID = {delObj.DatabaseID} AND PlanetarySystemID = {planetarySystemID};";
+                cmd.ExecuteScalar();
+            }
+
             foreach (var obj in sim.PlanetarySystem.Objects)
             {
                 int objectID = -1;
                 if (obj.DatabaseID == -1)
                 {
-                    cmd.CommandText = $"INSERT INTO Object (Name, Mass, Radius, Obliquity, OrbitalSpeed) VALUES ({obj.Name}, " +
+                    cmd.CommandText = $"INSERT INTO Object (Name, Mass, Radius, Obliquity, OrbitalSpeed) VALUES ('{obj.Name}', " +
                     $"{obj.Mass}, {obj.Radius}, {obj.Obliquity}, {obj.OrbitalSpeed});";
                     cmd.ExecuteScalar();
                     objectID = (int)cmd.Connection.LastInsertRowId;
+                    obj.DatabaseID = objectID;
                 }
                 else
                 {
                     objectID = obj.DatabaseID;
                     cmd.CommandText = $"UPDATE Object SET " +
-                    $"Name = {obj.Name}, " +
+                    $"Name = '{obj.Name}', " +
                     $"Mass = {obj.Mass}, " +
                     $"Radius = {obj.Radius}, " +
                     $"Obliquity = {obj.Obliquity}, " +
@@ -212,8 +261,8 @@ namespace SolarForms.Database
                 int countObjectView = Convert.ToInt32(cmd.ExecuteScalar());
                 if (countObjectView == 0)
                 {
-                    cmd.CommandText = $"INSERT INTO ObjectView(SimulationID, ObjectID, TrailActive, TrailLength, TrailColour, ObjectColour), " +
-                     $"ObjectColour) VALUES ({simulationID}, {objectID}, {obj.TrailsActive}, {obj.TrailLength}, " +
+                    cmd.CommandText = $"INSERT INTO ObjectView(SimulationID, ObjectID, TrailActive, TrailLength, TrailColour, ObjectColour) " +
+                     $" VALUES ({simulationID}, {objectID}, {obj.TrailsActive}, {obj.TrailLength}, " +
                      $"{obj.TrailColour.ToArgb()}, {obj.ObjectColour.ToArgb()});";
                     cmd.ExecuteScalar();
                 }
@@ -223,7 +272,7 @@ namespace SolarForms.Database
                        $"TrailActive = {obj.TrailsActive}, " +
                        $"TrailLength = {obj.TrailLength}, " +
                        $"TrailColour = {obj.TrailColour.ToArgb()}, " +
-                       $"ObjectColour = {obj.ObjectColour.ToArgb()}, " +
+                       $"ObjectColour = {obj.ObjectColour.ToArgb()} " +
                        $"WHERE ObjectID = {obj.DatabaseID} AND SimulationID = {simulationID};";
                     cmd.ExecuteScalar();
                 }
@@ -233,7 +282,7 @@ namespace SolarForms.Database
                 if (countInitialValues == 0)
                 {
                     cmd.CommandText = $"INSERT INTO InitialValues(ObjectID, PlanetarySystemID, PositionX, PositionY, " +
-                    $"PositionZ, VelocityX, VelocityY, VelocityZ) VALUES ({obj.DatabaseID}, {2}, {obj.Position.X}, " +
+                    $"PositionZ, VelocityX, VelocityY, VelocityZ) VALUES ({obj.DatabaseID}, {planetarySystemID}, {obj.Position.X}, " +
                     $"{obj.Position.Y}, {obj.Position.Z}, {obj.Velocity.X}, {obj.Velocity.Y}, {obj.Velocity.Z});";
                     cmd.ExecuteScalar();
                 }
@@ -245,7 +294,7 @@ namespace SolarForms.Database
                        $"PositionZ = {obj.Position.Z}, " +
                        $"VelocityX = {obj.Velocity.X}, " +
                        $"VelocityY = {obj.Velocity.Y}, " +
-                       $"VelocityZ = {obj.Velocity.Z}, " +
+                       $"VelocityZ = {obj.Velocity.Z} " +
                        $"WHERE ObjectID = {obj.DatabaseID} AND PlanetarySystemID = {planetarySystemID};";
                     cmd.ExecuteScalar();
                 }
