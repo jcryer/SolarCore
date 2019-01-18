@@ -1,7 +1,9 @@
 ﻿using MetroFramework.Forms;
+using Newtonsoft.Json;
 using SolarForms.Database;
 using System;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -15,10 +17,13 @@ namespace SolarForms.Components.Menus
         public ControlForm(Simulation simulation = null)
         {
             InitializeComponent();
-
+            
             if (simulation != null)
             {
                 Simulation = simulation;
+                Simulation.PlanetarySystem.Objects.First().ObjectColour = Color.Red;
+                Simulation.Scale = 100;
+             //   File.WriteAllText("testPreset.json", JsonConvert.SerializeObject(Simulation, Formatting.Indented));
                 if (!Simulation.PlanetarySystem.Objects.Any())
                 {
                     RunButton.Enabled = false;
@@ -177,6 +182,7 @@ namespace SolarForms.Components.Menus
 
         private void RunButton_Click(object sender, EventArgs e)
         {
+
             if (Window == null)
             {
                 Window = new MainWindow(Simulation);

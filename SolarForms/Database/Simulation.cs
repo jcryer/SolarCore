@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using Newtonsoft.Json;
+using OpenTK;
 using OpenTK.Input;
 using SolarForms.Components;
 using System;
@@ -14,21 +15,22 @@ namespace SolarForms.Database
         public int DatabaseID;
         public PlanetarySystem PlanetarySystem;
         public int Speed;
-        public int SpeedModifier;
+        public int SpeedModifier = 1;
         public MouseState OldMouseState = Mouse.GetState();
         public KeyboardState OldKeyState = Keyboard.GetState();
         public int CurrentFrame;
         public Camera Camera;
         public bool Paused;
         public int Scale;
-        public int TrailScale;
         public bool Changed = false;
+        public int TrailScale;
 
         public Simulation()
         {
             PlanetarySystem = new PlanetarySystem();
             DatabaseID = -1;
         }
+
 
         public void Run(int frames)
         {
@@ -56,7 +58,9 @@ namespace SolarForms.Database
         public double Zoom;
         public double ZoomModifier;
         public int Focus;
+        [JsonIgnore]
         public Vector3 Position = new Vector3(0, 0, -1);
+        [JsonIgnore]
         public Vector3 LookAt = new Vector3(0, 0, 0);
         public double XVal;
         public double YVal;

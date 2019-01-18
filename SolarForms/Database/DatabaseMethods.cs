@@ -57,15 +57,15 @@ namespace SolarForms.Database
                     int.Parse(dict["Focus"]), Convert.ToBoolean(int.Parse(dict["Fixed"]))) };
             }
 
-            string objectQueryString = "select Object.ObjectID, ObjectView.TrailActive, ObjectView.TrailLength, " +
-                "ObjectView.TrailColour, ObjectView.ObjectColour, Object.Name, Object.Mass, Object.Radius, Object.Obliquity, " +
+            string objectQueryString = "select Object.ObjectID, ObjectView.TrailActive, ObjectView.TrailLength, ObjectView.TrailColour, ObjectView.ObjectColour, " +
+                "Object.Name, Object.Mass, Object.Radius, Object.Obliquity, " +
                 "Object.OrbitalSpeed, InitialValues.PositionX, InitialValues.PositionY, InitialValues.PositionZ, " +
-                "InitialValues.VelocityX, InitialValues.VelocityY, InitialValues.VelocityZ from Simulation " +
-                "inner join PlanetarySystem on PlanetarySystem.PlanetarySystemID = Simulation.PlanetarySystemID " +
-                "inner join InitialValues on InitialValues.PlanetarySystemID = Simulation.PlanetarySystemID " +
-                "inner join Object on Object.ObjectID = InitialValues.ObjectID " +
-                "inner join ObjectView on ObjectView.ObjectID = Object.ObjectID " +
-                "where Simulation.SimulationID = " + simulationId + ";";
+                "InitialValues.VelocityX, InitialValues.VelocityY, InitialValues.VelocityZ " +
+                "from Simulation " +
+                "left join InitialValues on InitialValues.PlanetarySystemID = Simulation.PlanetarySystemID " +
+                "left join Object on Object.ObjectID = InitialValues.ObjectID " +
+                "left join ObjectView on ObjectView.ObjectID = Object.ObjectID " +
+                $"where Simulation.SimulationID = 16 AND ObjectView.SimulationID = {simulationId};";
 
             var objectQuery = new SQLiteCommand(objectQueryString, Program.DBConnection);
             var objectReader = objectQuery.ExecuteReader();
@@ -113,11 +113,11 @@ namespace SolarForms.Database
         {
             Dictionary<string, Vector3> results = new Dictionary<string, Vector3>();
             string objQueryString = "select PositionX, PositionY, PositionZ, Object.Name from InitialValues " +
-                "inner join Object on Object.ObjectID = InitialValues.ObjectID;";
+                "inner join Object on Object.ObjectID = InitialValues.ObjectID WHERE InitialValues.PlanetarySystemID = 0;";
             if (mode == 1)
 
                 objQueryString = "select VelocityX, VelocityY, VelocityZ, Object.Name from InitialValues " +
-                    "inner join Object on Object.ObjectID = InitialValues.ObjectID;";
+                    "inner join Object on Object.ObjectID = InitialValues.ObjectID WHERE InitialValues.PlanetarySystemID = 0;";
 
             var objQuery = new SQLiteCommand(objQueryString, Program.DBConnection);
             var objReader = objQuery.ExecuteReader();

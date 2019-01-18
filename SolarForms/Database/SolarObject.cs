@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SolarForms.Database
 {
@@ -23,13 +24,19 @@ namespace SolarForms.Database
         public int TrailLength;
         public Color4 TrailColour;
         public Color4 ObjectColour;
+        [JsonIgnore]
         public Vector3 Position;
+        [JsonIgnore]
         public Vector3 Velocity;
+        [JsonIgnore]
         public RenderObject Obj;
 
+        [JsonIgnore]
         public Vector3 InitialPosition;
+        [JsonIgnore]
         public Vector3 InitialVelocity;
 
+        [JsonIgnore]
         public List<Vector3> Positions;
         public SolarObject()
         {
