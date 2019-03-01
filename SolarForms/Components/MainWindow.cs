@@ -310,7 +310,7 @@ namespace SolarForms.Components
                     obj.Position = obj.Positions[Simulation.CurrentFrame] / Simulation.Scale;
                     if (obj.TrailsActive)
                     {
-                        LineObjects.Add(new LineObject(obj.Position, obj.TrailColour,  obj.TrailLength, obj.Radius / (Simulation.TrailScale * 10)));
+                        LineObjects.Add(new LineObject(obj.Position, obj.TrailColour,  obj.TrailLength, obj.Radius));
                     }
                 }
                 int test = 1;
@@ -318,7 +318,7 @@ namespace SolarForms.Components
                 {
                     test = 10;
                 }
-                obj.Render(matrixStuff, Simulation.TrailScale/test);
+                obj.Render(matrixStuff, 100);
             }
 
             for (int i = 0; i < LineObjects.Count; i++)

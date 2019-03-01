@@ -65,7 +65,7 @@ namespace SolarForms.Database
                 "left join InitialValues on InitialValues.PlanetarySystemID = Simulation.PlanetarySystemID " +
                 "left join Object on Object.ObjectID = InitialValues.ObjectID " +
                 "left join ObjectView on ObjectView.ObjectID = Object.ObjectID " +
-                $"where Simulation.SimulationID = 16 AND ObjectView.SimulationID = {simulationId};";
+                $"where Simulation.SimulationID = {simulationId} AND ObjectView.SimulationID = {simulationId};";
 
             var objectQuery = new SQLiteCommand(objectQueryString, Program.DBConnection);
             var objectReader = objectQuery.ExecuteReader();
