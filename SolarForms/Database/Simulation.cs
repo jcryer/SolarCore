@@ -31,7 +31,6 @@ namespace SolarForms.Database
             DatabaseID = -1;
         }
 
-
         public void Run(int frames)
         {
             while (PlanetarySystem.Objects.First().Positions.Count < frames)

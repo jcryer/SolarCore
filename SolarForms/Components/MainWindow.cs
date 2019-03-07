@@ -52,9 +52,7 @@ namespace SolarForms.Components
                 x.InitialPosition = x.Position;
                 x.InitialVelocity = x.Velocity;
             }
-            //  Simulation.SimObject.Run(100000);
             Simulation.Run(1000000);
-
             CursorVisible = true;
             
             _program = CreateProgram();
@@ -293,7 +291,8 @@ namespace SolarForms.Components
                 if (secondsElapsed == 0)
                     secondsElapsed = (DateTime.Now - endTime).TotalSeconds;
                 Console.WriteLine("Reached end of simulation: " + secondsElapsed);
-                Simulation.CurrentFrame = Simulation.PlanetarySystem.Objects.First().Positions.Count - 1;
+                Simulation.Run(1000);
+               // Simulation.CurrentFrame = Simulation.PlanetarySystem.Objects.First().Positions.Count - 1;
             }
             if (Simulation.CurrentFrame < 0)
             {

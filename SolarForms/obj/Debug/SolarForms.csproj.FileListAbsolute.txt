@@ -95,3 +95,7 @@ C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\Entity
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\System.Data.SQLite.xml
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\System.Data.SQLite.dll.config
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.ExistingObjectsForm.resources
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\aa-DJ\SolarForms.resources.dll
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.SaveAsForm.resources
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.SaveAsForm.aa-DJ.resources
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\aa-DJ\SolarForms.resources.dll

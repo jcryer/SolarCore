@@ -15,7 +15,6 @@ namespace SolarForms.Components.Menus
         public ControlForm(Simulation simulation = null)
         {
             InitializeComponent();
-            
             if (simulation != null)
             {
                 Simulation = simulation;
@@ -59,7 +58,12 @@ namespace SolarForms.Components.Menus
                 obj.ID = id;
             }
         }
-        
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Window = null;
+        }
+
         private void UpdateFields()
         {
             while (true)
@@ -183,12 +187,13 @@ namespace SolarForms.Components.Menus
 
         private void RunButton_Click(object sender, EventArgs e)
         {
-
             if (Window == null)
             {
                 Window = new MainWindow(Simulation);
                 Window.Run(60);
             }
+            Window.Closed += Window_Closed;
+
         }
 
         private void ObjectList_ItemChecked(object sender, ItemCheckedEventArgs e)
@@ -210,10 +215,16 @@ namespace SolarForms.Components.Menus
             }
         }
 
+
         private void SaveSimulation_Click(object sender, EventArgs e)
         {
-            DatabaseMethods.SetSimulation(Simulation);
-
+            var form = new SaveAsForm();
+            var result = form.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                Simulation.PlanetarySystem.Name = form.Response;
+                DatabaseMethods.SetSimulation(Simulation);
+            }
         }
     }
 }
