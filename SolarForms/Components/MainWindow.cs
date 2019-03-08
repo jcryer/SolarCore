@@ -52,7 +52,7 @@ namespace SolarForms.Components
                 x.InitialPosition = x.Position;
                 x.InitialVelocity = x.Velocity;
             }
-            Simulation.Run(1000000);
+            Simulation.Run(10);
             CursorVisible = true;
             
             _program = CreateProgram();
@@ -78,6 +78,7 @@ namespace SolarForms.Components
                 }
             }*/
         }
+
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             var deleteList = new List<LineObject>();
@@ -98,7 +99,6 @@ namespace SolarForms.Components
         
         private void HandleKeyboard()
         {
-
             var mouseState = Mouse.GetState();
             var keyState = Keyboard.GetState();
 
@@ -256,7 +256,7 @@ namespace SolarForms.Components
                     obj.Positions.Clear();
                 }
                 ResetSim();
-                Simulation.Run(100000);
+                Simulation.Run(10);
                 foreach (var obj in Simulation.PlanetarySystem.Objects)
                 {
                     obj.Position = obj.Positions.First();
@@ -291,7 +291,7 @@ namespace SolarForms.Components
                 if (secondsElapsed == 0)
                     secondsElapsed = (DateTime.Now - endTime).TotalSeconds;
                 Console.WriteLine("Reached end of simulation: " + secondsElapsed);
-                Simulation.Run(1000);
+                Simulation.Run(10);
                // Simulation.CurrentFrame = Simulation.PlanetarySystem.Objects.First().Positions.Count - 1;
             }
             if (Simulation.CurrentFrame < 0)
@@ -309,15 +309,10 @@ namespace SolarForms.Components
                     obj.Position = obj.Positions[Simulation.CurrentFrame] / Simulation.Scale;
                     if (obj.TrailsActive)
                     {
-                        LineObjects.Add(new LineObject(obj.Position, obj.TrailColour,  obj.TrailLength, obj.Radius));
+                        LineObjects.Add(new LineObject(obj.Position, obj.TrailColour,  obj.TrailLength, obj.Radius / Simulation.TrailScale));
                     }
                 }
-                int test = 1;
-                if (obj.Name != "Sun")
-                {
-                    test = 10;
-                }
-                obj.Render(matrixStuff, 100);
+                obj.Render(matrixStuff, Simulation.TrailScale);
             }
 
             for (int i = 0; i < LineObjects.Count; i++)

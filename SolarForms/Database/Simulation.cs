@@ -33,7 +33,8 @@ namespace SolarForms.Database
 
         public void Run(int frames)
         {
-            while (PlanetarySystem.Objects.First().Positions.Count < frames)
+            int initialNumber = PlanetarySystem.Objects.First().Positions.Count;
+            while (PlanetarySystem.Objects.First().Positions.Count < frames + initialNumber)
             {
                 List<AggregateObject> response = new List<AggregateObject>();
                 foreach (var obj in PlanetarySystem.Objects)

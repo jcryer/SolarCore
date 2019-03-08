@@ -21,7 +21,7 @@ namespace SolarForms.Components.Menus
                 Simulation.PlanetarySystem.Objects.First().ObjectColour = Color.Red;
                 Simulation.PlanetarySystem.Objects[1].ObjectColour = Color.Red;
 
-                Simulation.Scale = 100000;
+                Simulation.Scale = 10000;
                 Simulation.TrailScale = 100;
 
                 if (!Simulation.PlanetarySystem.Objects.Any())
