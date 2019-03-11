@@ -150,7 +150,6 @@
     <Compile Include="Components\ObjectFactory.cs" />
     <Compile Include="Components\RenderObject.cs" />
     <Compile Include="Components\Telnet.cs" />
-    <Compile Include="Components\Text.cs" />
     <Compile Include="Components\Vertex.cs" />
     <Compile Include="Components\LineObject.cs" />
     <Compile Include="Database\DatabaseMethods.cs" />

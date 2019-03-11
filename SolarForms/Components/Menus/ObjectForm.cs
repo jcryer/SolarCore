@@ -146,7 +146,7 @@ namespace SolarForms.Components.Menus
         private bool IsNumberKey (char c, bool i = false)
         {
             string regex = "";
-            if (!i) regex = "[\\d.E\b]+";
+            if (!i) regex = "[\\d.E\b+-]+";
             else regex = "[\\d\b]+";
 
             if (!Regex.IsMatch(c.ToString(), regex))

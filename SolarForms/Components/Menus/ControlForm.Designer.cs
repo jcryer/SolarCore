@@ -50,8 +50,7 @@
             this.SpeedControl.BackColor = System.Drawing.Color.Transparent;
             this.SpeedControl.LargeChange = 2;
             this.SpeedControl.Location = new System.Drawing.Point(12, 131);
-            this.SpeedControl.Maximum = 50;
-            this.SpeedControl.Minimum = -50;
+            this.SpeedControl.Minimum = -100;
             this.SpeedControl.Name = "SpeedControl";
             this.SpeedControl.Size = new System.Drawing.Size(172, 23);
             this.SpeedControl.TabIndex = 7;
@@ -83,7 +82,7 @@
             // 
             this.PlayButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PlayButton.Location = new System.Drawing.Point(12, 390);
+            this.PlayButton.Location = new System.Drawing.Point(12, 349);
             this.PlayButton.Name = "PlayButton";
             this.PlayButton.Size = new System.Drawing.Size(80, 25);
             this.PlayButton.TabIndex = 9;
@@ -95,7 +94,7 @@
             // 
             this.PauseButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PauseButton.Location = new System.Drawing.Point(104, 390);
+            this.PauseButton.Location = new System.Drawing.Point(104, 349);
             this.PauseButton.Name = "PauseButton";
             this.PauseButton.Size = new System.Drawing.Size(80, 25);
             this.PauseButton.TabIndex = 10;
@@ -107,7 +106,7 @@
             // 
             this.RestartButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.RestartButton.Location = new System.Drawing.Point(12, 421);
+            this.RestartButton.Location = new System.Drawing.Point(12, 380);
             this.RestartButton.Name = "RestartButton";
             this.RestartButton.Size = new System.Drawing.Size(172, 25);
             this.RestartButton.TabIndex = 11;
@@ -117,9 +116,11 @@
             // 
             // ObjectList
             // 
+            this.ObjectList.AllowSorting = true;
             this.ObjectList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ObjectList.AutoArrange = false;
             this.ObjectList.CheckBoxes = true;
             this.ObjectList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ColumnOne});
@@ -129,7 +130,8 @@
             this.ObjectList.MultiSelect = false;
             this.ObjectList.Name = "ObjectList";
             this.ObjectList.OwnerDraw = true;
-            this.ObjectList.Size = new System.Drawing.Size(172, 189);
+            this.ObjectList.Scrollable = false;
+            this.ObjectList.Size = new System.Drawing.Size(172, 148);
             this.ObjectList.TabIndex = 12;
             this.ObjectList.UseCompatibleStateImageBehavior = false;
             this.ObjectList.UseSelectable = true;
@@ -146,7 +148,7 @@
             // 
             this.AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.AddButton.Location = new System.Drawing.Point(12, 357);
+            this.AddButton.Location = new System.Drawing.Point(12, 316);
             this.AddButton.Name = "AddButton";
             this.AddButton.Size = new System.Drawing.Size(50, 25);
             this.AddButton.TabIndex = 13;
@@ -159,7 +161,7 @@
             this.RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RemoveButton.Enabled = false;
-            this.RemoveButton.Location = new System.Drawing.Point(73, 357);
+            this.RemoveButton.Location = new System.Drawing.Point(73, 316);
             this.RemoveButton.Name = "RemoveButton";
             this.RemoveButton.Size = new System.Drawing.Size(50, 25);
             this.RemoveButton.TabIndex = 14;
@@ -172,7 +174,7 @@
             this.EditButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.EditButton.Enabled = false;
-            this.EditButton.Location = new System.Drawing.Point(134, 357);
+            this.EditButton.Location = new System.Drawing.Point(134, 316);
             this.EditButton.Name = "EditButton";
             this.EditButton.Size = new System.Drawing.Size(50, 25);
             this.EditButton.TabIndex = 15;
@@ -182,7 +184,9 @@
             // 
             // AdvancedButton
             // 
-            this.AdvancedButton.Location = new System.Drawing.Point(12, 579);
+            this.AdvancedButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.AdvancedButton.Location = new System.Drawing.Point(12, 539);
             this.AdvancedButton.Name = "AdvancedButton";
             this.AdvancedButton.Size = new System.Drawing.Size(172, 23);
             this.AdvancedButton.TabIndex = 19;
@@ -193,7 +197,7 @@
             // 
             this.SaveSimulation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.SaveSimulation.Location = new System.Drawing.Point(12, 548);
+            this.SaveSimulation.Location = new System.Drawing.Point(12, 507);
             this.SaveSimulation.Name = "SaveSimulation";
             this.SaveSimulation.Size = new System.Drawing.Size(172, 25);
             this.SaveSimulation.TabIndex = 20;
@@ -203,7 +207,9 @@
             // 
             // BackButton
             // 
-            this.BackButton.Location = new System.Drawing.Point(12, 608);
+            this.BackButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BackButton.Location = new System.Drawing.Point(12, 571);
             this.BackButton.Name = "BackButton";
             this.BackButton.Size = new System.Drawing.Size(172, 23);
             this.BackButton.TabIndex = 21;
@@ -215,7 +221,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(200, 652);
+            this.ClientSize = new System.Drawing.Size(200, 611);
             this.Controls.Add(this.BackButton);
             this.Controls.Add(this.SaveSimulation);
             this.Controls.Add(this.AdvancedButton);

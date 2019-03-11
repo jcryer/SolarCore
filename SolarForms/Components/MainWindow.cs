@@ -108,11 +108,11 @@ namespace SolarForms.Components
                 }
                 if (keyState.IsKeyDown(Key.Left))
                 {
-                    Simulation.Speed = Simulation.Speed <= -50 ? -50 : Simulation.Speed - 1;
+                    Simulation.Speed = Simulation.Speed <= -100 ? -100 : Simulation.Speed - 1;
                 }
                 if (keyState.IsKeyDown(Key.Right))
                 {
-                    Simulation.Speed = Simulation.Speed >= 50 ? 50 : Simulation.Speed + 1;
+                    Simulation.Speed = Simulation.Speed >= 100 ? 100 : Simulation.Speed + 1;
                 }
                 if (keyState.IsKeyDown(Key.S))
                 {
@@ -162,15 +162,18 @@ namespace SolarForms.Components
                     }
                 }
 
-                if (Simulation.Camera.YVal > 0.49) Simulation.Camera.YVal = 0.49999;
-                if (Simulation.Camera.YVal < -0.49) Simulation.Camera.YVal = -0.49999;
+                if (Simulation.Camera.YVal > 0.49) Simulation.Camera.YVal = 0.49;
+                if (Simulation.Camera.YVal < -0.49) Simulation.Camera.YVal = -0.49;
 
                 if (Simulation.Camera.Zoom < 10000) Simulation.Camera.Zoom = 10000;
                 if (Simulation.Camera.Zoom > 10000000) Simulation.Camera.Zoom = 10000000;
 
                 var pi180 = (Math.PI);
-
-                var initialPosition = Simulation.PlanetarySystem.Objects[Simulation.Camera.Focus].RenderPosition;
+                Vector3 initialPosition;
+                if (!Simulation.Camera.Fixed)
+                    initialPosition = Simulation.PlanetarySystem.Objects[Simulation.Camera.Focus].RenderPosition;
+                else
+                    initialPosition = new Vector3(0, 0, 0);
                 Simulation.Camera.Position.X = initialPosition.X + (float)Simulation.Camera.Zoom * (float)(Math.Sin(Simulation.Camera.XVal * pi180) * Math.Cos(Simulation.Camera.YVal * pi180));
                 Simulation.Camera.Position.Y = initialPosition.Y + (float)Simulation.Camera.Zoom * (float)(Math.Sin(Simulation.Camera.YVal * pi180));
                 Simulation.Camera.Position.Z = initialPosition.Z + (float)Simulation.Camera.Zoom * -(float)(Math.Cos(Simulation.Camera.XVal * pi180) * Math.Cos(Simulation.Camera.YVal * pi180));
@@ -247,21 +250,14 @@ namespace SolarForms.Components
                 }
                 Simulation.Changed = false;
             }
-            /*
-            if (Simulation.PlanetarySystem.PreRenderedObjects != null)
-            {
-                if (Simulation.PlanetarySystem.PreRenderedObjects.Count > 0 && Simulation.SimObject.PreRenderComplete)
-                {
-                    Simulation.SimObject.Objects.AddRange(Simulation.SimObject.PreRenderedObjects);
-                    Simulation.SimObject.PreRenderedObjects.Clear();
-                    Simulation.SimObject.PreRenderComplete = false;
-                }
-            }
-            */
-
+            
             if (!Simulation.Camera.Fixed)
             {
                 Simulation.Camera.LookAt = Simulation.PlanetarySystem.Objects[Simulation.Camera.Focus].RenderPosition;
+            }
+            else
+            {
+                Simulation.Camera.LookAt = new Vector3(0, 0, 0);
             }
             var matrixStuff = Matrix4.LookAt(Simulation.Camera.Position, Simulation.Camera.LookAt, Vector3.UnitY);
             if (!Simulation.Paused)
@@ -269,14 +265,11 @@ namespace SolarForms.Components
                 Simulation.CurrentFrame += Simulation.Speed;
             }
 
-            Title = $"(Vsync: {VSync}) FPS: {1f / e.Time:0}";
+            Title = $"SolarCore: {Simulation.PlanetarySystem.Name}";
             GL.ClearColor(Color4.Black);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             if (Simulation.CurrentFrame >= Simulation.PlanetarySystem.Objects.First().Positions.Count)
             {
-                if (secondsElapsed == 0)
-                    secondsElapsed = (DateTime.Now - endTime).TotalSeconds;
-                Console.WriteLine("Reached end of simulation: " + secondsElapsed);
                 Simulation.Run(500);
             }
             if (Simulation.CurrentFrame < 0)

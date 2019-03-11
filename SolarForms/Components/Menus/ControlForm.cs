@@ -16,14 +16,17 @@ namespace SolarForms.Components.Menus
         public ControlForm(Simulation simulation = null)
         {
             InitializeComponent();
+            Height = Screen.AllScreens[0].WorkingArea.Height;
+            
             if (simulation != null)
             {
                 Simulation = simulation;
-                Simulation.Camera = new Camera(10000, 10000, 0, false);
-                Simulation.Scale = 10000000;
+              //  Simulation.Camera = new Camera(10000, 10000, 0, true);
+             //   Simulation.Scale = 10000000;
                 Simulation.TrailScale = 100;
                 Simulation.SpeedModifier = 100;
-                Simulation.Speed = 1;
+            //    Simulation.Speed = 1;
+                
                 if (!Simulation.PlanetarySystem.Objects.Any())
                 {
                     RunButton.Enabled = false;
@@ -124,10 +127,9 @@ namespace SolarForms.Components.Menus
             if (WindowState == FormWindowState.Maximized)
             {
                 WindowState = FormWindowState.Normal;
-                Size = new Size(Size.Width, Screen.AllScreens[1].WorkingArea.Height);
-
-                Window.Height = Screen.AllScreens[1].WorkingArea.Height;
-                Window.Width = Screen.AllScreens[1].WorkingArea.Width - Size.Width;
+                Size = new Size(Size.Width, Screen.AllScreens[0].WorkingArea.Height);
+                Window.Height = Screen.AllScreens[0].WorkingArea.Height;
+                Window.Width = Screen.AllScreens[0].WorkingArea.Width - Size.Width;
                 Window.Location = new Point(Size.Width-10, 0);
             }
         }
@@ -196,6 +198,10 @@ namespace SolarForms.Components.Menus
             {
                 Window = new MainWindow(Simulation);
                 Window.Run(60);
+                Size = new Size(Size.Width, Screen.AllScreens[0].WorkingArea.Height);
+                Window.Height = Screen.AllScreens[0].WorkingArea.Height;
+                Window.Width = Screen.AllScreens[0].WorkingArea.Width - Size.Width;
+                Window.Location = new Point(Size.Width - 10, 0);
             }
             Window.Closed += Window_Closed;
 
