@@ -52,7 +52,7 @@ namespace SolarForms.Components
                 x.InitialPosition = x.Position;
                 x.InitialVelocity = x.Velocity;
             }
-            Simulation.Run(10000);
+            Simulation.Run(10);
             CursorVisible = true;
             
             _program = CreateProgram();
@@ -186,7 +186,7 @@ namespace SolarForms.Components
 
                 var pi180 = (Math.PI);
 
-                var initialPosition = Simulation.PlanetarySystem.Objects[Simulation.Camera.Focus].Position;
+                var initialPosition = Simulation.PlanetarySystem.Objects[Simulation.Camera.Focus].RenderPosition;
                 Simulation.Camera.Position.X = initialPosition.X + (float)Simulation.Camera.Zoom * (float)(Math.Sin(Simulation.Camera.XVal * pi180) * Math.Cos(Simulation.Camera.YVal * pi180));
                 Simulation.Camera.Position.Y = initialPosition.Y + (float)Simulation.Camera.Zoom * (float)(Math.Sin(Simulation.Camera.YVal * pi180));
                 Simulation.Camera.Position.Z = initialPosition.Z + (float)Simulation.Camera.Zoom * -(float)(Math.Cos(Simulation.Camera.XVal * pi180) * Math.Cos(Simulation.Camera.YVal * pi180));
@@ -256,7 +256,7 @@ namespace SolarForms.Components
                     obj.Positions.Clear();
                 }
                 ResetSim();
-                Simulation.Run(10000);
+                Simulation.Run(10);
                 foreach (var obj in Simulation.PlanetarySystem.Objects)
                 {
                     obj.Position = obj.Positions.First();
@@ -277,11 +277,13 @@ namespace SolarForms.Components
 
             if (!Simulation.Camera.Fixed)
             {
-                Simulation.Camera.LookAt = Simulation.PlanetarySystem.Objects[Simulation.Camera.Focus].Position / Simulation.Scale;
+                Simulation.Camera.LookAt = Simulation.PlanetarySystem.Objects[Simulation.Camera.Focus].RenderPosition;
             }
             var matrixStuff = Matrix4.LookAt(Simulation.Camera.Position, Simulation.Camera.LookAt, Vector3.UnitY);
             if (!Simulation.Paused)
+            {
                 Simulation.CurrentFrame += Simulation.Speed;
+            }
 
             Title = $"(Vsync: {VSync}) FPS: {1f / e.Time:0}";
             GL.ClearColor(Color4.Black);
@@ -306,13 +308,13 @@ namespace SolarForms.Components
                 GL.UniformMatrix4(20, false, ref _projectionMatrix);
                 if (!Simulation.Paused)
                 {
+                    obj.RenderPosition = obj.Positions[Simulation.CurrentFrame] / Simulation.Scale;
                     if (obj.TrailsActive)
                     {
-                        obj.Position = obj.Positions[Simulation.CurrentFrame];
-                        LineObjects.Add(new LineObject(obj.Position, obj.TrailColour,  obj.TrailLength, obj.Radius / Simulation.TrailScale));
+                        LineObjects.Add(new LineObject(obj.RenderPosition, obj.TrailColour,  obj.TrailLength, obj.Radius / Simulation.TrailScale));
                     }
                 }
-                obj.Render(matrixStuff, Simulation.TrailScale, Simulation.Scale);
+                obj.Render(matrixStuff, Simulation.TrailScale);
             }
 
             for (int i = 0; i < LineObjects.Count; i++)

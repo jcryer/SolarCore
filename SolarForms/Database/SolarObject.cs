@@ -27,6 +27,8 @@ namespace SolarForms.Database
         [JsonIgnore]
         public Vector3 Position;
         [JsonIgnore]
+        public Vector3 RenderPosition;
+        [JsonIgnore]
         public Vector3 Velocity;
         [JsonIgnore]
         public RenderObject Obj;
@@ -71,10 +73,11 @@ namespace SolarForms.Database
             OrbitalSpeed = orbitalSpeed;
             Positions = new List<Vector3>();
         }
-        public void Render(Matrix4 projectionMatrix, int trailScale, int scale)
+
+        public void Render(Matrix4 projectionMatrix, int trailScale)
         {
             Obj.Bind();
-            var t2 = Matrix4.CreateTranslation(Position / scale);
+            var t2 = Matrix4.CreateTranslation(RenderPosition);
             var r1 = Matrix4.CreateRotationZ((float)Obliquity);
 
             var s = Matrix4.CreateScale((float)Radius / trailScale);
