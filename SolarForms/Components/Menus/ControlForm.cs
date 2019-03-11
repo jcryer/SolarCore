@@ -1,4 +1,5 @@
 ﻿using MetroFramework.Forms;
+using OpenTK.Graphics.OpenGL4;
 using SolarForms.Database;
 using System;
 using System.Drawing;
@@ -18,12 +19,11 @@ namespace SolarForms.Components.Menus
             if (simulation != null)
             {
                 Simulation = simulation;
-                Simulation.PlanetarySystem.Objects.First().ObjectColour = Color.Red;
-                Simulation.PlanetarySystem.Objects[1].ObjectColour = Color.Red;
-
-                Simulation.Scale = 10000;
+                Simulation.Camera = new Camera(10000, 10000, 0, false);
+                Simulation.Scale = 10000000;
                 Simulation.TrailScale = 100;
-
+                Simulation.SpeedModifier = 100;
+                Simulation.Speed = 1;
                 if (!Simulation.PlanetarySystem.Objects.Any())
                 {
                     RunButton.Enabled = false;
@@ -39,7 +39,7 @@ namespace SolarForms.Components.Menus
             {
                 Simulation = new Simulation();
                 Simulation.Camera = new Camera(10000, 10000, 0, false);
-                Simulation.Scale = 1000000;
+                Simulation.Scale = 10000000;
                 Simulation.TrailScale = 100;
                 Simulation.SpeedModifier = 100;
                 Simulation.Speed = 1;
@@ -62,6 +62,7 @@ namespace SolarForms.Components.Menus
         private void Window_Closed(object sender, EventArgs e)
         {
             Window = null;
+
         }
 
         private void UpdateFields()
@@ -90,7 +91,11 @@ namespace SolarForms.Components.Menus
         private void ControlForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (Window != null)
+            {
+                GL.Clear(ClearBufferMask.None);
+
                 Window.Exit();
+            }
         }
         
         private void SpeedControl_ValueChanged(object sender, EventArgs e)
@@ -218,6 +223,12 @@ namespace SolarForms.Components.Menus
 
         private void SaveSimulation_Click(object sender, EventArgs e)
         {
+            if (Simulation.PlanetarySystem.Name != "")
+            {
+
+                DatabaseMethods.SetSimulation(Simulation);
+                return;
+            }
             var form = new SaveAsForm();
             var result = form.ShowDialog();
             if (result == DialogResult.OK)
@@ -225,6 +236,13 @@ namespace SolarForms.Components.Menus
                 Simulation.PlanetarySystem.Name = form.Response;
                 DatabaseMethods.SetSimulation(Simulation);
             }
+        }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+
+            new MainMenu().Show();
+            Close();
         }
     }
 }

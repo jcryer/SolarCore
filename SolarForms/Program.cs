@@ -64,8 +64,8 @@ namespace SolarForms
             "`ObjectID`	INTEGER NOT NULL," +
             "`TrailActive`	INTEGER NOT NULL," +
             "`TrailLength`	INTEGER NOT NULL," +
-            "`TrailColour`	INTEGER NOT NULL," +
-            "`ObjectColour`	INTEGER NOT NULL," +
+            "`TrailColour`	TEXT NOT NULL," +
+            "`ObjectColour`	TEXT NOT NULL," +
             "foreign key(SimulationID) references Simulation(SimulationID)," +
             "foreign key(ObjectID) references Object(ObjectID)); ", DBConnection);
 
@@ -74,7 +74,6 @@ namespace SolarForms
             PlanetarySystem.ExecuteNonQuery();
             Simulation.ExecuteNonQuery();
             ObjectView.ExecuteNonQuery();
-
             /*
             int[] test = new int[] { 10, 199, 299, 399, 499, 599, 699, 799, 899 };
             foreach (int i in test)

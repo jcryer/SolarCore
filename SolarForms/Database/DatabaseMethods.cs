@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Drawing;
+using System.Linq;
 using OpenTK;
 using OpenTK.Graphics;
 using SolarForms.Components;
@@ -79,7 +80,7 @@ namespace SolarForms.Database
                 }
                 sim.PlanetarySystem.Objects.Add(new SolarObject(dict["Name"], double.Parse(dict["Mass"]), double.Parse(dict["Radius"]), 
                     double.Parse(dict["Obliquity"]), double.Parse(dict["OrbitalSpeed"]), Convert.ToBoolean(int.Parse(dict["TrailActive"])), 
-                    int.Parse(dict["TrailLength"]), Color.FromArgb(int.Parse(dict["TrailColour"])), Color4.LightGoldenrodYellow, 
+                    int.Parse(dict["TrailLength"]), ColorTranslator.FromHtml(dict["TrailColour"]), ColorTranslator.FromHtml(dict["ObjectColour"]), 
                     new Vector3(float.Parse(dict["PositionX"]), float.Parse(dict["PositionY"]), float.Parse(dict["PositionZ"])), 
                     new Vector3(float.Parse(dict["VelocityX"]), float.Parse(dict["VelocityY"]), 
                     float.Parse(dict["VelocityZ"]))) { DatabaseID = int.Parse(dict["ObjectID"]) });
@@ -222,11 +223,13 @@ namespace SolarForms.Database
                     $"WHERE SimulationID = {sim.DatabaseID};";
                 cmd.ExecuteScalar();
             }
-
             foreach (var delObj in sim.PlanetarySystem.DeletedObjects)
             {
-                cmd.CommandText = $"DELETE FROM Object WHERE ObjectID = {delObj.DatabaseID};";
-                cmd.ExecuteScalar();
+                if (delObj.DatabaseID > 8)
+                {
+                    cmd.CommandText = $"DELETE FROM Object WHERE ObjectID = {delObj.DatabaseID};";
+                    cmd.ExecuteScalar();
+                }
                 cmd.CommandText = $"DELETE FROM ObjectView WHERE ObjectID = {delObj.DatabaseID} AND SimulationID = {simulationID};";
                 cmd.ExecuteScalar();
                 cmd.CommandText = $"DELETE FROM InitialValues WHERE ObjectID = {delObj.DatabaseID} AND PlanetarySystemID = {planetarySystemID};";
@@ -263,7 +266,7 @@ namespace SolarForms.Database
                 {
                     cmd.CommandText = $"INSERT INTO ObjectView(SimulationID, ObjectID, TrailActive, TrailLength, TrailColour, ObjectColour) " +
                      $" VALUES ({simulationID}, {objectID}, {obj.TrailsActive}, {obj.TrailLength}, " +
-                     $"{obj.TrailColour.ToArgb()}, {obj.ObjectColour.ToArgb()});";
+                     $"\"{ColorTranslator.ToHtml((Color)obj.TrailColour)}\", \"{ColorTranslator.ToHtml((Color)obj.ObjectColour)}\");";
                     cmd.ExecuteScalar();
                 }
                 else
@@ -271,8 +274,8 @@ namespace SolarForms.Database
                     cmd.CommandText = $"UPDATE ObjectView SET " +
                        $"TrailActive = {obj.TrailsActive}, " +
                        $"TrailLength = {obj.TrailLength}, " +
-                       $"TrailColour = {obj.TrailColour.ToArgb()}, " +
-                       $"ObjectColour = {obj.ObjectColour.ToArgb()} " +
+                       $"TrailColour = \"{ColorTranslator.ToHtml((Color)obj.TrailColour)}\", " +
+                       $"ObjectColour = \"{ColorTranslator.ToHtml((Color)obj.ObjectColour)}\" " +
                        $"WHERE ObjectID = {obj.DatabaseID} AND SimulationID = {simulationID};";
                     cmd.ExecuteScalar();
                 }
