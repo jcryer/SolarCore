@@ -52,7 +52,7 @@ namespace SolarForms.Components
                 x.InitialPosition = x.Position;
                 x.InitialVelocity = x.Velocity;
             }
-            Simulation.Run(10);
+            Simulation.Run(10000);
             CursorVisible = true;
             
             _program = CreateProgram();
@@ -256,7 +256,7 @@ namespace SolarForms.Components
                     obj.Positions.Clear();
                 }
                 ResetSim();
-                Simulation.Run(10);
+                Simulation.Run(10000);
                 foreach (var obj in Simulation.PlanetarySystem.Objects)
                 {
                     obj.Position = obj.Positions.First();
@@ -277,7 +277,7 @@ namespace SolarForms.Components
 
             if (!Simulation.Camera.Fixed)
             {
-                Simulation.Camera.LookAt = Simulation.PlanetarySystem.Objects[Simulation.Camera.Focus].Position;
+                Simulation.Camera.LookAt = Simulation.PlanetarySystem.Objects[Simulation.Camera.Focus].Position / Simulation.Scale;
             }
             var matrixStuff = Matrix4.LookAt(Simulation.Camera.Position, Simulation.Camera.LookAt, Vector3.UnitY);
             if (!Simulation.Paused)
@@ -291,7 +291,7 @@ namespace SolarForms.Components
                 if (secondsElapsed == 0)
                     secondsElapsed = (DateTime.Now - endTime).TotalSeconds;
                 Console.WriteLine("Reached end of simulation: " + secondsElapsed);
-                Simulation.Run(10);
+                Simulation.Run(10000);
                // Simulation.CurrentFrame = Simulation.PlanetarySystem.Objects.First().Positions.Count - 1;
             }
             if (Simulation.CurrentFrame < 0)
@@ -306,13 +306,13 @@ namespace SolarForms.Components
                 GL.UniformMatrix4(20, false, ref _projectionMatrix);
                 if (!Simulation.Paused)
                 {
-                    obj.Position = obj.Positions[Simulation.CurrentFrame] / Simulation.Scale;
                     if (obj.TrailsActive)
                     {
+                        obj.Position = obj.Positions[Simulation.CurrentFrame];
                         LineObjects.Add(new LineObject(obj.Position, obj.TrailColour,  obj.TrailLength, obj.Radius / Simulation.TrailScale));
                     }
                 }
-                obj.Render(matrixStuff, Simulation.TrailScale);
+                obj.Render(matrixStuff, Simulation.TrailScale, Simulation.Scale);
             }
 
             for (int i = 0; i < LineObjects.Count; i++)
