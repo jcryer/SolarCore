@@ -43,10 +43,5 @@ namespace SolarForms.Components.Menus
             Location = 0;
             Close();
         }
-
-        private void SettingsButton_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

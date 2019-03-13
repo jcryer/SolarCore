@@ -37,12 +37,15 @@ namespace SolarForms.Database
         public Vector3 InitialPosition;
         [JsonIgnore]
         public Vector3 InitialVelocity;
+        [JsonIgnore]
+        public List<Vector3> Velocities;
 
         [JsonIgnore]
         public List<Vector3> Positions;
         public SolarObject()
         {
             Positions = new List<Vector3>();
+            Velocities = new List<Vector3>();
             DatabaseID = -1;
 
         }
@@ -59,6 +62,7 @@ namespace SolarForms.Database
             ObjectColour = objectColour;
             Position = position;
             Velocity = velocity;
+            Velocities = new List<Vector3>();
             Positions = new List<Vector3>();
             DatabaseID = -1;
         }
@@ -72,6 +76,7 @@ namespace SolarForms.Database
             Obliquity = obliquity;
             OrbitalSpeed = orbitalSpeed;
             Positions = new List<Vector3>();
+            Velocities = new List<Vector3>();
         }
 
         public void Render(Matrix4 projectionMatrix, int trailScale)

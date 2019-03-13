@@ -127,3 +127,4 @@ C:\Users\Joseph\Desktop\CS Coursework\SolarCore\SolarForms\obj\Debug\SolarForms.
 C:\Users\Joseph\Desktop\CS Coursework\SolarCore\SolarForms\obj\Debug\SolarForms.Components.Menus.SimMenu.resources
 C:\Users\Joseph\Desktop\CS Coursework\SolarCore\SolarForms\obj\Debug\SolarForms.Components.Menus.SaveAsForm.aa-DJ.resources
 C:\Users\Joseph\Desktop\CS Coursework\SolarCore\SolarForms\obj\Debug\aa-DJ\SolarForms.resources.dll
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.AdvancedControlForm.resources

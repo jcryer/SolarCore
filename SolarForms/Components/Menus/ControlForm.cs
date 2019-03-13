@@ -25,18 +25,17 @@ namespace SolarForms.Components.Menus
              //   Simulation.Scale = 10000000;
                 Simulation.TrailScale = 100;
                 Simulation.SpeedModifier = 100;
-            //    Simulation.Speed = 1;
-                
+                //    Simulation.Speed = 1;
                 if (!Simulation.PlanetarySystem.Objects.Any())
                 {
                     RunButton.Enabled = false;
-                    SaveSimulation.Enabled = false;
                 }
                 else
                 {
                     RunButton.Enabled = true;
-                    SaveSimulation.Enabled = true;
                 }
+             //   SaveSimulation.Enabled = false;
+
             }
             else
             {
@@ -65,7 +64,6 @@ namespace SolarForms.Components.Menus
         private void Window_Closed(object sender, EventArgs e)
         {
             Window = null;
-
         }
 
         private void UpdateFields()
@@ -77,7 +75,18 @@ namespace SolarForms.Components.Menus
                     MethodInvoker mi = delegate ()
                     {
                         if (SpeedControl.Value != Simulation.Speed)
+                        {
                             SpeedControl.Value = Simulation.Speed;
+                        }
+                        if (Simulation.CurrentFrame == 0 && Simulation.Speed <= 0)
+                        {
+                            Simulation.Speed = 0;
+                            ErrorLabel.Text = "Reached Start of Sim";
+                        }
+                        else
+                        {
+                            ErrorLabel.Text = "";
+                        }
                     };
                     Invoke(mi);
                 }
@@ -95,8 +104,6 @@ namespace SolarForms.Components.Menus
         {
             if (Window != null)
             {
-                GL.Clear(ClearBufferMask.None);
-
                 Window.Exit();
             }
         }
@@ -194,16 +201,12 @@ namespace SolarForms.Components.Menus
 
         private void RunButton_Click(object sender, EventArgs e)
         {
-            if (Window == null)
+            if (Window == null || Window.LocalIsDisposed)
             {
                 Window = new MainWindow(Simulation);
                 Window.Run(60);
-                Size = new Size(Size.Width, Screen.AllScreens[0].WorkingArea.Height);
-                Window.Height = Screen.AllScreens[0].WorkingArea.Height;
-                Window.Width = Screen.AllScreens[0].WorkingArea.Width - Size.Width;
-                Window.Location = new Point(Size.Width - 10, 0);
+                Window.Closed += Window_Closed;
             }
-            Window.Closed += Window_Closed;
 
         }
 
@@ -249,6 +252,17 @@ namespace SolarForms.Components.Menus
 
             new MainMenu().Show();
             Close();
+        }
+
+        private void AdvancedButton_Click(object sender, EventArgs e)
+        {
+            var form = new AdvancedControlForm(Simulation);
+            var result = form.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                Simulation = form.Simulation;
+                Simulation.Changed = true;
+            }
         }
     }
 }

@@ -31,6 +31,12 @@ namespace SolarForms.Components
             Simulation = simulation;
         }
 
+        public bool LocalIsDisposed
+        {
+            get { return IsDisposed; }
+        }
+
+
         protected override void OnResize(EventArgs e)
         {
             GL.MatrixMode(MatrixMode.Projection);
@@ -52,7 +58,7 @@ namespace SolarForms.Components
                 x.InitialPosition = x.Position;
                 x.InitialVelocity = x.Velocity;
             }
-            Simulation.Run(500);
+            Simulation.Run(100, false, 0);
             CursorVisible = true;
 
             _program = CreateProgram();
@@ -78,7 +84,43 @@ namespace SolarForms.Components
                 obj.Object.Dispose();
                 LineObjects.Remove(obj);
             }
+
             HandleKeyboard();
+
+            bool newObjects = false;
+            foreach (var obj in Simulation.PlanetarySystem.Objects)
+            {
+                if (obj.Obj == null)
+                {
+                    obj.InitialPosition = obj.Position;
+                    obj.InitialVelocity = obj.Velocity;
+                    newObjects = true;
+                    break;
+                }
+            }
+
+            if (newObjects || Simulation.Changed)
+            {
+                foreach (var obj in Simulation.PlanetarySystem.Objects)
+                {
+                    obj.Obj = new RenderObject(new Sphere().CreateSphere(3, obj.ObjectColour));
+                    LineObjects.ForEach(x => x.Object.Dispose());
+                    LineObjects.Clear();
+                    obj.Positions.Clear();
+                    obj.Velocities.Clear();
+                }
+                if (Simulation.Speed < 0)
+                {
+                    Simulation.Run(100, true, Simulation.CurrentFrame + Simulation.FrameMove);
+                    Simulation.FrameMove +=100;
+                }
+                else
+                {
+                    Simulation.Run(100, false, Simulation.CurrentFrame + Simulation.FrameMove);
+                    Simulation.FrameMove -= 100;
+                }
+                Simulation.Changed = false;
+            }
         }
         
         private void HandleKeyboard()
@@ -168,7 +210,7 @@ namespace SolarForms.Components
                 if (Simulation.Camera.Zoom < 10000) Simulation.Camera.Zoom = 10000;
                 if (Simulation.Camera.Zoom > 10000000) Simulation.Camera.Zoom = 10000000;
 
-                var pi180 = (Math.PI);
+                var pi180 = Math.PI;
                 Vector3 initialPosition;
                 if (!Simulation.Camera.Fixed)
                     initialPosition = Simulation.PlanetarySystem.Objects[Simulation.Camera.Focus].RenderPosition;
@@ -183,12 +225,78 @@ namespace SolarForms.Components
             }
         }
 
+        protected override void OnRenderFrame(FrameEventArgs e)
+        {
+            Title = $"SolarCore: {Simulation.PlanetarySystem.Name}";
+            GL.ClearColor(Color4.Black);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            
+            if (!Simulation.Camera.Fixed)
+            {
+                Simulation.Camera.LookAt = Simulation.PlanetarySystem.Objects[Simulation.Camera.Focus].RenderPosition;
+            }
+            var matrixStuff = Matrix4.LookAt(Simulation.Camera.Position, Simulation.Camera.LookAt, Vector3.UnitY);
+
+
+            if (Simulation.CurrentFrame + Simulation.FrameMove >= Simulation.PlanetarySystem.Objects.First().Positions.Count)
+            {
+                Simulation.Run(100, false, Simulation.CurrentFrame + Simulation.FrameMove);
+                Simulation.PlanetarySystem.Objects.ForEach(x => x.Positions.RemoveRange(0, 100));
+                Simulation.PlanetarySystem.Objects.ForEach(x => x.Velocities.RemoveRange(0, 100));
+                Simulation.FrameMove -= 99;
+            }
+
+           else if (Simulation.CurrentFrame + Simulation.FrameMove < 0)
+            {
+                Simulation.Run(100, true, Simulation.CurrentFrame + Simulation.FrameMove);
+                Simulation.PlanetarySystem.Objects.ForEach(x => x.Positions.RemoveRange(Simulation.PlanetarySystem.Objects.First().Positions.Count-101, 100));
+                Simulation.PlanetarySystem.Objects.ForEach(x => x.Velocities.RemoveRange(Simulation.PlanetarySystem.Objects.First().Positions.Count - 101, 100));
+                Simulation.FrameMove += 99;
+            }
+
+            foreach (var obj in Simulation.PlanetarySystem.Objects)
+            {
+                GL.UseProgram(_program);
+                GL.UniformMatrix4(20, false, ref _projectionMatrix);
+                if (!Simulation.Paused)
+                {
+                    obj.RenderPosition = obj.Positions[Simulation.CurrentFrame + Simulation.FrameMove] / Simulation.Scale;
+                    if (obj.TrailsActive)
+                    {
+                        LineObjects.Add(new LineObject(obj.RenderPosition, obj.TrailColour,  obj.TrailLength, obj.Radius / (Simulation.TrailScale * 10)));
+                    }
+                }
+                obj.Render(matrixStuff, Simulation.TrailScale);
+            }
+            
+            for (int i = 0; i < LineObjects.Count; i++)
+            {
+                if (!Simulation.Paused)
+                {
+                    LineObjects[i].DeleteBy -= Math.Abs(Simulation.Speed);
+                }
+                GL.UseProgram(_program);
+                GL.UniformMatrix4(20, false, ref _projectionMatrix);
+                LineObjects[i].Render(matrixStuff);
+            }
+            
+            GL.PointSize(10);
+            SwapBuffers();
+
+            if (!Simulation.Paused)
+            {
+                Simulation.CurrentFrame += Simulation.Speed;
+                if (Simulation.CurrentFrame < 0) Simulation.CurrentFrame = 0;
+            }
+        }
+
         public void ResetSim()
         {
             LineObjects.ForEach(x => x.Object.Dispose());
             LineObjects.Clear();
+
             Simulation.CurrentFrame = 0;
-            Simulation.Speed = 1;
+            Simulation.FrameMove = 0;
             Simulation.Paused = false;
         }
 
@@ -215,97 +323,7 @@ namespace SolarForms.Components
             foreach (var obj in LineObjects.Select(x => x.Object))
                 obj.Dispose();
             GL.DeleteProgram(_program);
-            base.Exit();
-        }
-
-        DateTime endTime = DateTime.Now;
-        double secondsElapsed = 0;
-        protected override void OnRenderFrame(FrameEventArgs e)
-        {
-            bool newObjects = false;
-            foreach (var obj in Simulation.PlanetarySystem.Objects)
-            {
-                if (obj.Obj == null)
-                {
-                    obj.InitialPosition = obj.Position;
-                    obj.InitialVelocity = obj.Velocity;
-                    newObjects = true;
-                    break;
-                }
-            }
-            if (newObjects || Simulation.Changed)
-            {
-                foreach (var obj in Simulation.PlanetarySystem.Objects)
-                {
-                    obj.Obj = new RenderObject(new Sphere().CreateSphere(3, obj.ObjectColour));
-                    obj.Position = obj.InitialPosition;
-                    obj.Velocity = obj.InitialVelocity;
-                    obj.Positions.Clear();
-                }
-                ResetSim();
-                Simulation.Run(500);
-                foreach (var obj in Simulation.PlanetarySystem.Objects)
-                {
-                    obj.Position = obj.Positions.First();
-                }
-                Simulation.Changed = false;
-            }
-            
-            if (!Simulation.Camera.Fixed)
-            {
-                Simulation.Camera.LookAt = Simulation.PlanetarySystem.Objects[Simulation.Camera.Focus].RenderPosition;
-            }
-            else
-            {
-                Simulation.Camera.LookAt = new Vector3(0, 0, 0);
-            }
-            var matrixStuff = Matrix4.LookAt(Simulation.Camera.Position, Simulation.Camera.LookAt, Vector3.UnitY);
-            if (!Simulation.Paused)
-            {
-                Simulation.CurrentFrame += Simulation.Speed;
-            }
-
-            Title = $"SolarCore: {Simulation.PlanetarySystem.Name}";
-            GL.ClearColor(Color4.Black);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            if (Simulation.CurrentFrame >= Simulation.PlanetarySystem.Objects.First().Positions.Count)
-            {
-                Simulation.Run(500);
-            }
-            if (Simulation.CurrentFrame < 0)
-            {
-                Console.WriteLine("Beginning of simulation");
-                Simulation.CurrentFrame = 0;
-            }
-
-            foreach (var obj in Simulation.PlanetarySystem.Objects)
-            {
-                GL.UseProgram(_program);
-                GL.UniformMatrix4(20, false, ref _projectionMatrix);
-                if (!Simulation.Paused)
-                {
-                    obj.RenderPosition = obj.Positions[Simulation.CurrentFrame] / Simulation.Scale;
-                    if (obj.TrailsActive)
-                    {
-                        LineObjects.Add(new LineObject(obj.RenderPosition, obj.TrailColour,  obj.TrailLength, obj.Radius / (10 * Simulation.TrailScale)));
-                    }
-                }
-                obj.Render(matrixStuff, Simulation.TrailScale);
-            }
-            
-            for (int i = 0; i < LineObjects.Count; i++)
-            {
-                if (!Simulation.Paused)
-                {
-                    LineObjects[i].DeleteBy -= Math.Abs(Simulation.Speed);
-                }
-                GL.UseProgram(_program);
-                GL.UniformMatrix4(20, false, ref _projectionMatrix);
-                LineObjects[i].Render(matrixStuff);
-            }
-            
-            GL.PointSize(10);
-            SwapBuffers();
+            Dispose();
         }
 
         private int CompileShader(ShaderType type, string path)

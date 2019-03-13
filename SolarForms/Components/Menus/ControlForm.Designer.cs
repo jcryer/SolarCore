@@ -43,6 +43,7 @@
             this.AdvancedButton = new MetroFramework.Controls.MetroButton();
             this.SaveSimulation = new MetroFramework.Controls.MetroButton();
             this.BackButton = new MetroFramework.Controls.MetroButton();
+            this.ErrorLabel = new MetroFramework.Controls.MetroLabel();
             this.SuspendLayout();
             // 
             // SpeedControl
@@ -70,7 +71,7 @@
             // 
             // RunButton
             // 
-            this.RunButton.Location = new System.Drawing.Point(12, 64);
+            this.RunButton.Location = new System.Drawing.Point(12, 83);
             this.RunButton.Name = "RunButton";
             this.RunButton.Size = new System.Drawing.Size(172, 23);
             this.RunButton.TabIndex = 8;
@@ -192,6 +193,7 @@
             this.AdvancedButton.TabIndex = 19;
             this.AdvancedButton.Text = "Advanced";
             this.AdvancedButton.UseSelectable = true;
+            this.AdvancedButton.Click += new System.EventHandler(this.AdvancedButton_Click);
             // 
             // SaveSimulation
             // 
@@ -217,11 +219,22 @@
             this.BackButton.UseSelectable = true;
             this.BackButton.Click += new System.EventHandler(this.BackButton_Click);
             // 
+            // ErrorLabel
+            // 
+            this.ErrorLabel.AutoSize = true;
+            this.ErrorLabel.Location = new System.Drawing.Point(12, 60);
+            this.ErrorLabel.Name = "ErrorLabel";
+            this.ErrorLabel.Size = new System.Drawing.Size(0, 0);
+            this.ErrorLabel.Style = MetroFramework.MetroColorStyle.Red;
+            this.ErrorLabel.TabIndex = 22;
+            this.ErrorLabel.UseStyleColors = true;
+            // 
             // ControlForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(200, 611);
+            this.Controls.Add(this.ErrorLabel);
             this.Controls.Add(this.BackButton);
             this.Controls.Add(this.SaveSimulation);
             this.Controls.Add(this.AdvancedButton);
@@ -262,5 +275,6 @@
         private MetroFramework.Controls.MetroButton AdvancedButton;
         private MetroFramework.Controls.MetroButton SaveSimulation;
         private MetroFramework.Controls.MetroButton BackButton;
+        private MetroFramework.Controls.MetroLabel ErrorLabel;
     }
 }

@@ -24,6 +24,7 @@ namespace SolarForms.Database
         public int Scale;
         public bool Changed = false;
         public int TrailScale;
+        public int FrameMove;
 
         public Simulation()
         {
@@ -31,9 +32,17 @@ namespace SolarForms.Database
             DatabaseID = -1;
         }
 
-        public void Run(int frames)
+        public void Run(int frames, bool backwards, int frameNum)
         {
+            foreach (var obj in PlanetarySystem.Objects)
+            {
+                if (!obj.Positions.Any())
+                    break;
+                obj.Position = obj.Positions[frameNum];
+                obj.Velocity = obj.Velocities[frameNum];
+            }
             int initialNumber = PlanetarySystem.Objects.First().Positions.Count;
+
             while (PlanetarySystem.Objects.First().Positions.Count < frames + initialNumber)
             {
                 List<AggregateObject> response = new List<AggregateObject>();
@@ -47,7 +56,16 @@ namespace SolarForms.Database
                     var currentObject = PlanetarySystem.Objects.First(y => y.Obj == x.Object.Obj);
                     currentObject.Velocity = x.Velocity;
                     currentObject.Position = x.Position;
-                    currentObject.Positions.Add(x.Position);
+                    if (backwards)
+                    {
+                        currentObject.Positions.Insert(0, x.Position);
+                        currentObject.Velocities.Insert(0, x.Velocity);
+                    }
+                    else
+                    {
+                        currentObject.Positions.Add(x.Position);
+                        currentObject.Velocities.Add(x.Velocity);
+                    }
                 }
             }
         }
