@@ -24,7 +24,7 @@ namespace SolarForms.Database
         public int Scale;
         public bool Changed = false;
         public int TrailScale;
-        public int FrameMove;
+        public int MaximumSpeed = 100;
 
         public Simulation()
         {
@@ -48,7 +48,7 @@ namespace SolarForms.Database
                 List<AggregateObject> response = new List<AggregateObject>();
                 foreach (var obj in PlanetarySystem.Objects)
                 {
-                    response.Add(GravityMethods.RecalculateValues(obj, PlanetarySystem.Objects.Where(x => x != obj).ToList(), Speed * SpeedModifier));
+                    response.Add(GravityMethods.RecalculateValues(obj, PlanetarySystem.Objects.Where(x => x != obj).ToList(), SpeedModifier));
                 }
 
                 foreach (var x in response)

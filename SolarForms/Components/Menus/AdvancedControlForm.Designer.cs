@@ -44,6 +44,8 @@
             this.CancelButton = new MetroFramework.Controls.MetroButton();
             this.SaveButton = new MetroFramework.Controls.MetroButton();
             this.metroButton1 = new MetroFramework.Controls.MetroButton();
+            this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
+            this.MaximumSpeed = new MetroFramework.Controls.MetroTextBox();
             this.SuspendLayout();
             // 
             // ScaleLabel
@@ -171,9 +173,9 @@
             this.metroLabel4.AutoSize = true;
             this.metroLabel4.Location = new System.Drawing.Point(292, 110);
             this.metroLabel4.Name = "metroLabel4";
-            this.metroLabel4.Size = new System.Drawing.Size(126, 19);
+            this.metroLabel4.Size = new System.Drawing.Size(117, 19);
             this.metroLabel4.TabIndex = 21;
-            this.metroLabel4.Text = "Speed Modifier (int)";
+            this.metroLabel4.Text = "Accuracy (1-10000)";
             // 
             // SpeedModifier
             // 
@@ -361,11 +363,53 @@
             this.metroButton1.UseSelectable = true;
             this.metroButton1.Visible = false;
             // 
+            // metroLabel3
+            // 
+            this.metroLabel3.AutoSize = true;
+            this.metroLabel3.Location = new System.Drawing.Point(283, 139);
+            this.metroLabel3.Name = "metroLabel3";
+            this.metroLabel3.Size = new System.Drawing.Size(135, 19);
+            this.metroLabel3.TabIndex = 31;
+            this.metroLabel3.Text = "Maximum Speed (int)";
+            // 
+            // MaximumSpeed
+            // 
+            // 
+            // 
+            // 
+            this.MaximumSpeed.CustomButton.Image = null;
+            this.MaximumSpeed.CustomButton.Location = new System.Drawing.Point(93, 1);
+            this.MaximumSpeed.CustomButton.Name = "";
+            this.MaximumSpeed.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.MaximumSpeed.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.MaximumSpeed.CustomButton.TabIndex = 1;
+            this.MaximumSpeed.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.MaximumSpeed.CustomButton.UseSelectable = true;
+            this.MaximumSpeed.CustomButton.Visible = false;
+            this.MaximumSpeed.Lines = new string[0];
+            this.MaximumSpeed.Location = new System.Drawing.Point(424, 135);
+            this.MaximumSpeed.MaxLength = 32767;
+            this.MaximumSpeed.Name = "MaximumSpeed";
+            this.MaximumSpeed.PasswordChar = '\0';
+            this.MaximumSpeed.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.MaximumSpeed.SelectedText = "";
+            this.MaximumSpeed.SelectionLength = 0;
+            this.MaximumSpeed.SelectionStart = 0;
+            this.MaximumSpeed.ShortcutsEnabled = true;
+            this.MaximumSpeed.Size = new System.Drawing.Size(117, 25);
+            this.MaximumSpeed.TabIndex = 30;
+            this.MaximumSpeed.UseSelectable = true;
+            this.MaximumSpeed.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.MaximumSpeed.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.MaximumSpeed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MaximumSpeed_KeyPress);
+            // 
             // AdvancedControlForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(566, 253);
+            this.Controls.Add(this.metroLabel3);
+            this.Controls.Add(this.MaximumSpeed);
             this.Controls.Add(this.metroButton1);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.SaveButton);
@@ -409,5 +453,7 @@
         private MetroFramework.Controls.MetroButton CancelButton;
         private MetroFramework.Controls.MetroButton SaveButton;
         private MetroFramework.Controls.MetroButton metroButton1;
+        private MetroFramework.Controls.MetroLabel metroLabel3;
+        private MetroFramework.Controls.MetroTextBox MaximumSpeed;
     }
 }

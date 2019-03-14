@@ -74,6 +74,8 @@ namespace SolarForms.Components.Menus
                 {
                     MethodInvoker mi = delegate ()
                     {
+                        SpeedControl.Maximum = Simulation.MaximumSpeed;
+                        SpeedControl.Minimum = -Simulation.MaximumSpeed;
                         if (SpeedControl.Value != Simulation.Speed)
                         {
                             SpeedControl.Value = Simulation.Speed;

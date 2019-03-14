@@ -2,14 +2,7 @@
 using OpenTK;
 using SolarForms.Database;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SolarForms.Components.Menus
@@ -34,6 +27,7 @@ namespace SolarForms.Components.Menus
             XPos.Text = s.Camera.LookAt.X.ToString();
             YPos.Text = s.Camera.LookAt.Y.ToString();
             ZPos.Text = s.Camera.LookAt.Z.ToString();
+            MaximumSpeed.Text = s.MaximumSpeed.ToString();
             
             if (FixedCamera.Checked)
             {
@@ -76,6 +70,10 @@ namespace SolarForms.Components.Menus
             if (SpeedModifier.Text != "")
             {
                 Simulation.SpeedModifier = int.Parse(SpeedModifier.Text);
+            }
+            if (MaximumSpeed.Text != "")
+            {
+                Simulation.MaximumSpeed = int.Parse(MaximumSpeed.Text);
             }
             if (XPos.Text != "" && YPos.Text != "" && ZPos.Text != "")
             {
@@ -152,6 +150,12 @@ namespace SolarForms.Components.Menus
                 YPos.Enabled = true;
                 ZPos.Enabled = true;
             }
+        }
+
+        private void MaximumSpeed_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            if (IsNumberKey(e.KeyChar, true))
+                e.Handled = true;
         }
     }
 }
