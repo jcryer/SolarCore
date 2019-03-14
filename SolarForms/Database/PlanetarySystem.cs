@@ -1,4 +1,5 @@
-﻿using SolarForms.Components;
+﻿using Newtonsoft.Json;
+using SolarForms.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,12 @@ namespace SolarForms.Database
 {
     public class PlanetarySystem
     {
+        [JsonIgnore]
         public int DatabaseID;
         public string Name = "";
         public string Description = "";
         public List<SolarObject> Objects;
+        [JsonIgnore]
         public List<SolarObject> DeletedObjects = new List<SolarObject>();
         public PlanetarySystem()
         {

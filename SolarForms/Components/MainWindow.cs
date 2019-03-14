@@ -84,7 +84,6 @@ namespace SolarForms.Components
                 LineObjects.Remove(obj);
             }
 
-            HandleKeyboard();
 
             bool newObjects = false;
             foreach (var obj in Simulation.PlanetarySystem.Objects)
@@ -108,6 +107,8 @@ namespace SolarForms.Components
                     obj.Positions.Clear();
                     obj.Velocities.Clear();
                 }
+                if (!Simulation.PlanetarySystem.Objects.Any())
+                    return;
                 if (Simulation.Speed < 0)
                 {
                     Simulation.Run(300, true, Simulation.CurrentFrame);
@@ -120,8 +121,12 @@ namespace SolarForms.Components
                 }
                 Simulation.Changed = false;
             }
+            if (!Simulation.PlanetarySystem.Objects.Any())
+                return;
+            HandleKeyboard();
+
         }
-        
+
         private void HandleKeyboard()
         {
             var mouseState = Mouse.GetState();
@@ -226,12 +231,16 @@ namespace SolarForms.Components
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
+            if (!Simulation.PlanetarySystem.Objects.Any())
+                return;
+
             Title = $"SolarCore: {Simulation.PlanetarySystem.Name}";
             GL.ClearColor(Color4.Black);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             if (!Simulation.Camera.Fixed)
             {
+                if (Simulation.PlanetarySystem.Objects.Any())
                 Simulation.Camera.LookAt = Simulation.PlanetarySystem.Objects[Simulation.Camera.Focus].RenderPosition;
             }
             var matrixStuff = Matrix4.LookAt(Simulation.Camera.Position, Simulation.Camera.LookAt, Vector3.UnitY);

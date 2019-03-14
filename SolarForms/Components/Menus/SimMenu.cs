@@ -1,12 +1,16 @@
 ﻿using MetroFramework.Forms;
+using Newtonsoft.Json;
 using SolarForms.Components;
 using SolarForms.Components.Menus;
+using SolarForms.Database;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,10 +20,11 @@ namespace SolarForms.Components.Menus
     public partial class SimMenu : MetroForm
     {
         new int Location = 0;
+        Simulation Sim;
 
         public SimMenu()
         {
-            this.StartPosition = FormStartPosition.CenterScreen;
+            StartPosition = FormStartPosition.CenterScreen;
             InitializeComponent();
             testButton.Select();
         }
@@ -29,7 +34,12 @@ namespace SolarForms.Components.Menus
             if (Location == 1)
                 new PresetMenu().Show();
             else if (Location == 2)
-                new SimMenu().Show();
+            {
+                if (Sim != null)
+                {
+                    new ControlForm(Sim).Show();
+                }
+            }
             else if (Location == 3)
             {
                 new ControlForm().Show();
@@ -46,8 +56,22 @@ namespace SolarForms.Components.Menus
 
         private void FileButton_Click(object sender, EventArgs e)
         {
-            Location = 2;
-            Close();
+            if (FileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    var sr = new StreamReader(FileDialog.FileName);
+                    string simString = sr.ReadToEnd();
+                    Sim = JsonConvert.DeserializeObject<Simulation>(simString);
+                    Location = 2;
+                    Sim.FromFile = true;
+                    Close();
+                }
+                catch (SecurityException ex)
+                {
+                    MessageBox.Show($"Import failed. Is the file valid?");
+                }
+            }
         }
 
         private void BackButton_Click(object sender, EventArgs e)

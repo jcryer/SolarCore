@@ -13,6 +13,7 @@ namespace SolarForms.Database
 {
     public class SolarObject
     {
+        [JsonIgnore]
         public int DatabaseID;
         public int ID;
         public string Name = "";

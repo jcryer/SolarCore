@@ -12,20 +12,27 @@ namespace SolarForms.Database
 {
     public class Simulation
     {
+        [JsonIgnore]
         public int DatabaseID;
         public PlanetarySystem PlanetarySystem;
         public int Speed;
         public int SpeedModifier = 1;
+        [JsonIgnore]
         public MouseState OldMouseState = Mouse.GetState();
+        [JsonIgnore]
         public KeyboardState OldKeyState = Keyboard.GetState();
+        [JsonIgnore]
         public int CurrentFrame;
         public Camera Camera;
+        [JsonIgnore]
         public bool Paused;
         public int Scale;
+        [JsonIgnore]
         public bool Changed = false;
         public int TrailScale;
         public int MaximumSpeed = 100;
-
+        [JsonIgnore]
+        public bool FromFile = false;
         public Simulation()
         {
             PlanetarySystem = new PlanetarySystem();
@@ -80,7 +87,9 @@ namespace SolarForms.Database
         public Vector3 Position = new Vector3(0, 0, -1);
         [JsonIgnore]
         public Vector3 LookAt = new Vector3(0, 0, 0);
+        [JsonIgnore]
         public double XVal;
+        [JsonIgnore]
         public double YVal;
         public bool Fixed;
 

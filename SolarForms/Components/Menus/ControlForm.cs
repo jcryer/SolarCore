@@ -1,8 +1,10 @@
 ﻿using MetroFramework.Forms;
+using Newtonsoft.Json;
 using OpenTK.Graphics.OpenGL4;
 using SolarForms.Database;
 using System;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -21,11 +23,7 @@ namespace SolarForms.Components.Menus
             if (simulation != null)
             {
                 Simulation = simulation;
-              //  Simulation.Camera = new Camera(10000, 10000, 0, true);
-             //   Simulation.Scale = 10000000;
-                Simulation.TrailScale = 100;
-                Simulation.SpeedModifier = 100;
-                //    Simulation.Speed = 1;
+
                 if (!Simulation.PlanetarySystem.Objects.Any())
                 {
                     RunButton.Enabled = false;
@@ -34,8 +32,12 @@ namespace SolarForms.Components.Menus
                 {
                     RunButton.Enabled = true;
                 }
-             //   SaveSimulation.Enabled = false;
 
+                SaveSimulation.Enabled = false;
+                if (Simulation.FromFile)
+                {
+                    SaveSimulation.Enabled = true;
+                }
             }
             else
             {
@@ -145,7 +147,6 @@ namespace SolarForms.Components.Menus
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-
             var form = new ObjectForm(Simulation);
             var result = form.ShowDialog();
             if (result == DialogResult.OK)
@@ -236,7 +237,6 @@ namespace SolarForms.Components.Menus
         {
             if (Simulation.PlanetarySystem.Name != "")
             {
-
                 DatabaseMethods.SetSimulation(Simulation);
                 return;
             }
@@ -264,6 +264,23 @@ namespace SolarForms.Components.Menus
             {
                 Simulation = form.Simulation;
                 Simulation.Changed = true;
+            }
+        }
+
+        private void ExportButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog.ShowDialog();
+            if (SaveFileDialog.FileName != "")
+            {
+                try
+                {
+                    string sim = JsonConvert.SerializeObject(Simulation);
+                    File.WriteAllText(SaveFileDialog.FileName, sim);
+                }
+                catch 
+                {
+                    MessageBox.Show($"Export failed. Is the location valid?");
+                }
             }
         }
     }

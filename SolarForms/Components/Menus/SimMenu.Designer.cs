@@ -33,6 +33,7 @@
             this.NewButton = new MetroFramework.Controls.MetroButton();
             this.BackButton = new MetroFramework.Controls.MetroButton();
             this.testButton = new MetroFramework.Controls.MetroButton();
+            this.FileDialog = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // PresetButton
@@ -92,6 +93,10 @@
             this.testButton.UseSelectable = true;
             this.testButton.Visible = false;
             // 
+            // openFileDialog1
+            // 
+            this.FileDialog.FileName = "openFileDialog1";
+            // 
             // SimMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -119,5 +124,6 @@
         private MetroFramework.Controls.MetroButton NewButton;
         private MetroFramework.Controls.MetroButton BackButton;
         private MetroFramework.Controls.MetroButton testButton;
+        private System.Windows.Forms.OpenFileDialog FileDialog;
     }
 }

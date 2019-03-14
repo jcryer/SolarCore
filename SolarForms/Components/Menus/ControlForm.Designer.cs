@@ -44,6 +44,8 @@
             this.SaveSimulation = new MetroFramework.Controls.MetroButton();
             this.BackButton = new MetroFramework.Controls.MetroButton();
             this.ErrorLabel = new MetroFramework.Controls.MetroLabel();
+            this.ExportButton = new MetroFramework.Controls.MetroButton();
+            this.SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
             // SpeedControl
@@ -199,11 +201,11 @@
             // 
             this.SaveSimulation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.SaveSimulation.Location = new System.Drawing.Point(12, 507);
+            this.SaveSimulation.Location = new System.Drawing.Point(12, 477);
             this.SaveSimulation.Name = "SaveSimulation";
             this.SaveSimulation.Size = new System.Drawing.Size(172, 25);
             this.SaveSimulation.TabIndex = 20;
-            this.SaveSimulation.Text = "Save";
+            this.SaveSimulation.Text = "Save as Preset";
             this.SaveSimulation.UseSelectable = true;
             this.SaveSimulation.Click += new System.EventHandler(this.SaveSimulation_Click);
             // 
@@ -229,11 +231,24 @@
             this.ErrorLabel.TabIndex = 22;
             this.ErrorLabel.UseStyleColors = true;
             // 
+            // ExportButton
+            // 
+            this.ExportButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ExportButton.Location = new System.Drawing.Point(12, 508);
+            this.ExportButton.Name = "ExportButton";
+            this.ExportButton.Size = new System.Drawing.Size(172, 25);
+            this.ExportButton.TabIndex = 23;
+            this.ExportButton.Text = "Export to File";
+            this.ExportButton.UseSelectable = true;
+            this.ExportButton.Click += new System.EventHandler(this.ExportButton_Click);
+            // 
             // ControlForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(200, 611);
+            this.Controls.Add(this.ExportButton);
             this.Controls.Add(this.ErrorLabel);
             this.Controls.Add(this.BackButton);
             this.Controls.Add(this.SaveSimulation);
@@ -276,5 +291,7 @@
         private MetroFramework.Controls.MetroButton SaveSimulation;
         private MetroFramework.Controls.MetroButton BackButton;
         private MetroFramework.Controls.MetroLabel ErrorLabel;
+        private MetroFramework.Controls.MetroButton ExportButton;
+        private System.Windows.Forms.SaveFileDialog SaveFileDialog;
     }
 }
