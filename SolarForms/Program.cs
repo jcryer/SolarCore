@@ -81,7 +81,7 @@ namespace SolarForms
             Console.WriteLine("Done!");
             */
 
-            new Components.Menus.MainMenu().Show();
+            new Components.Menus.MainForm().Show();
             Application.Run();
         }
     }

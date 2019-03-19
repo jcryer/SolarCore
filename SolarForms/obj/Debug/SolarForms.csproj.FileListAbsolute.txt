@@ -72,11 +72,8 @@ C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\OpenTK
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\OpenTK.GLControl.pdb
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\OpenTK.GLControl.xml
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.ControlForm.resources
-C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.MainMenu.resources
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.ObjectForm.resources
-C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.PresetMenu.resources
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Properties.Resources.resources
-C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.SimMenu.resources
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.csproj.GenerateResource.cache
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.csproj.CoreCompileInputs.cache
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.csproj.CopyComplete
@@ -128,3 +125,6 @@ C:\Users\Joseph\Desktop\CS Coursework\SolarCore\SolarForms\obj\Debug\SolarForms.
 C:\Users\Joseph\Desktop\CS Coursework\SolarCore\SolarForms\obj\Debug\SolarForms.Components.Menus.SaveAsForm.aa-DJ.resources
 C:\Users\Joseph\Desktop\CS Coursework\SolarCore\SolarForms\obj\Debug\aa-DJ\SolarForms.resources.dll
 C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.AdvancedControlForm.resources
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.MainForm.resources
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.PresetForm.resources
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\obj\Debug\SolarForms.Components.Menus.SimForm.resources

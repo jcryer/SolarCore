@@ -25,12 +25,23 @@ namespace SolarForms.Database
         public int TrailLength;
         public Color4 TrailColour;
         public Color4 ObjectColour;
+
         [JsonIgnore]
         public Vector3 Position;
+
         [JsonIgnore]
         public Vector3 RenderPosition;
+
         [JsonIgnore]
         public Vector3 Velocity;
+
+        public float PositionX;
+        public float PositionY;
+        public float PositionZ;
+        public float VelocityX;
+        public float VelocityY;
+        public float VelocityZ;
+
         [JsonIgnore]
         public RenderObject Obj;
 
@@ -43,6 +54,22 @@ namespace SolarForms.Database
 
         [JsonIgnore]
         public List<Vector3> Positions;
+
+        public void SetVectors()
+        {
+            PositionX = Position.X;
+            PositionY = Position.Y;
+            PositionZ = Position.Z;
+            VelocityX = Velocity.X;
+            VelocityY = Velocity.Y;
+            VelocityZ = Velocity.Z;
+        }
+
+        public void GetVectors()
+        {
+            Position = new Vector3(PositionX, PositionY, PositionZ);
+            Velocity = new Vector3(VelocityX, VelocityY, VelocityZ);
+        }
         public SolarObject()
         {
             Positions = new List<Vector3>();

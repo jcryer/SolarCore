@@ -1,6 +1,6 @@
 ﻿namespace SolarForms.Components.Menus
 {
-    partial class PresetMenu
+    partial class PresetForm
     {
         /// <summary>
         /// Required designer variable.

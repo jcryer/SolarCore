@@ -8,12 +8,12 @@ using System.Windows.Forms;
 
 namespace SolarForms.Components.Menus
 {
-    public partial class PresetMenu : MetroForm
+    public partial class PresetForm : MetroForm
     {
         new int Location = 0;
         Simulation Simulation;
         List<Simulation> Simulations = new List<Simulation>();
-        public PresetMenu()
+        public PresetForm()
         {
             InitializeComponent();
             Simulations = DatabaseMethods.GetSimulations();
@@ -30,7 +30,7 @@ namespace SolarForms.Components.Menus
                 new ControlForm(Simulation).Show();
             }
             else if (Location == 0)
-                new SimMenu().Show();
+                new SimForm().Show();
         }
 
         private void BackButton_Click(object sender, EventArgs e)

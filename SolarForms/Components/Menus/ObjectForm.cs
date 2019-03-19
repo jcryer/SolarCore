@@ -93,7 +93,8 @@ namespace SolarForms.Components.Menus
         {
             if (Mass.Text != "")
             {
-                SolarObject.Mass = double.Parse(Mass.Text);
+                var mass = double.Parse(Mass.Text);
+                SolarObject.Mass = mass;
                 return true;
             }
             return false;
@@ -118,6 +119,7 @@ namespace SolarForms.Components.Menus
             if (TrailLength.Text != "")
             {
                 SolarObject.TrailLength = int.Parse(TrailLength.Text);
+                if (SolarObject.TrailLength < 0) SolarObject.TrailLength = 0;
             }
             else
             {
@@ -238,6 +240,11 @@ namespace SolarForms.Components.Menus
             if (!SetName())
             {
                 ErrorMessage.Text = "'Name' field must not be empty.";
+                return;
+            }
+            if (SolarObject.Name.Length >= 30)
+            {
+                ErrorMessage.Text = "'Name' field must be less than 30 chars.";
                 return;
             }
             if (!SetPosition())

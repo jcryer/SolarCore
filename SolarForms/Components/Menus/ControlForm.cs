@@ -23,7 +23,8 @@ namespace SolarForms.Components.Menus
             if (simulation != null)
             {
                 Simulation = simulation;
-
+                Simulation.TrailScale = 100;
+                Simulation.SpeedModifier = 10000;
                 if (!Simulation.PlanetarySystem.Objects.Any())
                 {
                     RunButton.Enabled = false;
@@ -33,7 +34,7 @@ namespace SolarForms.Components.Menus
                     RunButton.Enabled = true;
                 }
 
-                SaveSimulation.Enabled = false;
+              //  SaveSimulation.Enabled = false;
                 if (Simulation.FromFile)
                 {
                     SaveSimulation.Enabled = true;
@@ -252,7 +253,7 @@ namespace SolarForms.Components.Menus
         private void BackButton_Click(object sender, EventArgs e)
         {
 
-            new MainMenu().Show();
+            new MainForm().Show();
             Close();
         }
 
@@ -274,6 +275,7 @@ namespace SolarForms.Components.Menus
             {
                 try
                 {
+                    Simulation.PlanetarySystem.Objects.ForEach(x => x.SetVectors());
                     string sim = JsonConvert.SerializeObject(Simulation);
                     File.WriteAllText(SaveFileDialog.FileName, sim);
                 }

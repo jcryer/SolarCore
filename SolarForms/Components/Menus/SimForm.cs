@@ -17,12 +17,12 @@ using System.Windows.Forms;
 
 namespace SolarForms.Components.Menus
 {
-    public partial class SimMenu : MetroForm
+    public partial class SimForm : MetroForm
     {
         new int Location = 0;
         Simulation Sim;
 
-        public SimMenu()
+        public SimForm()
         {
             StartPosition = FormStartPosition.CenterScreen;
             InitializeComponent();
@@ -32,7 +32,7 @@ namespace SolarForms.Components.Menus
         private void SimMenu_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (Location == 1)
-                new PresetMenu().Show();
+                new PresetForm().Show();
             else if (Location == 2)
             {
                 if (Sim != null)
@@ -45,7 +45,7 @@ namespace SolarForms.Components.Menus
                 new ControlForm().Show();
             }
             else if (Location == 0)
-                new MainMenu().Show();
+                new MainForm().Show();
         }
 
         private void PresetButton_Click(object sender, EventArgs e)
@@ -63,6 +63,8 @@ namespace SolarForms.Components.Menus
                     var sr = new StreamReader(FileDialog.FileName);
                     string simString = sr.ReadToEnd();
                     Sim = JsonConvert.DeserializeObject<Simulation>(simString);
+                    Sim.PlanetarySystem.Objects.ForEach(x => x.GetVectors());
+
                     Location = 2;
                     Sim.FromFile = true;
                     Close();

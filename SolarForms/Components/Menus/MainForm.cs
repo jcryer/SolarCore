@@ -11,10 +11,10 @@ using MetroFramework.Forms;
 
 namespace SolarForms.Components.Menus
 {
-    public partial class MainMenu : MetroForm
+    public partial class MainForm : MetroForm
     {
         new int Location = 0;
-        public MainMenu()
+        public MainForm()
         {
             StartPosition = FormStartPosition.CenterScreen;
             InitializeComponent();
@@ -30,7 +30,7 @@ namespace SolarForms.Components.Menus
         private void MainMenu_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (Location == 1)
-                new SimMenu().Show();
+                new SimForm().Show();
             else if (Location == 0)
             {
                 Application.Exit();
