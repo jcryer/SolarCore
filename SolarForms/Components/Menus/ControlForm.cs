@@ -18,7 +18,7 @@ namespace SolarForms.Components.Menus
         public ControlForm(Simulation simulation = null)
         {
             InitializeComponent();
-            Height = Screen.AllScreens[0].WorkingArea.Height;
+           // Height = Screen.AllScreens[0].WorkingArea.Height;
             
             if (simulation != null)
             {

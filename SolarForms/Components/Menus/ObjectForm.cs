@@ -69,45 +69,73 @@ namespace SolarForms.Components.Menus
             return false;
         }
 
-        private bool SetPosition()
+        private int SetPosition() // 0: No issue. 1: Blank. 2: Parse error.
         {
             if (XPos.Text != "" && YPos.Text != "" && ZPos.Text != "")
             {
-                SolarObject.Position = new Vector3(float.Parse(XPos.Text), float.Parse(YPos.Text), float.Parse(ZPos.Text));
-                return true;
+                try
+                {
+                    SolarObject.Position = new Vector3(float.Parse(XPos.Text), float.Parse(YPos.Text), float.Parse(ZPos.Text));
+                    return 0;
+                }
+                catch
+                {
+                    return 2;
+                }
             }
-            return false;
+            return 1;
         }
 
-        private bool SetVelocity()
+        private int SetVelocity() // 0: No issue. 1: Blank. 2: Parse error.
         {
             if (XVec.Text != "" && YVec.Text != "" && ZVec.Text != "")
             {
-                SolarObject.Velocity = new Vector3(float.Parse(XVec.Text), float.Parse(YVec.Text), float.Parse(ZVec.Text));
-                return true;
+                try
+                {
+                    SolarObject.Velocity = new Vector3(float.Parse(XVec.Text), float.Parse(YVec.Text), float.Parse(ZVec.Text));
+                    return 0;
+                }
+                catch
+                {
+                    return 2;
+                }
             }
-            return false;
+            return 1;
         }
 
-        private bool SetMass()
+        private int SetMass() // 0: No issue. 1: Blank. 2: Parse error.
         {
             if (Mass.Text != "")
             {
-                var mass = double.Parse(Mass.Text);
-                SolarObject.Mass = mass;
-                return true;
+                try
+                {
+                    var mass = double.Parse(Mass.Text);
+                    SolarObject.Mass = mass;
+                    return 0;
+                }
+                catch
+                {
+                    return 2;
+                }
             }
-            return false;
+            return 1;
         }
 
-        private bool SetRadius()
+        private int SetRadius() // 0: No issue. 1: Blank. 2: Parse error.
         {
             if (Radius.Text != "")
             {
-                SolarObject.Radius = double.Parse(Radius.Text);
-                return true;
+                try
+                {
+                    SolarObject.Radius = double.Parse(Radius.Text);
+                    return 0;
+                }
+                catch
+                {
+                    return 2;
+                }
             }
-            return false;
+            return 1;
         }
 
         private void SetOther()
@@ -156,8 +184,8 @@ namespace SolarForms.Components.Menus
                 return true;
             }
             return false;
-
         }
+
         private void XPos_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (IsNumberKey(e.KeyChar))
@@ -247,30 +275,57 @@ namespace SolarForms.Components.Menus
                 ErrorMessage.Text = "'Name' field must be less than 30 chars.";
                 return;
             }
-            if (!SetPosition())
+
+            int posResp = SetPosition();
+            if (posResp == 1)
             {
                 ErrorMessage.Text = "'Position' fields must not be empty.";
                 return;
             }
-            if (!SetVelocity())
+            else if (posResp == 2)
+            {
+                ErrorMessage.Text = "'Position' fields are invalid.";
+                return;
+            }
+
+            int velResp = SetVelocity();
+            if (velResp == 1)
             {
                 ErrorMessage.Text = "'Velocity' fields must not be empty.";
                 return;
             }
-            if (!SetMass())
+            else if (velResp == 2)
+            {
+                ErrorMessage.Text = "'Velocity' fields are invalid.";
+                return;
+            }
+
+            int massResp = SetMass();
+            if (massResp == 1)
             {
                 ErrorMessage.Text = "'Mass' field must not be empty.";
                 return;
             }
-
+            else if (massResp == 2)
+            {
+                ErrorMessage.Text = "'Mass' field is invalid.";
+                return;
+            }
             if (SolarObject.Mass <= 0)
             {
                 ErrorMessage.Text = "'Mass' field must be greater than 0.";
                 return;
             }
-            if (!SetRadius())
+
+            int radResp = SetRadius();
+            if (radResp == 1)
             {
                 ErrorMessage.Text = "'Radius' field must not be empty.";
+                return;
+            }
+            else if (radResp == 2)
+            {
+                ErrorMessage.Text = "'Radius' field is invalid.";
                 return;
             }
             if (SolarObject.Radius <= 0)

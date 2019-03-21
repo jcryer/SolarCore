@@ -173,9 +173,9 @@
             this.metroLabel4.AutoSize = true;
             this.metroLabel4.Location = new System.Drawing.Point(292, 110);
             this.metroLabel4.Name = "metroLabel4";
-            this.metroLabel4.Size = new System.Drawing.Size(117, 19);
+            this.metroLabel4.Size = new System.Drawing.Size(61, 19);
             this.metroLabel4.TabIndex = 21;
-            this.metroLabel4.Text = "Accuracy (1-10000)";
+            this.metroLabel4.Text = "Accuracy";
             // 
             // SpeedModifier
             // 
