@@ -146,9 +146,15 @@ namespace SolarForms.Components.Menus
 
             if (TrailLength.Text != "")
             {
-                SolarObject.TrailLength = int.Parse(TrailLength.Text);
-                if (SolarObject.TrailLength < 0) SolarObject.TrailLength = 0;
-            }
+                try {
+                    SolarObject.TrailLength = int.Parse(TrailLength.Text);
+                    if (SolarObject.TrailLength < 0) SolarObject.TrailLength = 0;
+                }
+                catch
+                {
+                    SolarObject.TrailLength = 0;
+                }
+        }
             else
             {
                 SolarObject.TrailLength = 1000;
@@ -156,7 +162,14 @@ namespace SolarForms.Components.Menus
 
             if (Obliquity.Text != "")
             {
-                SolarObject.Obliquity = double.Parse(Obliquity.Text);
+                try
+                {
+                    SolarObject.Obliquity = double.Parse(Obliquity.Text);
+                }
+                catch
+                {
+                    SolarObject.Obliquity = 0;
+                }
             }
             else
             {
@@ -165,7 +178,13 @@ namespace SolarForms.Components.Menus
 
             if (OrbitalSpeed.Text != "")
             {
-                SolarObject.OrbitalSpeed = double.Parse(OrbitalSpeed.Text);
+                try { 
+                    SolarObject.OrbitalSpeed = double.Parse(OrbitalSpeed.Text);
+                }
+                catch
+                {
+                    SolarObject.OrbitalSpeed = 0;
+                }
             }
             else
             {
