@@ -74,12 +74,11 @@ namespace SolarForms
             PlanetarySystem.ExecuteNonQuery();
             Simulation.ExecuteNonQuery();
             ObjectView.ExecuteNonQuery();
-            /*
-            int[] test = new int[] { 301 };
+
+            int[] test = new int[] { 10, 199, 299, 399, 499, 599, 699, 799, 899, 999 };
             foreach (int i in test)
                 Database.DatabaseMethods.AddObject(i);
             Console.WriteLine("Done!");
-            */
 
             new Components.Menus.MainForm().Show();
             Application.Run();
