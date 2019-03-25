@@ -1,0 +1,11 @@
+GetSimulations() - Gets list of Simulation IDs
+
+GetSimulation(int simulationID) - Gets all information about a specific simulation (and connected planetary system) based on ID.
+
+GetObjects() - Gets all information about all objects in the Object table.
+
+GetLocationPresets(int mode) - Gets all location presets for the objects pulled from NASA (contained within planetary system ID 0).
+
+AddObject() - Pulls a specific object from NASA's database and adds it to the database - Object and InitialValues.
+
+SetSimulation() - Adds a new simulation and planetary system to the database, as well as all Objects, and their connected ObjectView record and InitialValues record (or updates the relevant records if they already exist within the database).
