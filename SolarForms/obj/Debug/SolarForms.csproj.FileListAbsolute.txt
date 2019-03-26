@@ -129,3 +129,5 @@ C:\Users\Joseph\Desktop\CS Coursework\SolarCore\SolarForms\obj\Debug\SolarForms.
 C:\Users\Joseph\Desktop\CS Coursework\SolarCore\SolarForms\obj\Debug\SolarForms.Components.Menus.MainForm.resources
 C:\Users\Joseph\Desktop\CS Coursework\SolarCore\SolarForms\obj\Debug\SolarForms.Components.Menus.PresetForm.resources
 C:\Users\Joseph\Desktop\CS Coursework\SolarCore\SolarForms\obj\Debug\SolarForms.Components.Menus.SimForm.resources
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\SolarForms.exe.CodeAnalysisLog.xml
+C:\Users\Joseph\Desktop\A-Level Coursework\NotBroken\SolarForms\bin\Debug\SolarForms.exe.lastcodeanalysissucceeded

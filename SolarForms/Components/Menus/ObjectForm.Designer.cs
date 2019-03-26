@@ -704,6 +704,7 @@
             this.MinimizeBox = false;
             this.Name = "ObjectForm";
             this.Resizable = false;
+            this.Text = " ";
             this.ResumeLayout(false);
             this.PerformLayout();
 
