@@ -1,0 +1,42 @@
+Done:
+
+Forms:
+- ObjectForm
+- SaveAsForm
+- ExistingObjectsForm
+- PresetForm
+- SimForm
+
+Components:
+- GravityMethods
+
+Database:
+- Simulation
+- SolarObject
+- PlanetarySystem
+
+Misc:
+- Program
+
+======================================
+
+Not Done:
+
+Forms:
+- ControlForm
+- MainForm
+
+Components:
+- IcoSphereFactory
+- LineObject
+- MainWindow
+- RenderObject
+- Telnet
+- Vertex
+
+Database:
+- DatabaseMethods
+
+
+
+10 done, 9 to do
