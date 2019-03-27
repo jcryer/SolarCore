@@ -6,17 +6,86 @@ using System.Linq;
 using OpenTK;
 using OpenTK.Graphics;
 using SolarForms.Components;
+using System.IO;
 
 namespace SolarForms.Database
 {
     class DatabaseMethods
     {
+        public static SQLiteConnection DBConnection;
+
+        public static void Setup()
+        {
+            if (!File.Exists("SolarDB.sqlite"))
+                SQLiteConnection.CreateFile("SolarDB.sqlite");
+
+            DBConnection = new SQLiteConnection("Data Source=SolarDB.sqlite;Version=3;");
+            DBConnection.Open();
+
+            SQLiteCommand Object = new SQLiteCommand("" +
+                "CREATE TABLE IF NOT EXISTS `Object` (" +
+                "`ObjectID`	INTEGER PRIMARY KEY AUTOINCREMENT," +
+                 "`Name`	TEXT NOT NULL," +
+                "`Mass`	REAL NOT NULL," +
+                "`Radius`	REAL NOT NULL," +
+                "`Obliquity`	REAL NOT NULL," +
+                "`OrbitalSpeed`	REAL NOT NULL); ", DBConnection);
+
+            SQLiteCommand InitialValues = new SQLiteCommand("" +
+                "CREATE TABLE IF NOT EXISTS `InitialValues` (" +
+                "`ObjectID`	INTEGER NOT NULL," +
+                "`PlanetarySystemID`	INTEGER NOT NULL," +
+                "`PositionX`	REAL NOT NULL," +
+                "`PositionY`	REAL NOT NULL," +
+                "`PositionZ`	REAL NOT NULL," +
+                "`VelocityX`	REAL NOT NULL," +
+                "`VelocityY`	REAL NOT NULL," +
+                "`VelocityZ`	REAL NOT NULL," +
+                "foreign key(ObjectID) references Object(ObjectID)," +
+                "foreign key(PlanetarySystemID) references PlanetarySystem(PlanetarySystemID));", DBConnection);
+
+            SQLiteCommand PlanetarySystem = new SQLiteCommand("" +
+                "CREATE TABLE IF NOT EXISTS `PlanetarySystem` (" +
+                "`PlanetarySystemID`	INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "`Name`	TEXT NOT NULL," +
+                "`Description`	TEXT NOT NULL); ", DBConnection);
+
+            SQLiteCommand Simulation = new SQLiteCommand("" +
+                "CREATE TABLE IF NOT EXISTS `Simulation` (" +
+                "`SimulationID`	INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "`PlanetarySystemID`	INTEGER NOT NULL," +
+                "`Zoom`	REAL NOT NULL," +
+                "`ZoomModifier`	REAL NOT NULL," +
+                "`Focus`	INTEGER NOT NULL," +
+                "`Fixed`	INTEGER NOT NULL," +
+                "`Speed`	INTEGER NOT NULL," +
+                "'SpeedModifier' INTEGER NOT NULL," +
+                "`Scale`	INTEGER NOT NULL," +
+                "FOREIGN KEY(`PlanetarySystemID`) REFERENCES `PlanetarySystem`(`PlanetarySystemID`)); ", DBConnection);
+
+            SQLiteCommand ObjectView = new SQLiteCommand("" +
+            "CREATE TABLE IF NOT EXISTS `ObjectView` (" +
+            "`SimulationID`	INTEGER NOT NULL," +
+            "`ObjectID`	INTEGER NOT NULL," +
+            "`TrailActive`	INTEGER NOT NULL," +
+            "`TrailLength`	INTEGER NOT NULL," +
+            "`TrailColour`	TEXT NOT NULL," +
+            "`ObjectColour`	TEXT NOT NULL," +
+            "foreign key(SimulationID) references Simulation(SimulationID)," +
+            "foreign key(ObjectID) references Object(ObjectID)); ", DBConnection);
+
+            Object.ExecuteNonQuery();
+            InitialValues.ExecuteNonQuery();
+            PlanetarySystem.ExecuteNonQuery();
+            Simulation.ExecuteNonQuery();
+            ObjectView.ExecuteNonQuery();
+        }
 
         public static List<Simulation> GetSimulations()
         {
             List<int> simulationIDs = new List<int>();
             string simString = "select Simulation.SimulationID FROM Simulation;";
-            var simQuery = new SQLiteCommand(simString, Program.DBConnection);
+            var simQuery = new SQLiteCommand(simString, DBConnection);
             var simReader = simQuery.ExecuteReader();
 
             while (simReader.Read())
@@ -42,7 +111,7 @@ namespace SolarForms.Database
                 "inner join PlanetarySystem on PlanetarySystem.PlanetarySystemID = Simulation.PlanetarySystemID " + 
                 "where Simulation.SimulationID = " + simulationId + ";";
             
-            var simQuery = new SQLiteCommand(simQueryString, Program.DBConnection);
+            var simQuery = new SQLiteCommand(simQueryString, DBConnection);
             var simReader = simQuery.ExecuteReader();
 
             while (simReader.Read())
@@ -68,7 +137,7 @@ namespace SolarForms.Database
                 "left join ObjectView on ObjectView.ObjectID = Object.ObjectID " +
                 $"where Simulation.SimulationID = {simulationId} AND ObjectView.SimulationID = {simulationId};";
 
-            var objectQuery = new SQLiteCommand(objectQueryString, Program.DBConnection);
+            var objectQuery = new SQLiteCommand(objectQueryString, DBConnection);
             var objectReader = objectQuery.ExecuteReader();
             while (objectReader.Read())
             {
@@ -93,7 +162,7 @@ namespace SolarForms.Database
             List<SolarObject> objects = new List<SolarObject>();
             string objQueryString = "select * from Object;";
 
-            var objQuery = new SQLiteCommand(objQueryString, Program.DBConnection);
+            var objQuery = new SQLiteCommand(objQueryString, DBConnection);
             var objReader = objQuery.ExecuteReader();
 
             while (objReader.Read())
@@ -120,7 +189,7 @@ namespace SolarForms.Database
                 objQueryString = "select VelocityX, VelocityY, VelocityZ, Object.Name from InitialValues " +
                     "inner join Object on Object.ObjectID = InitialValues.ObjectID WHERE InitialValues.PlanetarySystemID = 0;";
 
-            var objQuery = new SQLiteCommand(objQueryString, Program.DBConnection);
+            var objQuery = new SQLiteCommand(objQueryString, DBConnection);
             var objReader = objQuery.ExecuteReader();
 
             while (objReader.Read())
@@ -156,21 +225,21 @@ namespace SolarForms.Database
         public static bool AddObject(int id)
         {
             var t = new Telnet().Run(id);
-            var cmd = new SQLiteCommand($"SELECT count(*) FROM Object;", Program.DBConnection);
+            var cmd = new SQLiteCommand($"SELECT count(*) FROM Object;", DBConnection);
 
             int countObjectView = Convert.ToInt32(cmd.ExecuteScalar());
 
             string addString = $"insert into Object (ObjectID, Name, Mass, Radius, Obliquity, OrbitalSpeed) " +
                 $"values('{countObjectView}', '{t.Name}', '{t.Mass}', '{t.Radius}', 0, 0);";
 
-            var add = new SQLiteCommand(addString, Program.DBConnection);
+            var add = new SQLiteCommand(addString, DBConnection);
             add.ExecuteNonQuery();
             var position = t.GetPosition();
             var velocity = t.GetVelocity();
             string addinitvaluesString = $"insert into InitialValues (ObjectID, PlanetarySystemID, PositionX, PositionY, PositionZ, " +
                 $"VelocityX, VelocityY, VelocityZ) values('{countObjectView}', '0', '{position.X}', '{position.Y}', '{position.Z}', '{velocity.X}', '{velocity.Y}', '{velocity.Z}');";
 
-            var addinitValues = new SQLiteCommand(addinitvaluesString, Program.DBConnection);
+            var addinitValues = new SQLiteCommand(addinitvaluesString, DBConnection);
             addinitValues.ExecuteNonQuery();
 
             return true;
@@ -178,7 +247,7 @@ namespace SolarForms.Database
 
         public static bool SetSimulation(Simulation sim)
         {
-            SQLiteCommand cmd = new SQLiteCommand(Program.DBConnection);
+            SQLiteCommand cmd = new SQLiteCommand(DBConnection);
 
             int planetarySystemID = -1;
             int simulationID = -1;
