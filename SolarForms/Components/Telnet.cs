@@ -22,10 +22,17 @@ namespace SolarForms.Components
         {
             Planet = planet;
 
+            // Creates a telnet connection to NASA's Horizons database, on port 6775.
             telnetClient = new TelnetClient("horizons.jpl.nasa.gov", 6775, TimeSpan.FromSeconds(5), default(CancellationToken));
+
+            // Event handler methods are setup for the Telnet connection being closed and for a message being received.
             telnetClient.ConnectionClosed += HandleConnectionClosed;
             telnetClient.MessageReceived += HandleMessageReceived;
+
+            // This starts the Telnet connection.
             telnetClient.Connect();
+
+            // Wait until completed.
             while (!Done)
             {
                 continue;
@@ -33,6 +40,12 @@ namespace SolarForms.Components
             return RetVal;
         }
 
+        // This method uses multiple different RegEx statements to parse the returned information from NASA's system and get the required information:
+        // - Name of the object
+        // - Mass of the object
+        // - Radius of the object
+        // - Position vector (x, y, z) at a specific point in time
+        // - Velocity vector (x, y, z) at the same specific point in time
         private void HandleConnectionClosed(object sender, EventArgs e)
         {
             string ephemeris = "";
@@ -75,6 +88,10 @@ namespace SolarForms.Components
             Done = true;
         }
 
+
+        // This method transmits a series of instructions to NASA's Horizons system, requesting the name, mass and radius values of a specific object
+        // as well as the specific position and velocity vectors at a specific point in time.
+        // This request is done in relation to the Sun, meaning that the Sun is at 0,0,0 in this co-ordinate system.
         private void HandleMessageReceived(object sender, string message)
         {
             Console.WriteLine(message);
@@ -106,6 +123,8 @@ namespace SolarForms.Components
         }
     }
 
+    // Simple object created to be able to return all values in a format that can then be worked with more easily later on.
+    // It also contains methods that convert the six individual position/velocity values returned into a position Vector3 and a velocity Vector3.
     class ReturnObject
     {
         public string Name;
@@ -118,25 +137,6 @@ namespace SolarForms.Components
         private float vx;
         private float vy;
         private float vz;
-
-        [JsonConstructor]
-        public ReturnObject(string name, double mass, double radius, float px, float py, float pz, float vx, float vy, float vz)
-        {
-            if (name != "")
-                Name = name;
-            else
-            {
-                Name = "unknown";
-            }
-            Mass = mass;
-            Radius = radius;
-            this.px = px;
-            this.py = py;
-            this.pz = pz;
-            this.vx = vx;
-            this.vy = vy;
-            this.vz = vz;
-        }
 
         public ReturnObject(string posx, string posy, string posz, string vecx, string vecy, string vecz, string mass, string power, string radius, string name)
         {
@@ -159,19 +159,6 @@ namespace SolarForms.Components
         public Vector3 GetVelocity()
         {
             return new Vector3(vx, vy, vz);
-        }
-    }
-    public class PrivateContractResolver : DefaultContractResolver
-    {
-        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
-        {
-            var props = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                            .Select(p => base.CreateProperty(p, memberSerialization))
-                        .Union(type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                                   .Select(f => base.CreateProperty(f, memberSerialization)))
-                        .ToList();
-            props.ForEach(p => { p.Writable = true; p.Readable = true; });
-            return props;
         }
     }
 }

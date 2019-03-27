@@ -1,0 +1,46 @@
+Forms:
+- ObjectForm
+- SaveAsForm
+- ExistingObjectsForm
+- PresetForm
+- SimForm
+- MainForm
+- ControlForm
+- AdvancedControlForm
+
+Components:
+- GravityMethods
+- Vertex
+- LineObject
+- IcoSphereFactory
+- RenderObject
+- MainWindow
+- Telnet
+
+Database:
+- Simulation
+- SolarObject
+- PlanetarySystem
+- DatabaseMethods
+
+Misc:
+- Program
+            // Opens the Windows Colour Dialog form, and gets the user to select a colour.
+            // If "DialogResult.OK" is returned, then a colour was selected, and the ObjectColour is therefore updated with the new value.
+            if (ColourDialog.ShowDialog() == DialogResult.OK)
+            {
+                ObjectColour.BackColor = ColourDialog.Color;
+                testButton.Select();
+            }
+======================================
+
+20 done, 0 to do
+
+Click on colour box to edit - DONE
+Slider for trail length? Or give it a unit.
+i button to explain the co-ordinates system - DONE
+Double click to open a preset simulation? - DONE
+Stored previous preset - fix
+Label select tickbox to say "focus" - DONE
+Toggle play/pause button? - DONE
+Rename "Restart" to "Refresh"? - DONE

@@ -159,7 +159,6 @@
     <Compile Include="Components\LineObject.cs" />
     <Compile Include="Database\DatabaseMethods.cs" />
     <Compile Include="Database\SolarObject.cs" />
-    <Compile Include="Database\Settings.cs" />
     <Compile Include="Database\PlanetarySystem.cs" />
     <Compile Include="Database\Simulation.cs" />
     <Compile Include="Program.cs" />

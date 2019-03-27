@@ -50,6 +50,7 @@
             this.PresetList.UseSelectable = true;
             this.PresetList.View = System.Windows.Forms.View.List;
             this.PresetList.SelectedIndexChanged += new System.EventHandler(this.PresetList_SelectedIndexChanged);
+            this.PresetList.DoubleClick += new System.EventHandler(this.PresetList_DoubleClick);
             // 
             // columnHeader1
             // 
@@ -76,7 +77,7 @@
             this.ConfirmButton.UseSelectable = true;
             this.ConfirmButton.Click += new System.EventHandler(this.ConfirmButton_Click);
             // 
-            // PresetMenu
+            // PresetForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -85,7 +86,7 @@
             this.Controls.Add(this.BackButton);
             this.Controls.Add(this.PresetList);
             this.MaximizeBox = false;
-            this.Name = "PresetMenu";
+            this.Name = "PresetForm";
             this.Resizable = false;
             this.Text = "Preset Menu";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.PresetMenu_FormClosed);

@@ -46,12 +46,10 @@
             this.CancelButton = new MetroFramework.Controls.MetroButton();
             this.ColourDialog = new System.Windows.Forms.ColorDialog();
             this.testButton = new MetroFramework.Controls.MetroButton();
-            this.ObjectColour = new System.Windows.Forms.TextBox();
             this.ExistingButton = new MetroFramework.Controls.MetroButton();
             this.TrailsActive = new MetroFramework.Controls.MetroCheckBox();
             this.TrailLength = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel8 = new MetroFramework.Controls.MetroLabel();
-            this.TrailColour = new System.Windows.Forms.TextBox();
             this.metroLabel9 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel10 = new MetroFramework.Controls.MetroLabel();
             this.Obliquity = new MetroFramework.Controls.MetroTextBox();
@@ -62,6 +60,9 @@
             this.ErrorMessage = new MetroFramework.Controls.MetroLabel();
             this.PositionPresetButton = new MetroFramework.Controls.MetroButton();
             this.VelocityPresetButton = new MetroFramework.Controls.MetroButton();
+            this.InfoButton = new MetroFramework.Controls.MetroButton();
+            this.ObjectColour = new MetroFramework.Controls.MetroButton();
+            this.TrailColour = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
             // 
             // XPos
@@ -431,23 +432,11 @@
             this.testButton.UseSelectable = true;
             this.testButton.Visible = false;
             // 
-            // ObjectColour
-            // 
-            this.ObjectColour.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.ObjectColour.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ObjectColour.Enabled = false;
-            this.ObjectColour.Location = new System.Drawing.Point(356, 164);
-            this.ObjectColour.Multiline = true;
-            this.ObjectColour.Name = "ObjectColour";
-            this.ObjectColour.ReadOnly = true;
-            this.ObjectColour.Size = new System.Drawing.Size(159, 25);
-            this.ObjectColour.TabIndex = 18;
-            // 
             // ExistingButton
             // 
             this.ExistingButton.Location = new System.Drawing.Point(356, 44);
             this.ExistingButton.Name = "ExistingButton";
-            this.ExistingButton.Size = new System.Drawing.Size(159, 23);
+            this.ExistingButton.Size = new System.Drawing.Size(132, 23);
             this.ExistingButton.TabIndex = 20;
             this.ExistingButton.Text = "Copy from Existing";
             this.ExistingButton.UseSelectable = true;
@@ -506,18 +495,6 @@
             this.metroLabel8.Size = new System.Drawing.Size(75, 19);
             this.metroLabel8.TabIndex = 25;
             this.metroLabel8.Text = "Trail Length";
-            // 
-            // TrailColour
-            // 
-            this.TrailColour.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.TrailColour.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TrailColour.Enabled = false;
-            this.TrailColour.Location = new System.Drawing.Point(356, 282);
-            this.TrailColour.Multiline = true;
-            this.TrailColour.Name = "TrailColour";
-            this.TrailColour.ReadOnly = true;
-            this.TrailColour.Size = new System.Drawing.Size(159, 25);
-            this.TrailColour.TabIndex = 21;
             // 
             // metroLabel9
             // 
@@ -662,11 +639,48 @@
             this.VelocityPresetButton.UseSelectable = true;
             this.VelocityPresetButton.Click += new System.EventHandler(this.VelocityPresetButton_Click);
             // 
+            // InfoButton
+            // 
+            this.InfoButton.FontSize = MetroFramework.MetroButtonSize.Tall;
+            this.InfoButton.Location = new System.Drawing.Point(494, 44);
+            this.InfoButton.Name = "InfoButton";
+            this.InfoButton.Size = new System.Drawing.Size(21, 23);
+            this.InfoButton.TabIndex = 36;
+            this.InfoButton.Text = "i";
+            this.InfoButton.UseSelectable = true;
+            this.InfoButton.Click += new System.EventHandler(this.InfoButton_Click);
+            // 
+            // ObjectColour
+            // 
+            this.ObjectColour.BackColor = System.Drawing.Color.LightCoral;
+            this.ObjectColour.Location = new System.Drawing.Point(356, 164);
+            this.ObjectColour.Name = "ObjectColour";
+            this.ObjectColour.Size = new System.Drawing.Size(159, 25);
+            this.ObjectColour.TabIndex = 37;
+            this.ObjectColour.UseCustomBackColor = true;
+            this.ObjectColour.UseSelectable = true;
+            this.ObjectColour.Click += new System.EventHandler(this.ObjectColour_Click_1);
+            // 
+            // TrailColour
+            // 
+            this.TrailColour.BackColor = System.Drawing.Color.LightCoral;
+            this.TrailColour.Enabled = false;
+            this.TrailColour.Location = new System.Drawing.Point(356, 282);
+            this.TrailColour.Name = "TrailColour";
+            this.TrailColour.Size = new System.Drawing.Size(159, 25);
+            this.TrailColour.TabIndex = 38;
+            this.TrailColour.UseCustomBackColor = true;
+            this.TrailColour.UseSelectable = true;
+            this.TrailColour.Click += new System.EventHandler(this.TrailColour_Click);
+            // 
             // ObjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(529, 352);
+            this.Controls.Add(this.TrailColour);
+            this.Controls.Add(this.ObjectColour);
+            this.Controls.Add(this.InfoButton);
             this.Controls.Add(this.VelocityPresetButton);
             this.Controls.Add(this.PositionPresetButton);
             this.Controls.Add(this.ErrorMessage);
@@ -680,9 +694,7 @@
             this.Controls.Add(this.metroLabel8);
             this.Controls.Add(this.TrailLength);
             this.Controls.Add(this.TrailsActive);
-            this.Controls.Add(this.TrailColour);
             this.Controls.Add(this.ExistingButton);
-            this.Controls.Add(this.ObjectColour);
             this.Controls.Add(this.testButton);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.SaveButton);
@@ -730,12 +742,10 @@
         private new MetroFramework.Controls.MetroButton CancelButton;
         private System.Windows.Forms.ColorDialog ColourDialog;
         private MetroFramework.Controls.MetroButton testButton;
-        private System.Windows.Forms.TextBox ObjectColour;
         private MetroFramework.Controls.MetroButton ExistingButton;
         private MetroFramework.Controls.MetroCheckBox TrailsActive;
         private MetroFramework.Controls.MetroTextBox TrailLength;
         private MetroFramework.Controls.MetroLabel metroLabel8;
-        private System.Windows.Forms.TextBox TrailColour;
         private MetroFramework.Controls.MetroLabel metroLabel9;
         private MetroFramework.Controls.MetroLabel metroLabel10;
         private MetroFramework.Controls.MetroTextBox Obliquity;
@@ -746,5 +756,8 @@
         private MetroFramework.Controls.MetroLabel ErrorMessage;
         private MetroFramework.Controls.MetroButton PositionPresetButton;
         private MetroFramework.Controls.MetroButton VelocityPresetButton;
+        private MetroFramework.Controls.MetroButton InfoButton;
+        private MetroFramework.Controls.MetroButton ObjectColour;
+        private MetroFramework.Controls.MetroButton TrailColour;
     }
 }

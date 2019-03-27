@@ -2,85 +2,42 @@
 using OpenTK.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SolarForms.Components
 {
     public class Sphere
     {
-        private List<Vector3> _points;
-        private int _index;
-        private Dictionary<long, int> _middlePointIndexCache = new Dictionary<long, int>();
+        private List<Vector3> pointList;
+        private int indexInt;
 
+        // Stores previously calculated middle points between two Vector3's, as this calculation is a very resource intensive operation.
+        private Dictionary<long, int> middlePointCache = new Dictionary<long, int>();
+
+        // In this case, a "Face" holds the three Vector3 co-ordinate sets that make up each triangular section of the outside of the sphere.
         private struct Face
         {
-            public Vector3 V1;
-            public Vector3 V2;
-            public Vector3 V3;
+            public Vector3 Vertex1;
+            public Vector3 Vertex2;
+            public Vector3 Vertex3;
 
-            public Face(Vector3 v1, Vector3 v2, Vector3 v3)
+            // Face struct constructor
+            public Face(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
             {
-                V1 = v1;
-                V2 = v2;
-                V3 = v3;
+                Vertex1 = vertex1;
+                Vertex2 = vertex2;
+                Vertex3 = vertex3;
             }
         }
-
-        private int GetMiddlePoint(Vector3 point1, Vector3 point2)
+        
+        // Method that generates a Vertex array resembling a sphere
+        public Vertex[] CreateSphere(int recursionLevel, Color4 colour)
         {
-            long i1 = _points.IndexOf(point1);
-            long i2 = _points.IndexOf(point2);
-            // first check if we have it already
-            var firstIsSmaller = i1 < i2;
-            long smallerIndex = firstIsSmaller ? i1 : i2;
-            long greaterIndex = firstIsSmaller ? i2 : i1;
-            long key = (smallerIndex << 32) + greaterIndex;
-
-            int ret;
-            if (_middlePointIndexCache.TryGetValue(key, out ret))
-            {
-                return ret;
-            }
-
-            // not in cache, calculate it
-
-            var middle = new Vector3(
-                (point1.X + point2.X) / 2.0f,
-                (point1.Y + point2.Y) / 2.0f,
-                (point1.Z + point2.Z) / 2.0f);
-
-            // add vertex makes sure point is on unit sphere
-            int i = AddVertex(middle);
-
-            // store it, return index
-            _middlePointIndexCache.Add(key, i);
-            return i;
-        }
-
-        public static Vector2 GetSphereCoord(Vector3 i)
-        {
-            var len = i.Length;
-            Vector2 uv;
-            uv.Y = (float)(Math.Acos(i.Y / len) / Math.PI);
-            uv.X = -(float)((Math.Atan2(i.Z, i.X) / Math.PI + 1.0f) * 0.5f);
-            return uv;
-        }
-
-        private int AddVertex(Vector3 p)
-        {
-            _points.Add(p.Normalized());
-            return _index++;
-        }
-
-        public Vertex[] CreateSphere(int recursionLevel, Color4 color)
-        {
-            _points = new List<Vector3>();
-            _index = 0;
+            pointList = new List<Vector3>();
+            indexInt = 0;
             var t = (float)((1.0 + Math.Sqrt(5.0)) / 2.0);
             var s = 1;
 
+            // Sets up a regular icosahedron (three intersecting planes).
             AddVertex(new Vector3(-s, t, 0));
             AddVertex(new Vector3(s, t, 0));
             AddVertex(new Vector3(-s, -t, 0));
@@ -96,72 +53,123 @@ namespace SolarForms.Components
             AddVertex(new Vector3(-t, 0, -s));
             AddVertex(new Vector3(-t, 0, s));
 
-            var faces = new List<Face>();
+            var faces = new List<Face>
+            {
 
-            // 5 faces around point 0
-            faces.Add(new Face(_points[0], _points[11], _points[5]));
-            faces.Add(new Face(_points[0], _points[5], _points[1]));
-            faces.Add(new Face(_points[0], _points[1], _points[7]));
-            faces.Add(new Face(_points[0], _points[7], _points[10]));
-            faces.Add(new Face(_points[0], _points[10], _points[11]));
+                // Sets up faces from the corners of the planes as needed. 
+                new Face(pointList[0], pointList[11], pointList[5]),
+                new Face(pointList[0], pointList[5], pointList[1]),
+                new Face(pointList[0], pointList[1], pointList[7]),
+                new Face(pointList[0], pointList[7], pointList[10]),
+                new Face(pointList[0], pointList[10], pointList[11]),
 
-            // 5 adjacent faces 
-            faces.Add(new Face(_points[1], _points[5], _points[9]));
-            faces.Add(new Face(_points[5], _points[11], _points[4]));
-            faces.Add(new Face(_points[11], _points[10], _points[2]));
-            faces.Add(new Face(_points[10], _points[7], _points[6]));
-            faces.Add(new Face(_points[7], _points[1], _points[8]));
+                new Face(pointList[1], pointList[5], pointList[9]),
+                new Face(pointList[5], pointList[11], pointList[4]),
+                new Face(pointList[11], pointList[10], pointList[2]),
+                new Face(pointList[10], pointList[7], pointList[6]),
+                new Face(pointList[7], pointList[1], pointList[8]),
 
-            // 5 faces around point 3
-            faces.Add(new Face(_points[3], _points[9], _points[4]));
-            faces.Add(new Face(_points[3], _points[4], _points[2]));
-            faces.Add(new Face(_points[3], _points[2], _points[6]));
-            faces.Add(new Face(_points[3], _points[6], _points[8]));
-            faces.Add(new Face(_points[3], _points[8], _points[9]));
+                new Face(pointList[3], pointList[9], pointList[4]),
+                new Face(pointList[3], pointList[4], pointList[2]),
+                new Face(pointList[3], pointList[2], pointList[6]),
+                new Face(pointList[3], pointList[6], pointList[8]),
+                new Face(pointList[3], pointList[8], pointList[9]),
 
-            // 5 adjacent faces 
-            faces.Add(new Face(_points[4], _points[9], _points[5]));
-            faces.Add(new Face(_points[2], _points[4], _points[11]));
-            faces.Add(new Face(_points[6], _points[2], _points[10]));
-            faces.Add(new Face(_points[8], _points[6], _points[7]));
-            faces.Add(new Face(_points[9], _points[8], _points[1]));
-
+                new Face(pointList[4], pointList[9], pointList[5]),
+                new Face(pointList[2], pointList[4], pointList[11]),
+                new Face(pointList[6], pointList[2], pointList[10]),
+                new Face(pointList[8], pointList[6], pointList[7]),
+                new Face(pointList[9], pointList[8], pointList[1])
+            };
 
 
-            // refine triangles
+
+            // For loop iterates through to a certain recursion level.
             for (int i = 0; i < recursionLevel; i++)
             {
                 var faces2 = new List<Face>();
+                // Foreach loop iterates through each Face(triangle), splitting it up into four other triangles and more closely representing a sphere.
+                // The higher the recursion level, the closer to the sphere the Vertex array is.
                 foreach (var tri in faces)
                 {
-                    // replace triangle by 4 triangles
-                    int a = GetMiddlePoint(tri.V1, tri.V2);
-                    int b = GetMiddlePoint(tri.V2, tri.V3);
-                    int c = GetMiddlePoint(tri.V3, tri.V1);
+                    // Gets midpoint of vertexes, and then generates four new Faces from the current Face.
+                    int a = GetMiddlePoint(tri.Vertex1, tri.Vertex2);
+                    int b = GetMiddlePoint(tri.Vertex2, tri.Vertex3);
+                    int c = GetMiddlePoint(tri.Vertex3, tri.Vertex1);
 
-                    faces2.Add(new Face(tri.V1, _points[a], _points[c]));
-                    faces2.Add(new Face(tri.V2, _points[b], _points[a]));
-                    faces2.Add(new Face(tri.V3, _points[c], _points[b]));
-                    faces2.Add(new Face(_points[a], _points[b], _points[c]));
+                    faces2.Add(new Face(tri.Vertex1, pointList[a], pointList[c]));
+                    faces2.Add(new Face(tri.Vertex2, pointList[b], pointList[a]));
+                    faces2.Add(new Face(tri.Vertex3, pointList[c], pointList[b]));
+                    faces2.Add(new Face(pointList[a], pointList[b], pointList[c]));
                 }
                 faces = faces2;
             }
 
 
-            // done, now add triangles to mesh
             var vertices = new List<Vertex>();
 
+            // Foreach loop iterates through each Face object in the list, and adds each Vector3 to the vertex list. The colours of the vertices are specified here.
             foreach (var tri in faces)
             {
-                var uv1 = GetSphereCoord(tri.V1);
-                var uv2 = GetSphereCoord(tri.V2);
-                var uv3 = GetSphereCoord(tri.V3);
-                vertices.Add(new Vertex(new Vector4(tri.V1, 1), color));
-                vertices.Add(new Vertex(new Vector4(tri.V2, 1), color));
-                vertices.Add(new Vertex(new Vector4(tri.V3, 1), color));
+                var uv1 = GetSphereCoord(tri.Vertex1);
+                var uv2 = GetSphereCoord(tri.Vertex2);
+                var uv3 = GetSphereCoord(tri.Vertex3);
+                vertices.Add(new Vertex(new Vector4(tri.Vertex1, 1), colour));
+                vertices.Add(new Vertex(new Vector4(tri.Vertex2, 1), colour));
+                vertices.Add(new Vertex(new Vector4(tri.Vertex3, 1), colour));
             }
 
             return vertices.ToArray();
+        }
+
+        // Calculates the midpoint between two Vector3s.
+        private int GetMiddlePoint(Vector3 vector1, Vector3 vector2)
+        {
+            // Checks to see whether the midpoint of these two Vector3s have been calculated beforehand.
+            // If they have, the value is pulled from the cache, saving processing power and speeding up the simulation.
+            // If they haven't, the midpoint is calculated, and then stored into the cache for future reference.
+
+            long i1 = pointList.IndexOf(vector1);
+            long i2 = pointList.IndexOf(vector2);
+
+            var firstIsSmaller = i1 < i2;
+            long smallerIndex = firstIsSmaller ? i1 : i2;
+            long greaterIndex = firstIsSmaller ? i2 : i1;
+            long key = (smallerIndex << 32) + greaterIndex;
+
+            int ret;
+            if (middlePointCache.TryGetValue(key, out ret))
+            {
+                return ret;
+            }
+
+            var middle = new Vector3(
+                (vector1.X + vector2.X) / 2.0f,
+                (vector1.Y + vector2.Y) / 2.0f,
+                (vector1.Z + vector2.Z) / 2.0f);
+
+            int i = AddVertex(middle);
+
+            // Stores the calculated midpoint into the cache.
+            middlePointCache.Add(key, i);
+            return i;
+        }
+
+        // Method to normalise a Vector3 and add it to the pointList Vector3 list.
+        private int AddVertex(Vector3 p)
+        {
+            pointList.Add(p.Normalized());
+            return indexInt++;
+        }
+
+        // Uses Vector maths to calculate the co-ordinates of the sphere.
+        public static Vector2 GetSphereCoord(Vector3 i)
+        {
+            var len = i.Length;
+            Vector2 uv;
+            uv.Y = (float)(Math.Acos(i.Y / len) / Math.PI);
+            uv.X = -(float)((Math.Atan2(i.Z, i.X) / Math.PI + 1.0f) * 0.5f);
+            return uv;
         }
     }
 }

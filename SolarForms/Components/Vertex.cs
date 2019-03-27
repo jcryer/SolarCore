@@ -3,6 +3,7 @@ using OpenTK.Graphics;
 
 namespace SolarForms.Components
 {
+    // Vertex strut. Stores position and colour of a vertex.
     public struct Vertex
     {
         public const int Size = (4 + 4) * 4; 
