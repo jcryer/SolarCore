@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Drawing;
-using System.Linq;
 using OpenTK;
-using OpenTK.Graphics;
 using SolarForms.Components;
 using System.IO;
 
