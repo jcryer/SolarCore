@@ -514,14 +514,20 @@ namespace SolarForms.Components.Menus
         private void InfoButton_Click(object sender, EventArgs e)
         {
             MessageBox.Show($"Data for all preset objects is pulled from NASA's Horizons database.\n\n" +
-                $"The co-ordinate system used is a heliocentric one - That is, the Sun is considered to be at the co-ordinates (0,0,0) and all other objects are relative to it.\n" +
-                $"In reality, the Sun and all bodies orbiting it are orbiting our galactic centre at very high speeds, and our galaxy is also moving at very high speeds relative to other galaxies.");
+                $"The co-ordinate system used is a heliocentric one - That is, the Sun is considered to be " +
+                $"at the co-ordinates (0,0,0) and all other objects are relative to it.\n" +
+                $"In reality, the Sun and all bodies orbiting it are orbiting our galactic centre at very high speeds, " +
+                $"and our galaxy is also moving at very high speeds relative to other galaxies.\n\n" +
+                $"The 'Copy from Existing' button copies an entire preset object into this object.\n" +
+                $"The 'Presets' buttons copy either the preset position or velocity (depending on the button pressed) " +
+                $"of a preset object into this object.");
         }
 
         private void ObjectColour_Click_1(object sender, EventArgs e)
         {
             // Opens the Windows Colour Dialog form, and gets the user to select a colour.
-            // If "DialogResult.OK" is returned, then a colour was selected, and the ObjectColour is therefore updated with the new value.
+            // If "DialogResult.OK" is returned, then a colour was selected, and the ObjectColour 
+            // is therefore updated with the new value.
             if (ColourDialog.ShowDialog() == DialogResult.OK)
             {
                 ObjectColour.BackColor = ColourDialog.Color;
@@ -532,7 +538,8 @@ namespace SolarForms.Components.Menus
         private void TrailColour_Click(object sender, EventArgs e)
         {
             // Opens the Windows Colour Dialog form, and gets the user to select a colour.
-            // If "DialogResult.OK" is returned, then a colour was selected, and the TrailColour is therefore updated with the new value.
+            // If "DialogResult.OK" is returned, then a colour was selected, and the TrailColour
+            // is therefore updated with the new value.
             if (ColourDialog.ShowDialog() == DialogResult.OK)
             {
                 TrailColour.BackColor = ColourDialog.Color;
